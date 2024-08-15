@@ -11,7 +11,6 @@ public class HelloWorld {
 
     @GetMapping(value = "/")
     public String doGetHelloWorld() {
-
-        return "Hello World Developer";
+        return "Hello Jungkyun";
     }
 }
