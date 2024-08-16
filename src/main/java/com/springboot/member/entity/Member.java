@@ -46,7 +46,7 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.MERGE)
     private List<Interpretation> interpretations = new ArrayList<>();
 
-    
+
     public enum MemberStatus {
         MEMBER_ACTIVE("활동중"),
         MEMBER_SLEEP("휴면 상태"),
