@@ -5,11 +5,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -27,9 +27,39 @@ public class Dream {
 
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
-
+    
     @Column(nullable = false, name = "LAST_MODIFIED_AT")
     private LocalDateTime modifiedAt = LocalDateTime.now();
+
+    @OneToMany(mappedBy = "dream")
+    private List<Like> likes = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "dream")
+    private List<View> views = new ArrayList<>();
+
+    public void setLike(Like like) {
+        likes.add(like);
+        if (like.getDream() != this) {
+            like.setDream(this);
+        }
+    }
+
+
+    public void removeLike(Like like) {
+        this.likes.remove(like);
+        if (like.getDream() == this){
+            like.removeDream(this);
+        }
+    }
+
+    public void setView(View view) {
+        views.add(view);
+        if (view.getDream() != this) {
+            view.setDream(this);
+        }
+    }
+
 
     public enum DreamStatus {
         DREAM_ACTIVE("꿈 활성화"),

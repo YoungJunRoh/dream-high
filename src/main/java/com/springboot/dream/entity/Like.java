@@ -19,7 +19,7 @@ public class Like {
 
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "QUESTION_ID")
+    @JoinColumn(name = "DREAM_ID")
     private Dream dream;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -28,17 +28,17 @@ public class Like {
     private Member member;
 
 
-    public void setQuestion(Dream dream) {
-        this.question = question;
-        if (question.getLikes().contains(this)) {
-            question.setLike(this);
+    public void setDream(Dream dream) {
+        this.dream = dream;
+        if (dream.getLikes().contains(this)) {
+            dream.setLike(this);
         }
     }
 
-    public void removeQuestion(Question question){
-        this.question = null;
-        if (question.getLikes().contains(this)){
-            question.removeLike(this);
+    public void removeDream(Dream dream){
+        this.dream = null;
+        if (dream.getLikes().contains(this)){
+            dream.removeLike(this);
         }
     }
 
