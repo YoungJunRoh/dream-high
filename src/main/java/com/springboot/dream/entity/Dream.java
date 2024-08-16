@@ -1,5 +1,6 @@
 package com.springboot.dream.entity;
 
+import com.springboot.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,6 +21,10 @@ public class Dream {
     private int dreamId;
 
     private String content;
+
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
 
     @Enumerated(value = EnumType.STRING)
     @Column(length = 20, nullable = false)
@@ -57,6 +62,22 @@ public class Dream {
         views.add(view);
         if (view.getDream() != this) {
             view.setDream(this);
+        }
+    }
+
+
+    public void addMember(Member member) {
+        this.member = member;
+        if (!member.getDreams().contains(this)) {
+            member.addDream(this);
+        }
+
+    }
+
+    public void removeMember(Member member) {
+        this.member = null;
+        if (member.getDreams().contains(this)){
+            member.removeDream(this);
         }
     }
 

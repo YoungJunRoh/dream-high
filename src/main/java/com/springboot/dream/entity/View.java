@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class View  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long viewId;
+    private Long viewId;
 
 
     @ManyToOne

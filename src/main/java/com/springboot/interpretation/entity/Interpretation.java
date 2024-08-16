@@ -3,13 +3,17 @@ package com.springboot.interpretation.entity;
 import com.springboot.audit.Auditable;
 import com.springboot.dream.entity.Dream;
 import com.springboot.member.entity.Member;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
 public class Interpretation extends Auditable {
 
     @Id
