@@ -103,7 +103,3 @@ header {
   width: 65%;
   height: 100%;
 }
-
-textarea:placeholder-shown {
-  overflow: visible;
-}
