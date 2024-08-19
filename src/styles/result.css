@@ -9,14 +9,13 @@
     background-image: url("../assets/img-background-morning.png");
 }
 
-.bottom{
-    display:flex;
+.bottom-button {
+    display: flex;
     flex-direction: row;
-
 }
-.blank{
-    width: 50px;
 
+.blank {
+    width: 50px;
 }
 
 .result-cat {
@@ -26,8 +25,10 @@
     align-items: center;
     background-repeat: no-repeat;
     width: 80%;
-    height: 35%; /* 화면의 1/4 차지하도록 설정 */
-    background-position: center; /* 중앙에 위치하도록 설정 */
-    background-size: contain; /* 이미지의 비율을 유지하며 크기를 조절 */
-  }
-  
+    height: 35%;
+    /* 화면의 1/4 차지하도록 설정 */
+    background-position: center;
+    /* 중앙에 위치하도록 설정 */
+    background-size: contain;
+    /* 이미지의 비율을 유지하며 크기를 조절 */
+}

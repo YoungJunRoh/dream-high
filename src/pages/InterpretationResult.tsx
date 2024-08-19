@@ -10,9 +10,9 @@ function InterpretationResult() {
         <div className='background-morning'>
             <div className='result-cat'>
                 <ChatBalloon
-                    message={resultData} />
+                    message={resultData[0]} />
             </div>
-            <div className='bottom'>
+            <div className='bottom-button'>
                 <Link to={'/dream-interpretation'}>
                     <Button
                         name='result'
@@ -20,13 +20,12 @@ function InterpretationResult() {
                         draggable={true}>
                     </Button>
                 </Link>
-                <div className='blank'/>
+                <div className='blank' />
                 <Button
                     name='share'
-                    mode='share'
+                    mode='result'
                     draggable={true}>
-                </Button>
-            </div>
+                </Button></div>
         </div>
     );
 }

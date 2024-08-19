@@ -9,25 +9,21 @@ type Button = {
 }
 // 버튼 width 글자 크기에 따라 늘어나도록 GPT 한테 커스텀 받기
 const Button: React.FC<Button> = ({ mode, name, draggable }) => {
-    let currentClass:string = 'pixel-btn-rounded';
-    const currentDraggable:string = draggable ? ' draggable' : '';
+    let currentClass: string = 'pixel-btn-rounded';
+    const currentDraggable: string = draggable ? ' draggable' : '';
     switch (mode) {
         case 'main':
             break;
         case 'result':
-            currentClass = 'img-save-button';
-            break;
-        case 'share':
-            currentClass = 'share-button';
+            currentClass = 'result-button';
             break;
         // css 만들고 조건 추가
     }
 
     return (
-        <div>
-            <button
-                className={currentClass + currentDraggable}>{name}</button>
-        </div>
+        <button
+            className={currentClass + currentDraggable}>{name}
+        </button>
     );
 }
 

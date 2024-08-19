@@ -7,6 +7,9 @@ import tmiDatas from '../static/tmiData.tsx';
 import Button from '../components/Button.tsx';
 import hotDreamDatas from '../static/hotDreamData.tsx';
 import BoardIndex from '../components/BoardIndex.tsx';
+import BoardList from '../components/BoardList.tsx';
+import BoardSeeMore from '../components/BoardSeeMore.tsx';
+import Footer from '../components/Footer.tsx'
 
 const Home = () => {
     const randomTmiIdx = Math.floor(Math.random() * tmiDatas.length);
@@ -30,7 +33,10 @@ const Home = () => {
                     {/* API 요청해서 나온 Json 데이터를 배열에 저장해서 랜덤함수로 돌려서 사용하기*/}
                 </div>
                 <div className='another-dream font-extrabold'>다른꿈도 보러가기  ▼</div>
-                <BoardIndex/>
+                <BoardIndex />
+                <BoardList></BoardList>
+                <BoardSeeMore />
+                <Footer/>
             </div>
         </div>
     );

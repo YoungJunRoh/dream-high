@@ -9,8 +9,8 @@ type Button = {
 }
 // 버튼 width 글자 크기에 따라 늘어나도록 GPT 한테 커스텀 받기
 const Button: React.FC<Button> = ({ mode, name, draggable }) => {
-    let currentClass:string = 'pixel-btn-rounded';
-    const currentDraggable:string = draggable ? ' draggable' : '';
+    let currentClass: string = 'pixel-btn-rounded';
+    const currentDraggable: string = draggable ? ' draggable' : '';
     switch (mode) {
         case 'main':
             break;
@@ -21,8 +21,9 @@ const Button: React.FC<Button> = ({ mode, name, draggable }) => {
     }
 
     return (
-            <button
-                className={currentClass + currentDraggable}>{name}</button>
+        <button
+            className={currentClass + currentDraggable}>{name}
+        </button>
     );
 }
 
