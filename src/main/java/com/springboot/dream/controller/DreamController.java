@@ -6,6 +6,7 @@ import com.springboot.dream.dto.OpenAiResponse;
 import com.springboot.dream.entity.Dream;
 import com.springboot.dream.mapper.DreamMapper;
 import com.springboot.dream.service.DreamService;
+
 import com.springboot.response.MultiResponseDto;
 import com.springboot.response.SingleResponseDto;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +36,7 @@ public class DreamController {
         this.dreamService = dreamService;
         this.mapper = mapper;
     }
+
 
     @PostMapping
     public ResponseEntity postDream(@Valid @RequestBody DreamDto.Post dreamPost){
@@ -88,6 +91,7 @@ public class DreamController {
         dreamService.deleteDream(dreamId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 
 
 }

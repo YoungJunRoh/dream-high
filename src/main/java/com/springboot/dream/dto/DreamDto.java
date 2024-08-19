@@ -7,10 +7,12 @@ import com.springboot.dream.entity.Dream;
 import com.springboot.dream.entity.DreamKeyword;
 import com.springboot.interpretation.dto.InterpretationResponseDto;
 import com.springboot.member.entity.Member;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -18,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
 import java.util.List;
 
 
@@ -51,6 +54,9 @@ public class DreamDto {
     @NoArgsConstructor
     public static class Response {
         private long dreamId;
+
+        private long memberId;
+
         private String content;
         private Dream.DreamStatus dreamStatus;
         private Dream.DreamSecret dreamSecret;
@@ -62,6 +68,7 @@ public class DreamDto {
         private InterpretationResponseDto interpretationResponse;
 
         private List<CommentDto.Response> comments;
+
 
         public String getDreamStatus() {
             return dreamStatus.getStatus();

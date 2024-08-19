@@ -2,6 +2,7 @@ package com.springboot.dream.mapper;
 
 import com.springboot.comment.dto.CommentDto;
 import com.springboot.comment.entity.Comment;
+
 import com.springboot.dream.dto.DreamDto;
 import com.springboot.dream.dto.DreamKeywordResponseDto;
 import com.springboot.dream.entity.Dream;
@@ -39,6 +40,7 @@ public interface DreamMapper {
         DreamDto.Response response = new DreamDto.Response();
         response.setContent(dream.getContent());
         response.setDreamId(dream.getDreamId());
+
         response.setModifiedAt(dream.getModifiedAt());
         response.setDreamStatus(dream.getDreamStatus());
         response.setDreamSecret(dream.getDreamSecret());
@@ -48,6 +50,7 @@ public interface DreamMapper {
 
         return response;
     }
+
 
     List<DreamDto.Response> dreamsToDreamResponseDtos(List<Dream> dreams);
 

@@ -2,13 +2,17 @@ package com.springboot.interpretation.entity;
 
 import com.springboot.audit.Auditable;
 import com.springboot.dream.entity.Dream;
+
 import com.springboot.member.entity.Member;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+
 import javax.validation.constraints.NotBlank;
+
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -53,3 +57,5 @@ public class Interpretation extends Auditable {
     }
 
 }
+
+

@@ -2,6 +2,7 @@ package com.springboot.stamp.entity;
 
 import com.springboot.audit.Auditable;
 import com.springboot.member.entity.Member;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
+
 public class Stamp extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +25,7 @@ public class Stamp extends Auditable {
     @OneToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
 
 //    public void setMember(Member member) {
 //        this.member = member;

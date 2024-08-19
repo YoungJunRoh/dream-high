@@ -2,6 +2,7 @@ package com.springboot.interpretation.entity;
 
 
 import com.springboot.member.entity.Member;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,6 +25,7 @@ public class Interpretation_Mood_Keyword {
     @OneToOne
     @JoinColumn(name = "INTERPRETATIONS_ID")
     private Interpretation interpretation;
+
 
     public void setInterpretation(Interpretation interpretation){
         this.interpretation = interpretation;

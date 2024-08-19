@@ -24,10 +24,7 @@ public class Member {
     private String email;
 
     @Column(nullable = false, length = 100)
-    private String name;
-
-    @Column(length = 13, nullable = false, unique = true)
-    private String phone;
+    private String nickName;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20, nullable = false)
@@ -87,5 +84,18 @@ public class Member {
 //        }
 //    }
 
+
+    @Getter
+    @Setter
+    @Entity
+    @NoArgsConstructor
+    public static class Role{
+        private Long roleId;
+
+        private String roleName;
+
+        @OneToMany(mappedBy = "member", cascade = CascadeType.MERGE)
+        Member member;
+    }
 
 }
