@@ -1,0 +1,18 @@
+package com.springboot.interpretation.dto;
+
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class InterpretationResponseDto {
+    private long interpretationId;
+    private String summary;
+    private String advice;
+    private Interpretation_Mood_Keyword_ResponseDto keyword;
+}
