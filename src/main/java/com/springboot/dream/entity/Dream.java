@@ -1,35 +1,106 @@
 package com.springboot.dream.entity;
 
+import com.springboot.comment.entity.Comment;
+import com.springboot.interpretation.entity.Interpretation;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
-@Entity
+@Entity(name = "Dreams")
 @NoArgsConstructor
 public class Dream {
-    @Id
-    private int dreamId;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long dreamId;
+
+    @Column(length = 500, nullable = false)
     private String content;
 
     @Enumerated(value = EnumType.STRING)
     @Column(length = 20, nullable = false)
     private DreamStatus dreamStatus = DreamStatus.DREAM_ACTIVE;
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(length = 20, nullable = false)
+    private DreamSecret dreamSecret = DreamSecret.DREAM_PUBLIC;
+
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
+    
+    @Column(name = "LAST_MODIFIED_AT")
+    private LocalDateTime modifiedAt;
 
-    @Column(nullable = false, name = "LAST_MODIFIED_AT")
-    private LocalDateTime modifiedAt = LocalDateTime.now();
+    @OneToMany(mappedBy = "dream", cascade = CascadeType.PERSIST)
+    private List<Comment> comments = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "dream", cascade = CascadeType.PERSIST)
+    private List<DreamKeyword> dreamKeywords = new ArrayList<>();
+
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "interpretation_id")
+    private Interpretation interpretation;
+
+    public void addDreamKeywords(DreamKeyword dreamKeyword){
+        this.dreamKeywords.add(dreamKeyword);
+        if(dreamKeyword.getDream() != this){
+            dreamKeyword.addDream(this);
+        }
+    }
+
+    public void addComments(Comment comment){
+        this.comments.add(comment);
+        if(comment.getDream() != this){
+            comment.addDream(this);
+        }
+    }
+
+    public void setInterpretation(Interpretation interpretation){
+        this.interpretation = interpretation;
+        if(interpretation.getDream() != this){
+            interpretation.setDream(this);
+        }
+    }
+
+
+//    @OneToMany(mappedBy = "dream")
+//    private List<Like> likes = new ArrayList<>();
+//
+//
+//    @OneToMany(mappedBy = "dream")
+//    private List<View> views = new ArrayList<>();
+//
+//    public void setLike(Like like) {
+//        likes.add(like);
+//        if (like.getDream() != this) {
+//            like.setDream(this);
+//        }
+//    }
+//
+//
+//    public void removeLike(Like like) {
+//        this.likes.remove(like);
+//        if (like.getDream() == this){
+//            like.removeDream(this);
+//        }
+//    }
+//
+//    public void setView(View view) {
+//        views.add(view);
+//        if (view.getDream() != this) {
+//            view.setDream(this);
+//        }
+//    }
+
 
     public enum DreamStatus {
         DREAM_ACTIVE("꿈 활성화"),
@@ -39,6 +110,16 @@ public class Dream {
         private String status;
 
         DreamStatus(String status) {this.status = status;}
+    }
+
+    public enum DreamSecret {
+        DREAM_PRIVATE("비밀 꿈"),
+        DREAM_PUBLIC("공개 꿈");
+
+        @Getter
+        private String status;
+
+        DreamSecret(String status) {this.status = status;}
     }
 
 
