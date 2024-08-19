@@ -22,17 +22,16 @@ public class View  {
     private Dream dream;
 
 
-
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     //스위치
     private Member member;
 
 
-    public void setDream(Dream dream){
-        this.dream = dream;
-        if (dream.getViews().contains(this)){
-            dream.setView(this);
-        }
-    }
+//    public void setDream(Dream dream){
+//        this.dream = dream;
+//        if (dream.getViews().contains(this)){
+//            dream.setView(this);
+//        }
+//    }
 }

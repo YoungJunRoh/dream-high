@@ -3,51 +3,53 @@ package com.springboot.interpretation.entity;
 import com.springboot.audit.Auditable;
 import com.springboot.dream.entity.Dream;
 import com.springboot.member.entity.Member;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
+@NoArgsConstructor
+@Getter
+@Setter
+@Entity(name = "INTERPRETATIONS")
 public class Interpretation extends Auditable {
 
     @Id
-    private Long answerId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long interpretationId;
 
+    @Column(nullable = false)
+    private String summary;
 
-    @OneToOne
-    @JoinColumn(name = "DREAM_ID")
+    @Column(nullable = false)
+    private String advice;
+
+    @Column(nullable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(nullable = false, name = "LAST_MODIFIED_AT")
+    private LocalDateTime modifiedAt = LocalDateTime.now();
+
+    @OneToOne(mappedBy = "interpretation", cascade = CascadeType.PERSIST)
     private Dream dream;
 
-    @ManyToOne
-    @JoinColumn(name = "MEMBER_ID")
-    private Member member;
-
-    @NotBlank
-    private String content;
-
+    @OneToOne(mappedBy = "interpretation", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private Interpretation_Mood_Keyword keyword;
 
     public void setDream(Dream dream) {
         this.dream = dream;
-        if (dream.getAnswer() != this) {
-            dream.setAnswer(this);
+        if (dream.getInterpretation() != this) {
+            dream.setInterpretation(this);
+        }
+    }
+    public void setKeyword(Interpretation_Mood_Keyword keyword){
+        this.keyword = keyword;
+        if(keyword.getInterpretation() != this){
+            keyword.setInterpretation(this);
         }
     }
 
-    public void addMember(Member member) {
-
-        this.member = member;
-        if (!member.getAnswers().contains(this)) {
-            member.addAnswer(this);
-        }
-    }
-
-    public void removeMember(Member member) {
-        this.member = null;
-        if (member.getAnswers().contains(this)){
-            member.removeAnswer(this);
-        }
-    }
-    
 }

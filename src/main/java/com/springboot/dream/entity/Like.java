@@ -28,19 +28,19 @@ public class Like {
     private Member member;
 
 
-    public void setDream(Dream dream) {
-        this.dream = dream;
-        if (dream.getLikes().contains(this)) {
-            dream.setLike(this);
-        }
-    }
-
-    public void removeDream(Dream dream){
-        this.dream = null;
-        if (dream.getLikes().contains(this)){
-            dream.removeLike(this);
-        }
-    }
+//    public void setDream(Dream dream) {
+//        this.dream = dream;
+//        if (dream.getLikes().contains(this)) {
+//            dream.setLike(this);
+//        }
+//    }
+//
+//    public void removeDream(Dream dream){
+//        this.dream = null;
+//        if (dream.getLikes().contains(this)){
+//            dream.removeLike(this);
+//        }
+//    }
 
 
 
