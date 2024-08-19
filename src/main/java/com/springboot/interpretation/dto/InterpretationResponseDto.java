@@ -1,6 +1,10 @@
 package com.springboot.interpretation.dto;
 
 
+
+import com.springboot.interpretation.entity.Interpretation;
+import com.springboot.interpretation.entity.Interpretation_Mood_Keyword;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

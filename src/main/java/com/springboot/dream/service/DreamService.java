@@ -14,9 +14,20 @@ import com.springboot.interpretation.entity.Interpretation;
 import com.springboot.interpretation.entity.Interpretation_Mood_Keyword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
+
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import java.util.*;
 
@@ -102,7 +113,10 @@ public class DreamService {
         Dream findDream = findDream(dream.getDreamId());
 
         Optional.ofNullable(dream.getDreamSecret())
-                .ifPresent(dreamSecret -> findDream.setDreamSecret(dreamSecret));
+                .ifPresent(findDream::setDreamSecret);
+
+        findDream.setModifiedAt(LocalDateTime.now());
+
 
         return dreamRepository.save(findDream);
     }
@@ -117,6 +131,22 @@ public class DreamService {
                 optionalOrder.orElseThrow(() ->
                         new BusinessLogicException(ExceptionCode.DREAM_NOT_FOUND));
         return findOrder;
+    }
+
+
+    public Page<Dream> findDreams(String dreamKeyword, int page, int size) {
+        return dreamRepository.findByDreamKeywords_NameContaining(dreamKeyword, PageRequest.of(page, size, Sort.by("dreamId").descending()));
+    }
+
+    public Page<Dream> findAllDreams(int page, int size){
+        return dreamRepository.findAll(PageRequest.of(page, size,
+                Sort.by("dreamId").descending()));
+    }
+
+    public void deleteDream(long dreamId){
+        Dream findDream = findDream(dreamId);
+        findDream.setDreamStatus(Dream.DreamStatus.DREAM_DEACTIVE);
+        dreamRepository.save(findDream);
     }
 
 

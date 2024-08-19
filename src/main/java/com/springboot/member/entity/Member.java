@@ -37,11 +37,11 @@ public class Member {
     private LocalDateTime modifiedAt = LocalDateTime.now();
 
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.MERGE)
-    private List<Dream> dreams = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member", cascade = CascadeType.MERGE)
-    private List<Interpretation> interpretations = new ArrayList<>();
+//    @OneToMany(mappedBy = "member", cascade = CascadeType.MERGE)
+//    private List<Dream> dreams = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "member", cascade = CascadeType.MERGE)
+//    private List<Interpretation> interpretations = new ArrayList<>();
 
 
     public enum MemberStatus {
@@ -57,32 +57,32 @@ public class Member {
         }
     }
 
-    public void addDream(Dream dream){
-        dreams.add(dream);
-        if(dream.getMember() != this){
-            dream.addMember(this);
-        }
-  }
-    public void removeDream(Dream dream) {
-        this.dreams.remove(dream);
-        if (dream.getMember() == this){
-            dream.removeMember(this);
-        }
-    }
-
-    public void  addInterpretation(Interpretation interpretation){
-        interpretations.add(interpretation);
-        if(interpretation.getMember() != this){
-            interpretation.addMember(this);
-        }
-    }
-
-    public void removeInterpretation(Interpretation interpretation) {
-        this.interpretations.remove(interpretation);
-        if (interpretation.getMember() == this){
-            interpretation.removeMember(this);
-        }
-    }
+//    public void addDream(Dream dream){
+//        dreams.add(dream);
+//        if(dream.getMember() != this){
+//            dream.addMember(this);
+//        }
+//  }
+//    public void removeDream(Dream dream) {
+//        this.dreams.remove(dream);
+//        if (dream.getMember() == this){
+//            dream.removeMember(this);
+//        }
+//    }
+//
+//    public void  addInterpretation(Interpretation interpretation){
+//        interpretations.add(interpretation);
+//        if(interpretation.getMember() != this){
+//            interpretation.addMember(this);
+//        }
+//    }
+//
+//    public void removeInterpretation(Interpretation interpretation) {
+//        this.interpretations.remove(interpretation);
+//        if (interpretation.getMember() == this){
+//            interpretation.removeMember(this);
+//        }
+//    }
 
 
     @Getter

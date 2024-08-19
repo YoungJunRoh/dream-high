@@ -3,7 +3,16 @@ package com.springboot.stamp.entity;
 import com.springboot.audit.Auditable;
 import com.springboot.member.entity.Member;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
 
 public class Stamp extends Auditable {
     @Id
@@ -18,4 +27,10 @@ public class Stamp extends Auditable {
     private Member member;
 
 
+//    public void setMember(Member member) {
+//        this.member = member;
+//        if (member.getStamp() != this) {
+//            member.setStamp(this);
+//        }
+//    }
 }

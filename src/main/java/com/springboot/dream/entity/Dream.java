@@ -1,5 +1,8 @@
 package com.springboot.dream.entity;
 
+
+import com.springboot.comment.entity.Comment;
+
 import com.springboot.interpretation.entity.Interpretation;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,8 +38,13 @@ public class Dream {
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(nullable = false, name = "LAST_MODIFIED_AT")
-    private LocalDateTime modifiedAt = LocalDateTime.now();
+    
+    @Column(name = "LAST_MODIFIED_AT")
+    private LocalDateTime modifiedAt;
+
+    @OneToMany(mappedBy = "dream", cascade = CascadeType.PERSIST)
+    private List<Comment> comments = new ArrayList<>();
+
 
     @OneToMany(mappedBy = "dream", cascade = CascadeType.PERSIST)
     private List<DreamKeyword> dreamKeywords = new ArrayList<>();
@@ -45,10 +53,19 @@ public class Dream {
     @JoinColumn(name = "interpretation_id")
     private Interpretation interpretation;
 
+
     public void addDreamKeywords(DreamKeyword dreamKeyword){
         this.dreamKeywords.add(dreamKeyword);
         if(dreamKeyword.getDream() != this){
             dreamKeyword.addDream(this);
+        }
+    }
+
+
+    public void addComments(Comment comment){
+        this.comments.add(comment);
+        if(comment.getDream() != this){
+            comment.addDream(this);
         }
     }
 
@@ -58,6 +75,7 @@ public class Dream {
             interpretation.setDream(this);
         }
     }
+
 
 
 //    @OneToMany(mappedBy = "dream")

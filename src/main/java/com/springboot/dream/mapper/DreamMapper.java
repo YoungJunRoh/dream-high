@@ -1,5 +1,8 @@
 package com.springboot.dream.mapper;
 
+import com.springboot.comment.dto.CommentDto;
+import com.springboot.comment.entity.Comment;
+
 import com.springboot.dream.dto.DreamDto;
 import com.springboot.dream.dto.DreamKeywordResponseDto;
 import com.springboot.dream.entity.Dream;
@@ -37,17 +40,36 @@ public interface DreamMapper {
         DreamDto.Response response = new DreamDto.Response();
         response.setContent(dream.getContent());
         response.setDreamId(dream.getDreamId());
+
+        response.setModifiedAt(dream.getModifiedAt());
         response.setDreamStatus(dream.getDreamStatus());
         response.setDreamSecret(dream.getDreamSecret());
         response.setDreamKeywords(dreamKeywordListToResponseDtos(dream.getDreamKeywords()));
-
+        response.setComments(commentsToCommentResponseDtos(dream.getComments()));
         response.setInterpretationResponse(interpretationToResponseDto(dream.getInterpretation()));
 
         return response;
     }
-    default List<DreamKeywordResponseDto> dreamKeywordListToResponseDtos(List<DreamKeyword> dreamKeywords){
-        List<DreamKeywordResponseDto> responseDtos = new ArrayList<>();
 
+
+    List<DreamDto.Response> dreamsToDreamResponseDtos(List<Dream> dreams);
+
+    default CommentDto.Response commentToCommentResponseDto(Comment comment){
+        CommentDto.Response response = new CommentDto.Response();
+        response.setCommentId(comment.getCommentId());
+        response.setDreamId(comment.getDream().getDreamId());
+        response.setContent(comment.getContent());
+
+        return response;
+    }
+
+    default List<CommentDto.Response> commentsToCommentResponseDtos(List<Comment> comments){
+        return comments.stream()
+                .map(comment -> commentToCommentResponseDto(comment)).collect(Collectors.toList());
+    }
+
+
+    default List<DreamKeywordResponseDto> dreamKeywordListToResponseDtos(List<DreamKeyword> dreamKeywords){
         return dreamKeywords.stream()
                 .map(dreamKeyword -> dreamKeywordToResponseDto(dreamKeyword)).collect(Collectors.toList());
     }

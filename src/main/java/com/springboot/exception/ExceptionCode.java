@@ -8,7 +8,7 @@ public enum ExceptionCode {
     COFFEE_NOT_FOUND(404, "Coffee not found"),
     COFFEE_CODE_EXISTS(409, "Coffee Code exists"),
     DREAM_NOT_FOUND(404, "Dream not found"),
-    CANNOT_CHANGE_ORDER(403, "Order can not change"),
+    CANNOT_REGISTER_COMMENT(403, "Comment do not register"),
     NOT_IMPLEMENTATION(501, "Not Implementation"),
     QUESTION_NOT_FOUND(404, "Question not found"),
     CANNOT_CHANGE_QUESTION(403, "Question can not change"),
