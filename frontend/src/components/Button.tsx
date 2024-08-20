@@ -68,7 +68,7 @@ const Button: React.FC<ButtonProps> = ({ mode, name, draggable = true, option, c
         setIsOpen(prevIsOpen => !prevIsOpen);
     };
 
-    let currentClass: string = 'pixel-btn-rounded';
+    let currentClass: string = 'main-button';
     const currentDraggable: string = draggable ? ' draggable' : '';
   
     switch (mode) {
@@ -117,7 +117,6 @@ const Button: React.FC<ButtonProps> = ({ mode, name, draggable = true, option, c
     return (
         <button
             className={`${currentClass}${currentDraggable}`} // 클래스 조합
-            onClick={onClick} // onClick 이벤트 핸들러 추가
         >
             {name} {/* 버튼 텍스트 */}
         </button>

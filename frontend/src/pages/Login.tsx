@@ -5,7 +5,7 @@ import ResultBigBox from '../components/BigBox.tsx';
 import ResultSmallBox from '../components/SmallBox.tsx';
 import Button from '../components/Button.tsx';
 
-function Login() {
+const Login = () => {
     return (
         <div className='background-night'>
             <ResultSmallBox name='로그인이다 냥🐾' mode='loginbox'/>
@@ -19,4 +19,4 @@ function Login() {
     );
   }
   
-  export default Login;
+export default Login;
