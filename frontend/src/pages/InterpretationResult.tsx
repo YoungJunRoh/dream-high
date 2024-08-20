@@ -31,7 +31,16 @@ function InterpretationResult() {
                 <Button
                     name='share'
                     mode='result'
-                    draggable={true}>
+                    draggable={true}
+                    option='modal'
+                    >
+                        <Button name='트위터 공유하기' mode='result'></Button>
+                        <p></p>
+                        <Button name='인스타 공유하기' mode='result'></Button>
+                        <p></p>
+                        <Button name='카카오톡 공유하기' mode='result'></Button>
+                        <p></p>
+                        <Button name='링크 복사하기' mode='result'></Button>
                 </Button>
             </div>
             <ResultSmallBox name='자세한 꿈해몽이다 냥냥🐾'/>
