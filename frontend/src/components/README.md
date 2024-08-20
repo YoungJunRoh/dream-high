@@ -8,12 +8,12 @@ import React from 'react';
 import '../styles/global.css';  
 import { Link } from 'react-router-dom';  
 
-const Template = () => {  // 수정
+const Template = () => {
     return (
         <div>
         </div>
     );
 }
 
-export default Template; // 수정
+export default Template;
 ```

@@ -32,9 +32,12 @@
   border-radius: 12px;
   /* 둥근 모서리 */
   width: 8em;
-  height: 2em;
+  height: 2.5em;
   /* 크기 */
+  z-index: 2;
+  position: relative;
 }
+
 .result-button{
   background-color: #3ff0b8;
   /* 버튼 색상 */
@@ -58,7 +61,10 @@
   box-shadow: 0 0 0 4px #fff, 4px 4px 0 0 #333;
   /* 클릭 시 살짝 눌리는 효과 */
   transform: translate(4px, 4px);
+  z-index: 2;
+  position: relative;
 }
+
 .go-tarot-button{
   background-color: #BAC7FB;
   /* 버튼 색상 */
@@ -84,7 +90,10 @@
   transform: translate(4px, 4px);
   margin-top: 70px;
   margin-bottom: 20px;
+  z-index: 2;
+  position: relative;
 }  
+
 .go-login-button{
   background-color: #BAC7FB;
   /* 버튼 색상 */
@@ -109,9 +118,38 @@
   /* 클릭 시 살짝 눌리는 효과 */
   transform: translate(4px, 4px);
   margin-top: 10px;
+  z-index: 2;
+  position: relative;
 }
 
 
+  .result-button{
+    background-color: #3ff0b8;
+    /* 버튼 색상 */
+    border: 4px solid #333;
+    /* 진한 테두리 */
+    box-shadow: 0 0 0 4px #fff, 8px 8px 0 0 #333;
+    /* 픽셀 느낌의 그림자 */
+    color: #333;
+    /* 글자 색상 */
+    font-size: 15px;
+    padding: 10px 20px;
+    font-family: "PF-StartDust-ExtraBold";
+    /* 픽셀 폰트 */
+    text-transform: uppercase;
+    cursor: pointer;
+    outline: none;
+    border-radius: 20px;
+    /* 둥근 모서리 */
+    width: 8em;
+    height: 3em;
+    box-shadow: 0 0 0 4px #fff, 4px 4px 0 0 #333;
+    /* 클릭 시 살짝 눌리는 효과 */
+    transform: translate(4px, 4px);
+    z-index: 2;
+    position: relative;
+}
+  
 
   @media all and (max-width:430px) {
     .pixel-btn-rounded {
@@ -133,8 +171,10 @@
       border-radius: 12px;
       /* 둥근 모서리 */
       width: 8em;
-      height: 2em;
-    }
+      height: 2.5em;
+      z-index: 2;
+      position: relative;
+  }
     .result-button{
       background-color: #3ff0b8;
       /* 버튼 색상 */
@@ -158,7 +198,10 @@
       box-shadow: 0 0 0 4px #fff, 4px 4px 0 0 #333;
       /* 클릭 시 살짝 눌리는 효과 */
       transform: translate(4px, 4px);
+      z-index: 2;
+      position: relative;
     }
+
     .go-tarot-button{
       background-color: #BAC7FB;
       /* 버튼 색상 */
@@ -184,7 +227,10 @@
       transform: translate(4px, 4px);
       margin-top: 70px;
       margin-bottom: 20px;
+      z-index: 2;
+      position: relative;
     }  
+    
     .go-kakao-button{
       background-color: #BAC7FB;
       /* 버튼 색상 */
@@ -210,7 +256,10 @@
       transform: translate(4px, 4px);
       margin-top: 70px;
       margin-bottom: 20px;
+      z-index: 2;
+      position: relative;
     }  
+    
     .go-login-button{
       background-color: #9d7da5;
       /* 버튼 색상 */
@@ -235,11 +284,16 @@
       /* 클릭 시 살짝 눌리는 효과 */
       transform: translate(4px, 4px);
       margin-top: 10px;
+      z-index: 2;
+      position: relative;
     }
+
   }
   
   .pixel-btn-rounded:active {
     box-shadow: 0 0 0 4px #fff, 4px 4px 0 0 #333;
     /* 클릭 시 살짝 눌리는 효과 */
     transform: translate(4px, 4px);
+    z-index: 2;
+    position: relative;
   }

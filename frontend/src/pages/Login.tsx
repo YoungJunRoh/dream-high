@@ -1,4 +1,5 @@
 import React from 'react';
+
 import '../styles/home.css';
 import ResultBigBox from '../components/BigBox.tsx';
 import ResultSmallBox from '../components/SmallBox.tsx';
@@ -13,6 +14,7 @@ function Login() {
             name='로그인🐾'
             mode='login'
             draggable={true}></Button>
+
         </div>
     );
   }
