@@ -74,4 +74,13 @@ public class DreamDto {
             return dreamStatus.getStatus();
         }
     }
+
+    @AllArgsConstructor
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class ResponseThree {
+        private long dreamId;
+        private String content;
+    }
 }

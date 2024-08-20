@@ -12,6 +12,7 @@ import com.springboot.exception.BusinessLogicException;
 import com.springboot.exception.ExceptionCode;
 import com.springboot.interpretation.entity.Interpretation;
 import com.springboot.interpretation.entity.Interpretation_Mood_Keyword;
+import com.springboot.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -46,13 +47,16 @@ public class DreamService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private final DreamRepository dreamRepository;
 
-    public DreamService(DreamRepository dreamRepository) {
+    private final DreamRepository dreamRepository;
+    private final MemberService memberService;
+
+    public DreamService(DreamRepository dreamRepository, MemberService memberService) {
         this.dreamRepository = dreamRepository;
+        this.memberService = memberService;
     }
 
-    public Dream createDream(Dream dream){
+    public Dream createDream(Dream dream, String email){
 
         Map<String, Object> chatResponse = responseChatGpt(dream.getContent());
 
@@ -68,6 +72,7 @@ public class DreamService {
         }
         dream.setDreamKeywords(dreamKeywords);
         Interpretation interpretation = new Interpretation();
+        interpretation.setContent((String) chatResponse.get("content"));
         interpretation.setSummary((String) chatResponse.get("summary"));
         interpretation.setAdvice((String)chatResponse.get("advice"));
         Interpretation_Mood_Keyword keyword = new Interpretation_Mood_Keyword();
@@ -75,6 +80,11 @@ public class DreamService {
         interpretation.setKeyword(keyword);
         dream.setInterpretation(interpretation);
 
+        if(email == null || email.isEmpty()){
+
+        }else{
+            dream.setMember(memberService.findVerifiedMember(email));
+        }
         Dream saveDream = dreamRepository.save(dream);
 
         return saveDream;
@@ -109,20 +119,30 @@ public class DreamService {
 //            return dream;
 //        }
     }
-    public Dream updateDream(Dream dream){
+    public Dream updateDream(Dream dream,String email){
         Dream findDream = findDream(dream.getDreamId());
+
+        if(!findDream.getMember().getEmail().equals(email)){
+            throw new BusinessLogicException(ExceptionCode.NOT_YOUR_DREAM);
+        }
 
         Optional.ofNullable(dream.getDreamSecret())
                 .ifPresent(findDream::setDreamSecret);
 
         findDream.setModifiedAt(LocalDateTime.now());
 
-
         return dreamRepository.save(findDream);
     }
 
     public Dream findDream(long dreamId) {
-        return findVerifiedDream(dreamId);
+        Dream findDream = findVerifiedDream(dreamId);
+        if(findDream.getDreamSecret() == Dream.DreamSecret.DREAM_PRIVATE){
+            throw new BusinessLogicException(ExceptionCode.DREAM_IS_PRIVATE);
+        }else if( findDream.getDreamStatus() == Dream.DreamStatus.DREAM_DEACTIVE){
+            throw new BusinessLogicException(ExceptionCode.DREAM_NOT_FOUND);
+        }else{
+            return findVerifiedDream(dreamId);
+        }
     }
 
     private Dream findVerifiedDream(long dreamId) {
@@ -143,8 +163,11 @@ public class DreamService {
                 Sort.by("dreamId").descending()));
     }
 
-    public void deleteDream(long dreamId){
+    public void deleteDream(long dreamId,String email){
         Dream findDream = findDream(dreamId);
+        if(!findDream.getMember().getEmail().equals(email)){
+            throw new BusinessLogicException(ExceptionCode.NOT_YOUR_DREAM);
+        }
         findDream.setDreamStatus(Dream.DreamStatus.DREAM_DEACTIVE);
         dreamRepository.save(findDream);
     }
@@ -155,6 +178,7 @@ public class DreamService {
         Map<String, Object> responseMap = new HashMap<>();
         try {
             JsonNode rootNode = objectMapper.readTree(content);
+            String content_inter = rootNode.path("content").asText();
             String summary = rootNode.path("summary").asText();
             String advice = rootNode.path("advice").asText();
             String interpretationMoodKeyword = rootNode.path("interpretation_mood_keyword").asText();
@@ -170,7 +194,7 @@ public class DreamService {
             } else {
                 System.out.println("dream_keyword is not an array or is missing.");
             }
-
+            responseMap.put("content", content_inter);
             responseMap.put("summary", summary);
             responseMap.put("advice", advice);
             responseMap.put("interpretation_mood_keyword", interpretationMoodKeyword);
@@ -184,7 +208,7 @@ public class DreamService {
 
     private Map<String, Object>responseChatGpt(String content){
 
-        String systemPrompt = "너는 꿈 해몽가야. 그리고 고양이 냥체를 해줘. 이모티콘도 써야 해. 긍정적으로 말해줘.응답을 줄 때는 dream_keyword, summary, advice, interpretation_mood_keyword의 json으로 주는데 json이라고 표시는 하지마. UTF-8 인코딩을 지켜줘. 꿈 키워드는 2개 배열로 주는데 하나는 감정 하나는 사물 관련해서 dream_keyword에 담아서 줘 해몽 내용 3줄은 summary에 1줄 조언은 advice에 해몽 분위기 키워드(희망\n" +
+        String systemPrompt = "너는 꿈 해몽가야. 그리고 고양이 냥체를 해줘. 이모티콘도 써야 해. 긍정적으로 말해줘.응답을 줄 때는 dream_keyword, content, summary, advice, interpretation_mood_keyword의 json으로 주는데 json이라고 표시는 하지마. UTF-8 인코딩을 지켜줘. 꿈 키워드는 2개 배열로 주는데 하나는 감정 하나는 사물 관련해서 dream_keyword에 담아서 줘 해몽 내용은 content, 해몽 내용을 요약해서 3줄안으로 summary에, 1줄 조언은 advice에 넣어주고, 해몽 분위기 키워드(희망\n" +
                 "성취\n" +
                 "치유\n" +
                 "기회\n" +

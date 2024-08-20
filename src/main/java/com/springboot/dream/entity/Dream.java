@@ -4,6 +4,7 @@ package com.springboot.dream.entity;
 import com.springboot.comment.entity.Comment;
 
 import com.springboot.interpretation.entity.Interpretation;
+import com.springboot.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,7 +39,6 @@ public class Dream {
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    
     @Column(name = "LAST_MODIFIED_AT")
     private LocalDateTime modifiedAt;
 
@@ -53,6 +53,9 @@ public class Dream {
     @JoinColumn(name = "interpretation_id")
     private Interpretation interpretation;
 
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
 
     public void addDreamKeywords(DreamKeyword dreamKeyword){
         this.dreamKeywords.add(dreamKeyword);
@@ -76,6 +79,12 @@ public class Dream {
         }
     }
 
+    public void setMember(Member member){
+        this.member = member;
+        if(member.getDreams().contains(this)){
+            member.addDream(this);
+        }
+    }
 
 
 //    @OneToMany(mappedBy = "dream")
