@@ -2,6 +2,7 @@ package com.springboot.comment.entity;
 
 
 import com.springboot.dream.entity.Dream;
+import com.springboot.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,11 +36,21 @@ public class Comment {
     @Column(name = "LAST_MODIFIED_AT")
     private LocalDateTime modifiedAt;
 
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
 
     public void addDream(Dream dream) {
         this.dream = dream;
         if (!this.dream.getComments().contains(this)) {
             this.dream.getComments().add(this);
+        }
+    }
+
+    public void addMember(Member member){
+        this.member = member;
+        if(!this.member.getComments().contains(this)){
+            this.member.getComments().add(this);
         }
     }
 

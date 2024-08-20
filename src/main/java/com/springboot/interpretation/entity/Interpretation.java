@@ -26,6 +26,9 @@ public class Interpretation extends Auditable {
     private Long interpretationId;
 
     @Column(nullable = false)
+    private String content;
+
+    @Column(nullable = false)
     private String summary;
 
     @Column(nullable = false)

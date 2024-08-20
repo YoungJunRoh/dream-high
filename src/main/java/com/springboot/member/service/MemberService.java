@@ -1,16 +1,22 @@
 package com.springboot.member.service;
 
+import com.springboot.auth.utils.JwtAuthorityUtils;
 import com.springboot.exception.BusinessLogicException;
 import com.springboot.exception.ExceptionCode;
+import com.springboot.helper.event.MemberRegistrationApplicationEvent;
 import com.springboot.member.entity.Member;
 import com.springboot.member.repository.MemberRepository;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static com.springboot.member.entity.Member.MemberStatus.MEMBER_ACTIVE;
@@ -19,17 +25,33 @@ import static com.springboot.member.entity.Member.MemberStatus.MEMBER_ACTIVE;
 public class MemberService {
 
 
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
+    private final ApplicationEventPublisher publisher;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtAuthorityUtils authorityUtils;
 
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository, ApplicationEventPublisher publisher, PasswordEncoder passwordEncoder, JwtAuthorityUtils authorityUtils) {
         this.memberRepository = memberRepository;
+        this.publisher = publisher;
+        this.passwordEncoder = passwordEncoder;
+        this.authorityUtils = authorityUtils;
     }
 
     public Member createMember(Member member) {
         // TODO should business logic
         // throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
         verifyExistsEmail(member.getEmail());
-        return memberRepository.save(member);
+
+        String encryptedPassword = passwordEncoder.encode(member.getPassword());
+        member.setPassword(encryptedPassword);
+
+        List<String> roles = authorityUtils.createRoles(member.getEmail());
+        member.setRoles(roles);
+
+        Member savedMember = memberRepository.save(member);
+
+        publisher.publishEvent(new MemberRegistrationApplicationEvent(this, savedMember));
+        return savedMember;
     }
 
     public Member updateMember(Member member) {
@@ -58,8 +80,9 @@ public class MemberService {
         // TODO should business logic
         //throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
         return findVerifiedMember(memberId);
-
     }
+
+
 
     public Page<Member> findMembers(int page, int size) {
         // TODO should business logic
@@ -114,5 +137,13 @@ public class MemberService {
     private void verifyExistsEmail(String email) {
         Optional<Member> member = memberRepository.findByEmail(email);
         if (member.isPresent()) throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
+    }
+
+    @Transactional(readOnly = true)
+    public Member findVerifiedMember(String email){
+        Optional<Member> optionalMember = memberRepository.findByEmail(email);
+        Member findMember = optionalMember.orElseThrow(() ->
+                new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        return findMember;
     }
 }

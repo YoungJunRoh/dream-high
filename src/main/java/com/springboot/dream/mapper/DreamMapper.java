@@ -1,5 +1,4 @@
 package com.springboot.dream.mapper;
-
 import com.springboot.comment.dto.CommentDto;
 import com.springboot.comment.entity.Comment;
 
@@ -40,13 +39,16 @@ public interface DreamMapper {
         DreamDto.Response response = new DreamDto.Response();
         response.setContent(dream.getContent());
         response.setDreamId(dream.getDreamId());
-
+        response.setCreatedAt(dream.getCreatedAt());
         response.setModifiedAt(dream.getModifiedAt());
         response.setDreamStatus(dream.getDreamStatus());
         response.setDreamSecret(dream.getDreamSecret());
         response.setDreamKeywords(dreamKeywordListToResponseDtos(dream.getDreamKeywords()));
         response.setComments(commentsToCommentResponseDtos(dream.getComments()));
         response.setInterpretationResponse(interpretationToResponseDto(dream.getInterpretation()));
+        if(!(dream.getMember() == null)){
+            response.setMemberId(dream.getMember().getMemberId());
+        }
 
         return response;
     }
@@ -59,6 +61,9 @@ public interface DreamMapper {
         response.setCommentId(comment.getCommentId());
         response.setDreamId(comment.getDream().getDreamId());
         response.setContent(comment.getContent());
+        response.setModifiedAt(comment.getModifiedAt());
+        response.setMemberId(comment.getMember().getMemberId());
+        response.setNickName(comment.getMember().getNickName());
 
         return response;
     }
@@ -87,6 +92,7 @@ public interface DreamMapper {
         InterpretationResponseDto interpretationResponseDto = new InterpretationResponseDto();
         Dream dream = interpretation.getDream();
         interpretationResponseDto.setInterpretationId(dream.getInterpretation().getInterpretationId());
+        interpretationResponseDto.setContent(dream.getInterpretation().getContent());
         interpretationResponseDto.setSummary(dream.getInterpretation().getSummary());
         interpretationResponseDto.setAdvice(dream.getInterpretation().getAdvice());
         interpretationResponseDto.setKeyword(moodKeywordToResponseDto(dream.getInterpretation().getKeyword()));

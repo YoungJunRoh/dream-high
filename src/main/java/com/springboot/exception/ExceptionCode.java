@@ -5,13 +5,13 @@ import lombok.Getter;
 public enum ExceptionCode {
     MEMBER_NOT_FOUND(404, "Member not found"),
     MEMBER_EXISTS(409, "Member exists"),
-    COFFEE_NOT_FOUND(404, "Coffee not found"),
+    COMMENT_NOT_FOUND(404, "Comment not found"),
     COFFEE_CODE_EXISTS(409, "Coffee Code exists"),
     DREAM_NOT_FOUND(404, "Dream not found"),
     CANNOT_REGISTER_COMMENT(403, "Comment do not register"),
-    NOT_IMPLEMENTATION(501, "Not Implementation"),
-    QUESTION_NOT_FOUND(404, "Question not found"),
-    CANNOT_CHANGE_QUESTION(403, "Question can not change"),
+    NOT_YOUR_DREAM(501, "Not your Dream"),
+    DREAM_IS_PRIVATE(404, "This is private"),
+    NOT_YOUR_COMMENT(403, "Not your Comment"),
     CANNOT_LIKE(403, "Can not Like"),
     CANNOT_CHANGE_MEMBER_STATUS(403, "MemberStatus cannot change" );
 

@@ -62,6 +62,9 @@ public class DreamDto {
         private Dream.DreamSecret dreamSecret;
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+        private LocalDateTime createdAt;
+
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime modifiedAt;
 
         private List<DreamKeywordResponseDto> dreamKeywords;
@@ -73,5 +76,14 @@ public class DreamDto {
         public String getDreamStatus() {
             return dreamStatus.getStatus();
         }
+    }
+
+    @AllArgsConstructor
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class ResponseThree {
+        private long dreamId;
+        private String content;
     }
 }

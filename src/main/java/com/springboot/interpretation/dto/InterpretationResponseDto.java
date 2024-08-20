@@ -16,6 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class InterpretationResponseDto {
     private long interpretationId;
+    private String content;
     private String summary;
     private String advice;
     private Interpretation_Mood_Keyword_ResponseDto keyword;

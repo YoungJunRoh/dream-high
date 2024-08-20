@@ -1,7 +1,9 @@
 package com.springboot.member.entity;
 
+import com.springboot.comment.entity.Comment;
 import com.springboot.dream.entity.Dream;
 import com.springboot.interpretation.entity.Interpretation;
+import com.springboot.stamp.entity.Stamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,6 +26,9 @@ public class Member {
     private String email;
 
     @Column(nullable = false, length = 100)
+    private String password;
+
+    @Column(nullable = false, length = 100)
     private String nickName;
 
     @Enumerated(EnumType.STRING)
@@ -36,13 +41,17 @@ public class Member {
     @Column(nullable = false, name = "LAST_MODIFIED_AT")
     private LocalDateTime modifiedAt = LocalDateTime.now();
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "member", cascade = CascadeType.MERGE)
-//    private List<Dream> dreams = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "member", cascade = CascadeType.MERGE)
-//    private List<Interpretation> interpretations = new ArrayList<>();
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
+    private List<Dream> dreams = new ArrayList<>();
 
+    @OneToOne(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private Stamp stamp;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
+    private List<Comment> comments = new ArrayList<>();
 
     public enum MemberStatus {
         MEMBER_ACTIVE("활동중"),
@@ -57,12 +66,27 @@ public class Member {
         }
     }
 
-//    public void addDream(Dream dream){
-//        dreams.add(dream);
-//        if(dream.getMember() != this){
-//            dream.addMember(this);
-//        }
-//  }
+    public void addDream(Dream dream){
+        dreams.add(dream);
+        if(dream.getMember() != this){
+            dream.setMember(this);
+        }
+    }
+
+    public void addComment(Comment comment){
+        comments.add(comment);
+        if(comment.getMember() != this){
+            comment.setMember(this);
+        }
+
+    }
+    public void setStamp(Stamp stamp) {
+        this.stamp = stamp;
+        if (stamp.getMember() != this) {
+            stamp.setMember(this);
+        }
+    }
+
 //    public void removeDream(Dream dream) {
 //        this.dreams.remove(dream);
 //        if (dream.getMember() == this){
@@ -85,17 +109,17 @@ public class Member {
 //    }
 
 
-    @Getter
-    @Setter
-    @Entity
-    @NoArgsConstructor
-    public static class Role{
-        private Long roleId;
-
-        private String roleName;
-
-        @OneToMany(mappedBy = "member", cascade = CascadeType.MERGE)
-        Member member;
-    }
+//    @Getter
+//    @Setter
+//    @Entity
+//    @NoArgsConstructor
+//    public static class Role{
+//        private Long roleId;
+//
+//        private String roleName;
+//
+//        @OneToMany(mappedBy = "member", cascade = CascadeType.MERGE)
+//        Member member;
+//    }
 
 }

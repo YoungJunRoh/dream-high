@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -39,9 +40,15 @@ public class DreamController {
 
 
     @PostMapping
-    public ResponseEntity postDream(@Valid @RequestBody DreamDto.Post dreamPost){
+    public ResponseEntity postDream(@Valid @RequestBody DreamDto.Post dreamPost,
+                                    Authentication authentication){
+        String email = null;
 
-        Dream dream = dreamService.createDream(mapper.dreamPostToDream(dreamPost));
+        if (authentication != null) {
+            email = (String) authentication.getPrincipal();
+        }
+
+        Dream dream = dreamService.createDream(mapper.dreamPostToDream(dreamPost), email);
 
         DreamDto.Response response = mapper.dreamToDreamResponseDto(dream);
 
@@ -51,10 +58,15 @@ public class DreamController {
 
     @PatchMapping("/{dream-id}")
     public ResponseEntity patchDream(@PathVariable("dream-id") @Positive long dreamId,
-                                     @Valid @RequestBody DreamDto.Patch dreamPatchDto) {
+                                     @Valid @RequestBody DreamDto.Patch dreamPatchDto,
+                                     Authentication authentication) {
         dreamPatchDto.setDreamId(dreamId);
+        if (authentication == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        String email = (String) authentication.getPrincipal();
         Dream dream =
-                dreamService.updateDream(mapper.dreamPatchDtoToDream(dreamPatchDto));
+                dreamService.updateDream(mapper.dreamPatchDtoToDream(dreamPatchDto), email);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.dreamToDreamResponseDto(dream))
@@ -87,8 +99,13 @@ public class DreamController {
     }
 
     @DeleteMapping("/{dream-id}")
-    public ResponseEntity deleteDream(@PathVariable("dream-id") @Positive long dreamId){
-        dreamService.deleteDream(dreamId);
+    public ResponseEntity deleteDream(@PathVariable("dream-id") @Positive long dreamId,
+                                      Authentication authentication){
+        if (authentication == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        String email = (String) authentication.getPrincipal();
+        dreamService.deleteDream(dreamId, email);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
