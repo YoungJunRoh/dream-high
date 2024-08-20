@@ -3,6 +3,7 @@ import '../styles/global.css';
 import '../styles/button.css';
 import styled from 'styled-components';
 
+
 // Modal Container
 export const ModalContainer = styled.div`
   display: flex;
@@ -69,13 +70,25 @@ const Button: React.FC<ButtonProps> = ({ mode, name, draggable = true, option, c
 
     let currentClass: string = 'pixel-btn-rounded';
     const currentDraggable: string = draggable ? ' draggable' : '';
+  
     switch (mode) {
         case 'main':
+            currentClass = 'main-button'; // main 모드 클래스
             break;
         case 'result':
-            currentClass = 'result-button';
+            currentClass = 'result-button'; // result 모드 클래스
             break;
-        // css 만들고 조건 추가
+        case 'share':
+            currentClass = 'result-button'; 
+            break;
+        case 'gotarot':
+            currentClass = 'go-tarot-button'; // gotarot 모드 클래스
+            break;
+        case 'login':
+            currentClass = 'go-login-button';
+            break;
+        default:
+            break; // 기본 클래스 유지
     }
 
     if (option === 'modal') {
@@ -102,8 +115,12 @@ const Button: React.FC<ButtonProps> = ({ mode, name, draggable = true, option, c
     }
 
     return (
-            <button
-                className={currentClass + currentDraggable}>{name}</button>
+        <button
+            className={`${currentClass}${currentDraggable}`} // 클래스 조합
+            onClick={onClick} // onClick 이벤트 핸들러 추가
+        >
+            {name} {/* 버튼 텍스트 */}
+        </button>
     );
 }
 
