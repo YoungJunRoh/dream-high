@@ -32,8 +32,10 @@
   border-radius: 12px;
   /* 둥근 모서리 */
   width: 8em;
-  height: 2em;
+  height: 2.5em;
   /* 크기 */
+  z-index: 2;
+  position: relative;
 }
 
 @media all and (max-width:430px) {
@@ -83,7 +85,9 @@
     box-shadow: 0 0 0 4px #fff, 4px 4px 0 0 #333;
     /* 클릭 시 살짝 눌리는 효과 */
     transform: translate(4px, 4px);
-  }
+    z-index: 2;
+  position: relative;
+}
   
   
   @media all and (max-width:430px) {
@@ -106,8 +110,10 @@
       border-radius: 12px;
       /* 둥근 모서리 */
       width: 8em;
-      height: 2em;
-    }
+      height: 2.5em;
+      z-index: 2;
+    position: relative;
+  }
     .result-button{
       background-color: #3ff0b8;
       /* 버튼 색상 */
@@ -133,10 +139,14 @@
       transform: translate(4px, 4px);
     }
 
+    z-index: 2;
+    position: relative;
   }
   
   .pixel-btn-rounded:active {
     box-shadow: 0 0 0 4px #fff, 4px 4px 0 0 #333;
     /* 클릭 시 살짝 눌리는 효과 */
     transform: translate(4px, 4px);
+    z-index: 2;
+    position: relative;
   }

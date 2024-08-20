@@ -7,9 +7,15 @@ import tmiDatas from '../static/tmiData.tsx';
 import Button from '../components/Button.tsx';
 import hotDreamDatas from '../static/hotDreamData.tsx';
 import BoardIndex from '../components/BoardIndex.tsx';
+<<<<<<< HEAD
+=======
+import BoardList from '../components/BoardList.tsx';
+import BoardSeeMore from '../components/BoardSeeMore.tsx';
+import Footer from '../components/Footer.tsx';
+>>>>>>> 88a10867db9d473d62ae6ae2136becf42a433ae4
 
 const Home = () => {
-    const randomTmiIdx = Math.floor(Math.random() * tmiDatas.length);
+    const randomTmiIdx: number = Math.floor(Math.random() * tmiDatas.length);
 
     return (
         <div className='background-night'>
@@ -19,7 +25,6 @@ const Home = () => {
                 <Link to={'/interpretation'}>
                     <Button
                         name='start'
-                        draggable={true}
                         mode='main' />
                 </Link>
                 <div className='content-name-container'>
@@ -30,10 +35,17 @@ const Home = () => {
                     {/* API 요청해서 나온 Json 데이터를 배열에 저장해서 랜덤함수로 돌려서 사용하기*/}
                 </div>
                 <div className='another-dream font-extrabold'>다른꿈도 보러가기  ▼</div>
+<<<<<<< HEAD
                 <BoardIndex/>
+=======
+                <BoardIndex />
+                <BoardList></BoardList>
+                <BoardSeeMore />
+                <Footer />
+>>>>>>> 88a10867db9d473d62ae6ae2136becf42a433ae4
             </div>
         </div>
     );
-}
+};
 
 export default Home;
