@@ -12,6 +12,7 @@ import com.springboot.exception.BusinessLogicException;
 import com.springboot.exception.ExceptionCode;
 import com.springboot.interpretation.entity.Interpretation;
 import com.springboot.interpretation.entity.Interpretation_Mood_Keyword;
+import com.springboot.member.entity.Member;
 import com.springboot.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -83,8 +84,14 @@ public class DreamService {
         if(email == null || email.isEmpty()){
 
         }else{
-            dream.setMember(memberService.findVerifiedMember(email));
+            Member findMember = memberService.findVerifiedMember(email);
+                    dream.setMember(findMember);
+            int stampCount = findMember.getStamp().getStampCount();
+            stampCount++;
+            findMember.getStamp().setStampCount(stampCount);
         }
+
+
         Dream saveDream = dreamRepository.save(dream);
 
         return saveDream;

@@ -64,10 +64,13 @@ public class CommentService {
         return commentRepository.findByDream_DreamId(dreamId, PageRequest.of(page, size, Sort.by("createdAt").descending()));
     }
 
-    public void deleteComment(long commentId){
-        Comment comment = findComment(commentId);
-        comment.setCommentStatus(Comment.CommentStatus.COMMENT_DEACTIVE);
-        commentRepository.save(comment);
+    public void deleteComment(long commentId, String email){
+        Comment findComment = findComment(commentId);
+        if(!findComment.getMember().getEmail().equals(email)){
+            throw new BusinessLogicException(ExceptionCode.NOT_YOUR_COMMENT);
+        }
+        findComment.setCommentStatus(Comment.CommentStatus.COMMENT_DEACTIVE);
+        commentRepository.save(findComment);
     }
 
     public Comment findVerifiedComment(long commentId){

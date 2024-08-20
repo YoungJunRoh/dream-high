@@ -54,6 +54,7 @@ public class MemberDto {
         private String email;
         private String nickName;
         private List<DreamDto.ResponseThree> dreams;
+        private int stampCount;
         private Member.MemberStatus memberStatus;
 
         public String getMemberStatus() {

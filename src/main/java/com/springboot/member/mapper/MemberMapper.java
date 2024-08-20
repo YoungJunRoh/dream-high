@@ -27,6 +27,7 @@ public interface MemberMapper {
         response.setDreams(dreams);
         response.setEmail(member.getEmail());
         response.setMemberStatus(member.getMemberStatus());
+        response.setStampCount(member.getStamp().getStampCount());
 
         return response;
     }

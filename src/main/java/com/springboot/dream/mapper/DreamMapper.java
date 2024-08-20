@@ -39,7 +39,7 @@ public interface DreamMapper {
         DreamDto.Response response = new DreamDto.Response();
         response.setContent(dream.getContent());
         response.setDreamId(dream.getDreamId());
-
+        response.setCreatedAt(dream.getCreatedAt());
         response.setModifiedAt(dream.getModifiedAt());
         response.setDreamStatus(dream.getDreamStatus());
         response.setDreamSecret(dream.getDreamSecret());

@@ -80,6 +80,12 @@ public class Member {
         }
 
     }
+    public void setStamp(Stamp stamp) {
+        this.stamp = stamp;
+        if (stamp.getMember() != this) {
+            stamp.setMember(this);
+        }
+    }
 
 //    public void removeDream(Dream dream) {
 //        this.dreams.remove(dream);

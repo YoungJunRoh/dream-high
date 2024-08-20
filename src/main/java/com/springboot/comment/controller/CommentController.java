@@ -72,8 +72,11 @@ public class CommentController {
     }
 
     @DeleteMapping("/comments/{comment-id}")
-    public ResponseEntity deleteComment(@PathVariable("comment-id") @Positive long commentId){
-        commentService.deleteComment(commentId);
+    public ResponseEntity deleteComment(@PathVariable("comment-id") @Positive long commentId,
+                                        Authentication authentication){
+
+        String email = (String) authentication.getPrincipal();
+        commentService.deleteComment(commentId, email);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
