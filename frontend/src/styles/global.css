@@ -25,6 +25,37 @@
   font-family: "PF-StartDust-ExtraBold";
 }
 
+body {
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#wrap {
+  display: flex;
+  flex-direction: column;
+  width: 375px;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+@media all and (max-width:430px) {
+  #wrap {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+  }
+}
+
 header {
   height: 60px;
   top: 0;

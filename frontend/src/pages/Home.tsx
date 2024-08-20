@@ -9,10 +9,10 @@ import hotDreamDatas from '../static/hotDreamData.tsx';
 import BoardIndex from '../components/BoardIndex.tsx';
 import BoardList from '../components/BoardList.tsx';
 import BoardSeeMore from '../components/BoardSeeMore.tsx';
-import Footer from '../components/Footer.tsx'
+import Footer from '../components/Footer.tsx';
 
 const Home = () => {
-    const randomTmiIdx = Math.floor(Math.random() * tmiDatas.length);
+    const randomTmiIdx: number = Math.floor(Math.random() * tmiDatas.length);
 
     return (
         <div className='background-night'>
@@ -22,7 +22,6 @@ const Home = () => {
                 <Link to={'/interpretation'}>
                     <Button
                         name='start'
-                        draggable={true}
                         mode='main' />
                 </Link>
                 <div className='content-name-container'>
@@ -36,10 +35,10 @@ const Home = () => {
                 <BoardIndex />
                 <BoardList></BoardList>
                 <BoardSeeMore />
-                <Footer/>
+                <Footer />
             </div>
         </div>
     );
-}
+};
 
 export default Home;
