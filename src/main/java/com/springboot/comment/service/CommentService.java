@@ -32,7 +32,7 @@ public class CommentService {
 
     public Comment postComment(Comment comment, String email){
 
-        Dream findDream = dreamService.findDream(comment.getDream().getDreamId());
+        Dream findDream = dreamService.findVerifiedDream(comment.getDream().getDreamId());
         Member findMember = memberService.findVerifiedMember(email);
         if(findDream.getDreamStatus() == Dream.DreamStatus.DREAM_DEACTIVE || findDream.getDreamSecret() == Dream.DreamSecret.DREAM_PRIVATE){
             throw new BusinessLogicException(ExceptionCode.CANNOT_REGISTER_COMMENT);

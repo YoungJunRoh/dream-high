@@ -67,6 +67,8 @@ public class DreamDto {
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime modifiedAt;
 
+        private Integer viewCount;
+        private Integer likeCount;
         private List<DreamKeywordResponseDto> dreamKeywords;
         private InterpretationResponseDto interpretationResponse;
 
@@ -85,5 +87,6 @@ public class DreamDto {
     public static class ResponseThree {
         private long dreamId;
         private String content;
+        private Integer viewCount;
     }
 }

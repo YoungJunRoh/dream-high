@@ -44,6 +44,8 @@ public interface DreamMapper {
         response.setDreamStatus(dream.getDreamStatus());
         response.setDreamSecret(dream.getDreamSecret());
         response.setDreamKeywords(dreamKeywordListToResponseDtos(dream.getDreamKeywords()));
+        response.setViewCount(dream.getViewCount());
+        response.setLikeCount(dream.getLikes().size());
         response.setComments(commentsToCommentResponseDtos(dream.getComments()));
         response.setInterpretationResponse(interpretationToResponseDto(dream.getInterpretation()));
         if(!(dream.getMember() == null)){
