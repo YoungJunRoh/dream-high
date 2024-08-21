@@ -28,6 +28,7 @@ import java.util.Map;
 @RequestMapping("/dreams")
 @Validated
 @Slf4j
+@CrossOrigin(origins = "http://localhost:3000")
 public class DreamController {
 
     private final DreamService dreamService;
@@ -74,9 +75,17 @@ public class DreamController {
     }
 
     @GetMapping("/{dream-id}")
-    public ResponseEntity getDream(@PathVariable("dream-id") @Positive long dreamId){
-        Dream dream = dreamService.findDream(dreamId);
-        return new ResponseEntity(new SingleResponseDto<>(mapper.dreamToDreamResponseDto(dream)), HttpStatus.OK);
+    public ResponseEntity getDream(@PathVariable("dream-id") @Positive long dreamId,
+                                   Authentication authentication){
+        String email = null;
+        if (authentication != null) {
+            email = (String) authentication.getPrincipal();
+            Dream dream = dreamService.findDream(dreamId, email);
+            return new ResponseEntity(new SingleResponseDto<>(mapper.dreamToDreamResponseDto(dream)), HttpStatus.OK);
+        }else {
+            Dream dream = dreamService.findDream(dreamId);
+            return new ResponseEntity(new SingleResponseDto<>(mapper.dreamToDreamResponseDto(dream)), HttpStatus.OK);
+        }
     }
 
     @GetMapping

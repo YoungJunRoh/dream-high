@@ -3,7 +3,9 @@ package com.springboot.member.mapper;
 import com.springboot.dream.dto.DreamDto;
 import com.springboot.dream.entity.Dream;
 import com.springboot.member.dto.MemberDto;
+import com.springboot.member.dto.MemberRewardPictureDto;
 import com.springboot.member.entity.Member;
+import com.springboot.member.entity.MemberRewardPicture;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -22,6 +24,9 @@ public interface MemberMapper {
                 .limit(3)
                 .map(dream -> dreamToDreamResponseThree(dream))
                 .collect(Collectors.toList());
+        List<MemberRewardPictureDto.Response> pictures = member.getMemberRewardPictures().stream()
+                        .map(memberRewardPicture -> memberRewardPictureToMemberRewardPictureResponseDto(memberRewardPicture))
+                        .collect(Collectors.toList());
         response.setMemberId(member.getMemberId());
         response.setNickName(member.getNickName());
         response.setDreams(dreams);
@@ -36,9 +41,20 @@ public interface MemberMapper {
         DreamDto.ResponseThree response = new DreamDto.ResponseThree();
         response.setDreamId(dream.getDreamId());
         response.setContent(dream.getContent());
+        response.setViewCount(dream.getViewCount());
 
         return response;
     }
+
+    default MemberRewardPictureDto.Response memberRewardPictureToMemberRewardPictureResponseDto(MemberRewardPicture memberRewardPicture){
+        MemberRewardPictureDto.Response response = new MemberRewardPictureDto.Response();
+        response.setMemberId(memberRewardPicture.getMember().getMemberId());
+        response.setRewardPictureId(memberRewardPicture.getMemberRewardPictureId());
+        response.setRewardUrl(memberRewardPicture.getRewardPicture().getRewardUrl());
+
+        return response;
+    }
+    List<MemberRewardPictureDto.Response> memberRewardPictureToMemberRewardPictureResponseDtos(List<MemberRewardPicture> memberRewardPictures);
 
 //    List<MemberDto.Response> membersToMemberResponses(List<Member> members);
 }

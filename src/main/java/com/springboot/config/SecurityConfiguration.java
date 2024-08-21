@@ -28,6 +28,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
@@ -48,7 +50,7 @@ public class SecurityConfiguration {
                 .headers().frameOptions().sameOrigin()
                 .and()
                 .csrf().disable()
-                .cors(Customizer.withDefaults())
+                .cors(withDefaults())
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin().disable()
@@ -70,7 +72,7 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.DELETE, "/dreams/**/comments/**").hasRole("USER")
                         .antMatchers(HttpMethod.POST, "/auth/logout").hasAnyRole("USER", "ADMIN")
                         .anyRequest().permitAll()
-                );
+                ).oauth2Login(withDefaults());
         return http.build();
     }
     @Bean

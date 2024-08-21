@@ -2,7 +2,9 @@ package com.springboot.member.controller;
 
 
 import com.springboot.member.dto.MemberDto;
+import com.springboot.member.dto.MemberRewardPictureDto;
 import com.springboot.member.entity.Member;
+import com.springboot.member.entity.MemberRewardPicture;
 import com.springboot.member.mapper.MemberMapper;
 import com.springboot.member.service.MemberService;
 import com.springboot.response.SingleResponseDto;
@@ -58,10 +60,38 @@ public class MemberController {
 
     @GetMapping("/{member-id}")
     public ResponseEntity geMember(
-            @PathVariable("member-id") @Positive long memberId){
+            @PathVariable("member-id") @Positive long memberId) {
         Member member = memberService.findMember(memberId);
-        return new ResponseEntity(mapper.memberToMemberResponseMyPage(member), HttpStatus.OK);
+
+        if (member.getStamp().getStampCount() % 5 == 0) {
+            int size = member.getMemberRewardPictures().size();
+            if (size == 0) {
+                MemberRewardPicture memberRewardPicture = new MemberRewardPicture();
+                memberRewardPicture.setMemberRewardPictureId(1L);
+                memberRewardPicture.setMember(member);
+            } else {
+                MemberRewardPicture memberRewardPicture = member.getMemberRewardPictures().get(size - 1);
+                long pictureId = memberRewardPicture.getRewardPicture().getRewardPictureId() + 1;
+                MemberRewardPicture plusMemberRewardPicture = new MemberRewardPicture();
+                plusMemberRewardPicture.setMember(member);
+                plusMemberRewardPicture.setMemberRewardPictureId(pictureId);
+
+                return new ResponseEntity<>(
+                        new SingleResponseDto<>(mapper.memberRewardPictureToMemberRewardPictureResponseDto(memberRewardPicture))
+                        , HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(mapper.memberToMemberResponseMyPage(member)), HttpStatus.OK);
     }
 
+    @PostMapping("/{member-id}/profile")
+    public ResponseEntity setProfile(@PathVariable("member-id") @Positive long memberId,
+                                     @RequestBody MemberRewardPictureDto.Post requestBody) {
+        Member member = memberService.findMember(memberId);
+        member.setProfileNum(requestBody.getProfileNum());
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
 }

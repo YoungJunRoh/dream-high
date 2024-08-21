@@ -7,7 +7,9 @@ import com.springboot.dream.dto.OpenAiRequest;
 import com.springboot.dream.dto.OpenAiResponse;
 import com.springboot.dream.entity.Dream;
 import com.springboot.dream.entity.DreamKeyword;
+import com.springboot.dream.entity.View;
 import com.springboot.dream.repository.DreamRepository;
+import com.springboot.dream.repository.ViewRepository;
 import com.springboot.exception.BusinessLogicException;
 import com.springboot.exception.ExceptionCode;
 import com.springboot.interpretation.entity.Interpretation;
@@ -51,10 +53,12 @@ public class DreamService {
 
     private final DreamRepository dreamRepository;
     private final MemberService memberService;
+    private final ViewRepository viewRepository;
 
-    public DreamService(DreamRepository dreamRepository, MemberService memberService) {
+    public DreamService(DreamRepository dreamRepository, MemberService memberService, ViewRepository viewRepository) {
         this.dreamRepository = dreamRepository;
         this.memberService = memberService;
+        this.viewRepository = viewRepository;
     }
 
     public Dream createDream(Dream dream, String email){
@@ -85,10 +89,7 @@ public class DreamService {
 
         }else{
             Member findMember = memberService.findVerifiedMember(email);
-                    dream.setMember(findMember);
-            int stampCount = findMember.getStamp().getStampCount();
-            stampCount++;
-            findMember.getStamp().setStampCount(stampCount);
+            dream.setMember(findMember);
         }
 
 
@@ -127,7 +128,7 @@ public class DreamService {
 //        }
     }
     public Dream updateDream(Dream dream,String email){
-        Dream findDream = findDream(dream.getDreamId());
+        Dream findDream = findVerifiedDream(dream.getDreamId());
 
         if(!findDream.getMember().getEmail().equals(email)){
             throw new BusinessLogicException(ExceptionCode.NOT_YOUR_DREAM);
@@ -148,11 +149,57 @@ public class DreamService {
         }else if( findDream.getDreamStatus() == Dream.DreamStatus.DREAM_DEACTIVE){
             throw new BusinessLogicException(ExceptionCode.DREAM_NOT_FOUND);
         }else{
-            return findVerifiedDream(dreamId);
+            return findDream;
         }
     }
+    public Dream findDream(long dreamId, String email) {
+        Dream findDream = findVerifiedDream(dreamId);
+        Member findMember = memberService.findVerifiedMember(email);
+        Optional<View> optionalView = viewRepository.findByDreamAndMember(findDream, findMember);
+//        if(findDream.getDreamSecret().equals(Dream.DreamSecret.DREAM_PRIVATE)){
+//            if(email.equals(findDream.getMember().getEmail())) {
+//                if(optionalView.isEmpty()){
+//                    View view = createView(dreamId,email);
+//                    findDream.addView(view);
+//                    findDream.setViewCount(findDream.getViews().size());
+//                }else{
+//                    findDream.setViewCount(findDream.getViews().size());
+//                }
+//                return findDream;
+//            }else{
+//                throw new BusinessLogicException(ExceptionCode.DREAM_IS_PRIVATE);
+//            }
+//        }else if(findDream.getDreamStatus() == Dream.DreamStatus.DREAM_DEACTIVE){
+//            throw new BusinessLogicException(ExceptionCode.DREAM_NOT_FOUND);
+//        }else{
+//            if(optionalView.isEmpty()){
+//                View view = createView(dreamId, email);
+//                findDream.addView(view);
+//                findDream.setViewCount(findDream.getViews().size());
+//            }else{
+//                findDream.setViewCount(findDream.getViews().size());
+//            }
+//        }
+        if(findDream.getDreamSecret().equals(Dream.DreamSecret.DREAM_PRIVATE)) {
+            if(!email.equals(findDream.getMember().getEmail())) {
+                throw new BusinessLogicException(ExceptionCode.DREAM_IS_PRIVATE);
+            }
+        }
 
-    private Dream findVerifiedDream(long dreamId) {
+        if(findDream.getDreamStatus() == Dream.DreamStatus.DREAM_DEACTIVE) {
+            throw new BusinessLogicException(ExceptionCode.DREAM_NOT_FOUND);
+        }
+
+        if(optionalView.isEmpty()) {
+            View view = createView(dreamId, email);
+            findDream.addView(view);
+        }
+
+        findDream.setViewCount(findDream.getViews().size());
+        return findDream;
+    }
+
+    public Dream findVerifiedDream(long dreamId) {
         Optional<Dream> optionalOrder = dreamRepository.findById(dreamId);
         Dream findOrder =
                 optionalOrder.orElseThrow(() ->
@@ -171,12 +218,25 @@ public class DreamService {
     }
 
     public void deleteDream(long dreamId,String email){
-        Dream findDream = findDream(dreamId);
+        Dream findDream = findVerifiedDream(dreamId);
         if(!findDream.getMember().getEmail().equals(email)){
             throw new BusinessLogicException(ExceptionCode.NOT_YOUR_DREAM);
         }
         findDream.setDreamStatus(Dream.DreamStatus.DREAM_DEACTIVE);
         dreamRepository.save(findDream);
+    }
+
+    private View createView(long dreamId, String email){
+        Dream dream = findVerifiedDream(dreamId);
+        Member member = memberService.findVerifiedMember(email);
+
+        View view = new View();
+        view.setMember(member);
+        view.setDream(dream);
+
+        return viewRepository.save(view);
+
+
     }
 
 
