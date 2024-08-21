@@ -7,31 +7,29 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-public class View  {
+@Entity(name ="VIEWS")
+public class View {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long viewId;
-
 
     @ManyToOne
     @JoinColumn(name = "DREAM_ID")
     private Dream dream;
 
-
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "MEMBER_ID")
-    //스위치
     private Member member;
 
+    public void setDream(Dream dream){
+        this.dream = dream;
+        if(!dream.getViews().contains(this)){
+            dream.addView(this);
+        }
+    }
 
-//    public void setDream(Dream dream){
-//        this.dream = dream;
-//        if (dream.getViews().contains(this)){
-//            dream.setView(this);
-//        }
-//    }
 }

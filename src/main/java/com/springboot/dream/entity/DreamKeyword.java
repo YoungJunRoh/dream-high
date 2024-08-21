@@ -16,7 +16,7 @@ public class DreamKeyword {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long dreamKeywordId;
+    private Long dreamKeywordId;
 
     @Column(length = 20, nullable = false)
     private String name;

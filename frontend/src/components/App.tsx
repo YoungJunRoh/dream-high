@@ -7,7 +7,11 @@ import MyPage from '../pages/MyPage.tsx';
 import Header from './Header.tsx';
 import '../styles/global.css';
 import InterpretationResult from '../pages/InterpretationResult.tsx';
-import Loading from './Loading.tsx';
+import Loading from '../pages/Loading.tsx';
+import FindPassword from'../pages/FindPassword.tsx'
+import PasswordReset from '../pages/PasswordReset.tsx';
+import SignUp from '../pages/SignUp.tsx';
+
 
 const App = () => {
   return (
@@ -17,10 +21,13 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/interpretation" element={<Interpretation />} />
-          <Route path='/  ' element={<InterpretationResult />} />
+          <Route path='/interpretation-result' element={<InterpretationResult />} />
           <Route path='/login-home' element={<Login />} />
-          <Route path='/loading' element={<Loading loading={true}/>} />
+          <Route path='/loading' element={<Loading />} />
           <Route path='/mypage' element={<MyPage />} />
+          <Route path='/login-passwordfind' element={<FindPassword/>}/>
+          <Route path='/login-passwordreset' element={<PasswordReset/>}/>
+          <Route path='/signup' element={<SignUp/>}/>
         </Routes>
       </div>
     </BrowserRouter>

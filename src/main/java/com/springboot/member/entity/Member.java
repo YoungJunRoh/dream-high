@@ -2,7 +2,7 @@ package com.springboot.member.entity;
 
 import com.springboot.comment.entity.Comment;
 import com.springboot.dream.entity.Dream;
-import com.springboot.interpretation.entity.Interpretation;
+import com.springboot.like.entity.Like;
 import com.springboot.stamp.entity.Stamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -53,6 +53,15 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
     private List<Comment> comments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
+    private List<Like> likes = new ArrayList<>();
+
+    @Column(nullable = true)
+    private Long profileNum;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
+    private List<MemberRewardPicture> memberRewardPictures = new ArrayList<>();
+
     public enum MemberStatus {
         MEMBER_ACTIVE("활동중"),
         MEMBER_SLEEP("휴면 상태"),
@@ -84,6 +93,28 @@ public class Member {
         this.stamp = stamp;
         if (stamp.getMember() != this) {
             stamp.setMember(this);
+        }
+    }
+    public Member(String email) {
+        this.email = email;
+    }
+
+    public Member(String email, Stamp stamp) {
+        this.email = email;
+        this.stamp = stamp;
+    }
+
+    public void removeLike(Like like){
+        this.likes.remove(like);
+        if(like.getMember() != this){
+            like.setMember(null);
+        }
+    }
+
+    public void addMemberRewardPicture(MemberRewardPicture memberRewardPicture) {
+        this.memberRewardPictures.add(memberRewardPicture);
+        if (memberRewardPicture.getMember() != this) {
+            memberRewardPicture.addMember(this);
         }
     }
 

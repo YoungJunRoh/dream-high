@@ -4,6 +4,7 @@ package com.springboot.dream.entity;
 import com.springboot.comment.entity.Comment;
 
 import com.springboot.interpretation.entity.Interpretation;
+import com.springboot.like.entity.Like;
 import com.springboot.member.entity.Member;
 import com.springboot.sharing.entity.Sharing;
 import lombok.Getter;
@@ -24,7 +25,7 @@ public class Dream {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long dreamId;
+    private Long dreamId;
 
     @Column(length = 500, nullable = false)
     private String content;
@@ -58,6 +59,18 @@ public class Dream {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
+    @OneToMany(mappedBy = "dream", cascade = CascadeType.ALL)
+    List<Like> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "dream", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<View> views = new ArrayList<>();
+
+    @Column
+    private Integer likeCount = 0;
+
+    @Column
+    private Integer viewCount = 0;
+
     public void addDreamKeywords(DreamKeyword dreamKeyword){
         this.dreamKeywords.add(dreamKeyword);
         if(dreamKeyword.getDream() != this){
@@ -86,9 +99,19 @@ public class Dream {
             member.addDream(this);
         }
     }
-
+    
     @OneToMany(mappedBy = "member")
     private List<Sharing> sharingList = new ArrayList<>();
+
+    public void addView(View view) {
+        if (!this.views.contains(view)) {
+            this.views.add(view);  // 중복 추가 방지
+            if (view.getDream() != this) {
+                view.setDream(this);  // 역참조 설정
+            }
+        }
+    }
+
 
     public void setShareList(Sharing sharing) {
         sharingList.add(sharing);
