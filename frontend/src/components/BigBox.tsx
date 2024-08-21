@@ -1,29 +1,29 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import '../styles/result.css';
 import '../styles/global.css';
 
 type BigBox = {
-    message?: string; // message prop의 타입 정의
-    mode?: 'resultbox' | 'loginbox'  ; // 모드 제한
+    mode?: 'resultbox' | 'loginbox'; // 모드 제한
+    children?: ReactNode;
 }
 
-const ResultBigBox: React.FC<BigBox> = ({ message, mode }) => {
+const ResultBigBox: React.FC<BigBox> = ({ mode, children }) => {
     let currentClass = ''; // currentClass 변수를 초기화
 
     switch (mode) {
         case 'resultbox':
-            currentClass = 'result-bigbox'; 
+            currentClass = 'result-bigbox';
             break;
         case 'loginbox':
-            currentClass = 'result-loginbigbox'; 
+            currentClass = 'result-loginbigbox';
             break;
         default:
             break;
     }
 
-    return(
+    return (
         <div className={currentClass}>
-            {message && <span>{message}</span>}
+            {children}
         </div>
     );
 }
