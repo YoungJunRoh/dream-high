@@ -1,22 +1,52 @@
-//package com.springboot.email.controller;
-//
-//import com.springboot.email.dto.EmailRequestDto;
-//import com.springboot.email.service.MailSendService;
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.RequestBody;
-//import org.springframework.web.bind.annotation.RestController;
-//
-//import javax.validation.Valid;
-//
-//@RestController
-//@RequiredArgsConstructor
-//public class EmailController {
-//    private final MailSendService mailService;
-//
-//    @PostMapping("/mailSend")
-//    public String mailSend(@RequestBody @Valid EmailRequestDto emailDto) {
-//        System.out.println("이메일 인증 이메일 :" + emailDto.getEmail());
-//        return mailService.joinEmail(emailDto.getEmail());
-//    }
-//}
+package com.springboot.email.controller;
+
+
+import com.springboot.email.dto.EmailAuthDto;
+import com.springboot.email.dto.EmailCheckDto;
+import com.springboot.email.dto.EmailRequestDto;
+import com.springboot.email.service.EmailService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/email")
+public class EmailController {
+
+    private final EmailService emailService;
+
+    public EmailController(EmailService emailService) {
+        this.emailService = emailService;
+    }
+
+    @PostMapping("/send-verification")
+    public String sendVerificationEmail(@RequestBody EmailRequestDto requestDto) {
+        emailService.sendVerificationEmail(requestDto.getEmail());
+        return "Verification email sent.";
+    }
+
+    @PostMapping("/verify")
+    public ResponseEntity verifyAuthCode(@RequestBody EmailAuthDto request) {
+        boolean isValid = emailService.verifyAuthCode(request.getEmail(), request.getCode());
+        if (isValid) {
+            return ResponseEntity.ok("인증번호 검증 성공");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("인증번호 불일치");
+        }
+    }
+
+    @PostMapping("/validate-email")
+    public String validateEmail(@RequestBody EmailCheckDto emailDto) {
+        String email = emailDto.getEmail();
+        // 이메일 유효성 검사 로직 수행
+        return "Received email: " + email;
+    }
+
+    @PostMapping("/send-password-reset")
+    public String sendPasswordResetEmail(@RequestParam String email) {
+
+        String resetToken = java.util.UUID.randomUUID().toString();
+        emailService.sendPasswordResetEmail(email, resetToken);
+        return "Password reset email sent.";
+    }
+}
