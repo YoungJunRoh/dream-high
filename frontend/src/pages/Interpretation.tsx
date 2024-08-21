@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/global.css';
 import '../styles/home.css';
@@ -6,12 +6,23 @@ import '../styles/interpretation.css';
 import Button from '../components/Button.tsx';
 import BirthDaySelect from '../components/BirthDaySelect.tsx';
 import useKeyboardAvoider from '../hooks/useKeyboardAvoider.tsx';
-import axios from 'axios';
+import TextArea from '../components/TextArea.tsx';
+import { useNavigate } from 'react-router-dom';
 
 const Interpretation = () => {
     useKeyboardAvoider();
-    const [content, setPrompt] = useState<string>('');
-    const [responseMessage, setResponseMessage] = useState<string | null>(null);
+    const [prompt, setPrompt] = useState<string>('');
+
+    const navigate = useNavigate();
+
+    const promptHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setPrompt(e.target.value);
+        console.log(prompt);
+    };
+
+    const buttonClickHandler = () => {
+        navigate('/loading', { state: { prompt } });
+    };
 
 
     const promptHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -36,20 +47,20 @@ const Interpretation = () => {
         <div className='background-night'>
             <div className='interpretation-background-cat'>
                 <div className='interpretation-blank' />
-                <textarea
-                    className='interpretation-input font-normal'
+                <TextArea
                     placeholder='꿈을 입력하라냥'
                     onChange={promptHandler}
-
-                >
-                </textarea>
+                    height='200px'
+                    width='345px'
+                    fontSize='18px'
+                />
                 <div className='interpretation-button-area'>
-                    <BirthDaySelect></BirthDaySelect>
-                        <Button name='완료' mode='result' draggable={true} onClick={handleSubmit} />
+                    <BirthDaySelect />
+                    <Button name='완료' mode='result' draggable={true} onClick={buttonClickHandler} />
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default Interpretation;

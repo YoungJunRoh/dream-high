@@ -12,6 +12,7 @@ import FindPassword from'../pages/FindPassword.tsx'
 import PasswordReset from '../pages/PasswordReset.tsx';
 import SignUp from '../pages/SignUp.tsx';
 
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -22,7 +23,7 @@ const App = () => {
           <Route path="/interpretation" element={<Interpretation />} />
           <Route path='/interpretation-result' element={<InterpretationResult />} />
           <Route path='/login-home' element={<Login />} />
-          <Route path='/loading' element={<Loading loading={true}/>} />
+          <Route path='/loading' element={<Loading />} />
           <Route path='/mypage' element={<MyPage />} />
           <Route path='/login-passwordfind' element={<FindPassword/>}/>
           <Route path='/login-passwordreset' element={<PasswordReset/>}/>

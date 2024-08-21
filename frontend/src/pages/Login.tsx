@@ -35,7 +35,7 @@ function Login() {
                 draggable={true}></Button>
             <Button
                 name='SNS로그인'
-                mode='snslogin'
+                mode='pass'
                 draggable={true}>
             </Button>
             <Button
