@@ -3,8 +3,8 @@ import '../styles/result.css';
 import '../styles/global.css';
 
 type BigBox = {
-    mode?: 'resultbox' | 'loginbox'; // 모드 제한
-    children?: ReactNode;
+    mode?: 'resultbox' | 'loginbox' | 'signupbox'; // 모드 제한
+    children: ReactNode;
 }
 
 const ResultBigBox: React.FC<BigBox> = ({ mode, children }) => {
@@ -16,6 +16,9 @@ const ResultBigBox: React.FC<BigBox> = ({ mode, children }) => {
             break;
         case 'loginbox':
             currentClass = 'result-loginbigbox';
+            break;
+        case 'signupbox':
+            currentClass = 'loginbigbox';
             break;
         default:
             break;

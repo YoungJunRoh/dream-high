@@ -19,6 +19,7 @@ border: 5px solid black;
 padding: 10px;
 font-size: ${(props) => props.fontSize};
 margin-bottom: 5px;
+resize: none;
 `;
 
 

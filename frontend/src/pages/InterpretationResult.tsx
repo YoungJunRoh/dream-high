@@ -4,6 +4,7 @@ import Button from '../components/Button.tsx';
 import { Link } from 'react-router-dom';
 import '../styles/result.css';
 import ResultBox from '../components/ResultBox.tsx';
+import resultBoxData from '../static/resultBoxData.tsx';
 import allresultData from '../static/allResultData.tsx';
 import ResultBigBox from '../components/BigBox.tsx';
 import ResultSmallBox from '../components/SmallBox.tsx';
@@ -17,6 +18,7 @@ interface LocationState {
     dreamContent: string;
     interpertaionContent: string;
 }
+
 
 function InterpretationResult() {
     const location = useLocation();

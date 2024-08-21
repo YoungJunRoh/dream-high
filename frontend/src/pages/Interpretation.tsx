@@ -24,6 +24,25 @@ const Interpretation = () => {
         navigate('/loading', { state: { prompt } });
     };
 
+
+    const promptHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setPrompt(e.target.value);
+        console.log('Submitted text: ', content);
+    }
+
+    const handleSubmit = async () => {
+        const datas = { prompt : content };
+
+    try {
+      const response = await axios.post('http://localhost:8080/dreams', datas);
+      setResponseMessage('Data submitted successfully!');
+      console.log('Response:', response.data);
+    } catch (error) {
+      setResponseMessage('Failed to submit data.');
+      console.error('Error:', error);
+    }
+    }
+    
     return (
         <div className='background-night'>
             <div className='interpretation-background-cat'>

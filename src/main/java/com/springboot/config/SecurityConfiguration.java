@@ -11,6 +11,7 @@ import com.springboot.auth.jwt.JwtTokenizer;
 import com.springboot.auth.utils.JwtAuthorityUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
@@ -19,6 +20,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -31,9 +33,13 @@ public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final JwtAuthorityUtils authorityUtils;
 
-    public SecurityConfiguration(JwtTokenizer jwtTokenizer, JwtAuthorityUtils authorityUtils) {
+    // 검증 객체에 전달하기 위해 RedisTemplate DI
+    private final RedisTemplate<String, Object> redisTemplate;
+
+    public SecurityConfiguration(JwtTokenizer jwtTokenizer, JwtAuthorityUtils authorityUtils, RedisTemplate<String, Object> redisTemplate) {
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtils = authorityUtils;
+        this.redisTemplate = redisTemplate;
     }
 
     @Bean
@@ -62,6 +68,7 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.POST, "/dreams/**/comments").hasRole("USER")
                         .antMatchers(HttpMethod.PATCH, "/comments/**").hasRole("USER")
                         .antMatchers(HttpMethod.DELETE, "/dreams/**/comments/**").hasRole("USER")
+                        .antMatchers(HttpMethod.POST, "/auth/logout").hasAnyRole("USER", "ADMIN")
                         .anyRequest().permitAll()
                 );
         return http.build();
@@ -95,9 +102,10 @@ public class SecurityConfiguration {
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
             JwtVerificationFilter jwtVerificationFilter =
-                    new JwtVerificationFilter(jwtTokenizer,authorityUtils);
+                    new JwtVerificationFilter(jwtTokenizer,authorityUtils,redisTemplate);
             builder.addFilter(jwtAuthenticationFilter)
-                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
+                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class)
+                    .addFilterAfter(jwtVerificationFilter, OAuth2LoginAuthenticationFilter.class);
         }
     }
 }

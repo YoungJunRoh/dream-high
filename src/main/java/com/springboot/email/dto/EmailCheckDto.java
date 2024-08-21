@@ -1,4 +1,4 @@
-package com.springboot.email.dto;
-
-public class EmailCheckDto {
-}
+//package com.springboot.email.dto;
+//
+//public class EmailCheckDto {
+//}

@@ -8,8 +8,10 @@ import Header from './Header.tsx';
 import '../styles/global.css';
 import InterpretationResult from '../pages/InterpretationResult.tsx';
 import Loading from '../pages/Loading.tsx';
-import FindPassword from '../pages/FindPassword.tsx'
+import FindPassword from'../pages/FindPassword.tsx'
 import PasswordReset from '../pages/PasswordReset.tsx';
+import SignUp from '../pages/SignUp.tsx';
+
 
 const App = () => {
   return (
@@ -23,8 +25,9 @@ const App = () => {
           <Route path='/login-home' element={<Login />} />
           <Route path='/loading' element={<Loading />} />
           <Route path='/mypage' element={<MyPage />} />
-          <Route path='/login-passwordfind' element={<FindPassword />} />
-          <Route path='/login-passwordreset' element={<PasswordReset />} />
+          <Route path='/login-passwordfind' element={<FindPassword/>}/>
+          <Route path='/login-passwordreset' element={<PasswordReset/>}/>
+          <Route path='/signup' element={<SignUp/>}/>
         </Routes>
       </div>
     </BrowserRouter>

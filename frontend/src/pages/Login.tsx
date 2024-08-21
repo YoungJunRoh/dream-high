@@ -28,7 +28,6 @@ function Login() {
                         fontSize='20px'
                     ></TextArea>
                 </div>
-
             </ResultBigBox>
             <Button
                 name='로그인🐾'

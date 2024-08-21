@@ -1,4 +1,4 @@
-//package com.springboot.share.entity;
+//package com.springboot.sharing.entity;
 //
 //import com.springboot.dream.entity.Dream;
 //import com.springboot.member.entity.Member;
@@ -8,7 +8,6 @@
 //import org.springframework.data.annotation.Id;
 //
 //import javax.persistence.*;
-//import java.time.LocalDate;
 //import java.time.LocalDateTime;
 //
 //@Entity

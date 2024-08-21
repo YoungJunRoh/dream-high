@@ -23,7 +23,7 @@
 
 .result-cat {
     margin-top: 10px;
-    background-image: url("../assets/img-main-cat.png");
+    background-image: url("../assets/rulru-result.png");
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -381,7 +381,7 @@
     }
 
     .result-cat {
-        background-image: url("../assets/img-main-cat.png");
+        background-image: url("../assets/rulru-result.png");
         display: flex;
         flex-direction: column;
         align-items: center;
