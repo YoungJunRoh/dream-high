@@ -13,7 +13,7 @@ const Loading = ({ loading }) => {
             star.className = 'star';
 
             // 랜덤 크기 설정 (더 크게)
-            const size = Math.random() * 10 + 5; // 5px에서 15px
+            const size = Math.random() * 10 + 2; // 5px에서 15px
             star.style.width = `${size}px`;
             star.style.height = `${size}px`;
 

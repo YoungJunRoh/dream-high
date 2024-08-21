@@ -58,10 +58,11 @@ type ButtonProps = {
     draggable?: boolean;
     children?: ReactNode;
     option?: string;
+    onClick?(): void;
 }
 
 // 버튼 width 글자 크기에 따라 늘어나도록 GPT 한테 커스텀 받기
-const Button: React.FC<ButtonProps> = ({ mode, name, draggable = true, option, children }) => {
+const Button: React.FC<ButtonProps> = ({ mode, name, draggable = true, option, children, onClick }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const openModalHandler = () => {
@@ -70,7 +71,7 @@ const Button: React.FC<ButtonProps> = ({ mode, name, draggable = true, option, c
 
     let currentClass: string = 'main-button';
     const currentDraggable: string = draggable ? ' draggable' : '';
-  
+
     switch (mode) {
         case 'main':
             currentClass = 'main-button'; // main 모드 클래스
@@ -79,13 +80,19 @@ const Button: React.FC<ButtonProps> = ({ mode, name, draggable = true, option, c
             currentClass = 'result-button'; // result 모드 클래스
             break;
         case 'share':
-            currentClass = 'result-button'; 
+            currentClass = 'result-button';
             break;
         case 'gotarot':
             currentClass = 'go-tarot-button'; // gotarot 모드 클래스
             break;
         case 'login':
             currentClass = 'go-login-button';
+            break;
+        case 'pass':
+            currentClass = 'go-sign-button';
+            break;
+        case 'snslogin':
+            currentClass = 'go-snslogin-button';
             break;
         default:
             break; // 기본 클래스 유지
@@ -104,7 +111,6 @@ const Button: React.FC<ButtonProps> = ({ mode, name, draggable = true, option, c
                     {isOpen ? (
                         <ModalBackdrop onClick={openModalHandler}>
                             <ModalView onClick={(event) => event.stopPropagation()}>
-                                <div onClick={openModalHandler}>❌</div>
                                 {children}
                             </ModalView>
                         </ModalBackdrop>
@@ -117,6 +123,7 @@ const Button: React.FC<ButtonProps> = ({ mode, name, draggable = true, option, c
     return (
         <button
             className={`${currentClass}${currentDraggable}`} // 클래스 조합
+            onClick={onClick}
         >
             {name} {/* 버튼 텍스트 */}
         </button>
