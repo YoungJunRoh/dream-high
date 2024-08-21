@@ -36,7 +36,7 @@ public class EmailService {
     public void sendPasswordResetEmail(String email, String resetToken) {
         redisTemplate.opsForValue().set(RESET_PREFIX + resetToken, email, Duration.ofHours(1)); // 1시간 동안 유효
 
-        String resetLink = "https://example.com/reset-password?token=" + resetToken;
+        String resetLink = "https://locahost:8080/reset-password?token=" + resetToken;
         String subject = "비밀번호 재설정 링크입니다.";
         String content = "비밀번호 재설정을 하려면 다음 링크를 클릭하세요: <a href=\"" + resetLink + "\">비밀번호 재설정</a>";
 
@@ -65,6 +65,7 @@ public class EmailService {
 
     public boolean verifyAuthCode(String email, String authCode) {
         String storedCode = redisTemplate.opsForValue().get(EMAIL_PREFIX + email);
+        redisTemplate.delete(EMAIL_PREFIX + email);
         return authCode.equals(storedCode);
     }
 

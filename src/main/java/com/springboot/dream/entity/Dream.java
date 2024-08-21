@@ -5,6 +5,7 @@ import com.springboot.comment.entity.Comment;
 
 import com.springboot.interpretation.entity.Interpretation;
 import com.springboot.member.entity.Member;
+import com.springboot.sharing.entity.Sharing;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -86,7 +87,15 @@ public class Dream {
         }
     }
 
+    @OneToMany(mappedBy = "member")
+    private List<Sharing> sharingList = new ArrayList<>();
 
+    public void setShareList(Sharing sharing) {
+        sharingList.add(sharing);
+        if (sharing.getDream() != this) {
+            sharing.setDream(this);
+        }
+    }
 //    @OneToMany(mappedBy = "dream")
 //    private List<Like> likes = new ArrayList<>();
 //

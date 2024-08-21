@@ -18,18 +18,28 @@ public class Sharing {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long sharingId;
+    private Long shareId;
+
+
+
 
     @Column(nullable = false)
     LocalDateTime sharingDate = LocalDateTime.now();
 
-
     @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumn(name = "MEMBER_ID", nullable = true)  // nullable을 true로 설정
     Member member;
 
-
     @ManyToOne
-    @JoinColumn(name = "dream_id", nullable = false)
+    @JoinColumn(name = "DREAM_ID", nullable = false)
     Dream dream;
+
+
+    public void setDream(Dream dream) {
+        this.dream = dream;
+        if (!dream.getSharingList().contains(this)) {
+            dream.setShareList(this);
+        }
+    }
+
 }

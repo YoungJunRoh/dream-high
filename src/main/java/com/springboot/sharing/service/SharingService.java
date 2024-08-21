@@ -1,4 +1,4 @@
-package com.springboot.sharing;
+package com.springboot.sharing.service;
 
 import com.springboot.member.service.MemberService;
 import com.springboot.sharing.entity.Sharing;
@@ -23,8 +23,10 @@ public class SharingService {
     public Sharing logSharing(Sharing sharing) {
 
         // 유효한 멤버인지 확인 > 드림의 멤버가 유효한 멤버인지
-        memberService.findVerifiedMember(sharing.getMember().getMemberId());
-        return sharingRepository.save(sharing);
+//        memberService.findVerifiedMember(sharing.getMember().getMemberId());
+        Sharing saveSharing = sharingRepository.save(sharing);
+
+        return saveSharing;
     }
 
 

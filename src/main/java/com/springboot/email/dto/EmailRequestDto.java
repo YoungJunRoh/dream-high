@@ -10,6 +10,6 @@ import javax.validation.constraints.NotEmpty;
 @Setter
 public class EmailRequestDto {
     @Email
-    @NotEmpty
+    @NotEmpty(message = "이메일을 입력해 주세요")
     private String email;
 }
