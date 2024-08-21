@@ -86,6 +86,14 @@ public class Member {
             stamp.setMember(this);
         }
     }
+    public Member(String email) {
+        this.email = email;
+    }
+
+    public Member(String email, Stamp stamp) {
+        this.email = email;
+        this.stamp = stamp;
+    }
 
 //    public void removeDream(Dream dream) {
 //        this.dreams.remove(dream);
