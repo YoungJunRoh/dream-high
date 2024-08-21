@@ -6,11 +6,11 @@ import { Link } from 'react-router-dom';
 import '../styles/result.css';
 import ResultBox from '../components/ResultBox.tsx';
 import resultBoxData from '../static/resultBoxData.tsx';
-import AllResultBox from '../components/BigBox.tsx';
 import allresultData from '../static/allResultData.tsx';
 import ResultBigBox from '../components/BigBox.tsx';
 import ResultSmallBox from '../components/SmallBox.tsx';
 import Footer from '../components/Footer.tsx';
+
 
 function InterpretationResult() {
     return (
@@ -43,8 +43,8 @@ function InterpretationResult() {
                         <Button name='링크 복사하기' mode='result'></Button>
                 </Button>
             </div>
-            <ResultSmallBox name='자세한 꿈해몽이다 냥냥🐾'/>
-            <ResultBigBox message={allresultData} />
+            <ResultSmallBox name='자세한 꿈해몽이다 냥냥🐾' mode='resultbox'/>
+            <ResultBigBox message={allresultData}  mode='resultbox' />
             <Button
             name='타로 보러갈래냥?🐾'
             mode='gotarot'
