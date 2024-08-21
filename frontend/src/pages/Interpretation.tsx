@@ -1,39 +1,66 @@
-<<<<<<< HEAD
-import React from 'react';
-=======
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/global.css';
 import '../styles/home.css';
 import '../styles/interpretation.css';
 import Button from '../components/Button.tsx';
 import BirthDaySelect from '../components/BirthDaySelect.tsx';
 import useKeyboardAvoider from '../hooks/useKeyboardAvoider.tsx';
->>>>>>> 88a10867db9d473d62ae6ae2136becf42a433ae4
+import TextArea from '../components/TextArea.tsx';
+import { useNavigate } from 'react-router-dom';
 
-function Interpretation() {
+const Interpretation = () => {
     useKeyboardAvoider();
+    const [prompt, setPrompt] = useState<string>('');
+
+    const navigate = useNavigate();
+
+    const promptHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setPrompt(e.target.value);
+        console.log(prompt);
+    };
+
+    const buttonClickHandler = () => {
+        navigate('/loading', { state: { prompt } });
+    };
+
+
+    const promptHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setPrompt(e.target.value);
+        console.log('Submitted text: ', content);
+    }
+
+    const handleSubmit = async () => {
+        const datas = { prompt : content };
+
+    try {
+      const response = await axios.post('http://localhost:8080/dreams', datas);
+      setResponseMessage('Data submitted successfully!');
+      console.log('Response:', response.data);
+    } catch (error) {
+      setResponseMessage('Failed to submit data.');
+      console.error('Error:', error);
+    }
+    }
     
     return (
-<<<<<<< HEAD
-        <div>
-            <h1>DreamInterpretation</h1>
-=======
         <div className='background-night'>
             <div className='interpretation-background-cat'>
                 <div className='interpretation-blank' />
-                <textarea
-                    className='interpretation-input font-normal'
+                <TextArea
                     placeholder='꿈을 입력하라냥'
-                >
-                </textarea>
+                    onChange={promptHandler}
+                    height='200px'
+                    width='345px'
+                    fontSize='18px'
+                />
                 <div className='interpretation-button-area'>
-                    <BirthDaySelect></BirthDaySelect>
-                    <Button name='완료' mode='result' draggable={true} />
+                    <BirthDaySelect />
+                    <Button name='완료' mode='result' draggable={true} onClick={buttonClickHandler} />
                 </div>
             </div>
->>>>>>> 88a10867db9d473d62ae6ae2136becf42a433ae4
         </div>
     );
-  }
-  
-  export default Interpretation;
+};
+
+export default Interpretation;

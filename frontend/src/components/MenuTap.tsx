@@ -81,7 +81,7 @@ export const MenuTap = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   // 로그인 처리 커스텀 하삼.
-  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
 
   const openModalHandler = () => {
     setIsOpen(prevIsOpen => !prevIsOpen);
