@@ -5,12 +5,12 @@ import com.springboot.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "sharing")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,11 +24,12 @@ public class Sharing {
     LocalDateTime sharingDate = LocalDateTime.now();
 
 
-    @OneToMany
-    @JoinColumn(name = "MEMBER_ID")
+    @ManyToOne
+    @JoinColumn(name = "member_id", nullable = false)
     Member member;
 
-    @OneToMany
-    @JoinColumn(name = "DREAM_ID")
+
+    @ManyToOne
+    @JoinColumn(name = "dream_id", nullable = false)
     Dream dream;
 }
