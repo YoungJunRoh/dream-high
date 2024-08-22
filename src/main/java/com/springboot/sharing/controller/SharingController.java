@@ -15,13 +15,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
-
 @RestController
 @RequestMapping("/dreams/{dreamId}/sharing")
 @Validated
@@ -30,36 +30,28 @@ public class SharingController {
 
     private final SharingService sharingService;
     SharingMapper sharingMapper;
-    private final DreamService dreamService;
-    private final StampService stampService;
+
 
     public SharingController(SharingService sharingService, SharingMapper sharingMapper, DreamService dreamService, StampService stampService) {
         this.sharingService = sharingService;
         this.sharingMapper = sharingMapper;
-        this.dreamService = dreamService;
-        this.stampService = stampService;
     }
 
     @PostMapping
     public ResponseEntity postSharing(@PathVariable("dreamId") Long dreamId,
-                                      @Validated @RequestBody SharingDto.Post requestBody) {
+
+                                      Authentication authentication) {
+
 //        Sharing newSharing = new Sharing();
-
-        Dream dream = dreamService.findDream(dreamId);
-        if (dream == null) {
-            return ResponseEntity
-                    .status(ExceptionCode.DREAM_NOT_FOUND.getStatus())
-                    .build();
+        if (authentication == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
+        SharingDto.Post requestBody = new SharingDto.Post(dreamId);
 
-        requestBody.setDreamId(dreamId);
+
         Sharing sharing = sharingMapper.sharingPostToSharing(requestBody);
-        sharing.setDream(dream);
-//        sharing.setMember(sharing.getDream().getMember());
 
-        Sharing createSharing = sharingService.logSharing(sharing);
-
-        stampService.incrementStampCount(dream.getMember());
+        Sharing createSharing = sharingService.logSharing(sharing, authentication.getName());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
