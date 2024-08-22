@@ -4,6 +4,7 @@ import '../styles/global.css';
 import '../styles/mypage.css';
 import ProfileImg from '../components/ProfileImg.tsx';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../hooks/AuthProvider.tsx'
 
 // Modal Container
 export const ModalContainer = styled.div`
@@ -78,6 +79,9 @@ export const ModalView = styled.div.attrs(() => ({
 `;
 
 export const MenuTap = () => {
+  // 토큰 정보
+  const { authorization, refresh, setAuthorization, setRefresh } = useAuth();
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   // 로그인 처리 커스텀 하삼.

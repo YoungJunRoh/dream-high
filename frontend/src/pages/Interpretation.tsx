@@ -24,25 +24,6 @@ const Interpretation = () => {
         navigate('/loading', { state: { prompt } });
     };
 
-
-    const promptHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setPrompt(e.target.value);
-        console.log('Submitted text: ', content);
-    }
-
-    const handleSubmit = async () => {
-        const datas = { prompt : content };
-
-    try {
-      const response = await axios.post('http://localhost:8080/dreams', datas);
-      setResponseMessage('Data submitted successfully!');
-      console.log('Response:', response.data);
-    } catch (error) {
-      setResponseMessage('Failed to submit data.');
-      console.error('Error:', error);
-    }
-    }
-    
     return (
         <div className='background-night'>
             <div className='interpretation-background-cat'>
@@ -50,9 +31,12 @@ const Interpretation = () => {
                 <TextArea
                     placeholder='꿈을 입력하라냥'
                     onChange={promptHandler}
-                    height='200px'
-                    width='345px'
-                    fontSize='18px'
+                    m_height='11em'
+                    m_width='95vw'
+                    m_fontSize='18px'
+                    w_height='198px'
+                    w_width='356.25px'
+                    w_fontSize='18px'
                 />
                 <div className='interpretation-button-area'>
                     <BirthDaySelect />

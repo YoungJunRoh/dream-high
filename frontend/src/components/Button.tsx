@@ -9,7 +9,7 @@ export const ModalContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  /* height: 100%; */
 `;
 
 // 백그라운드
@@ -64,7 +64,7 @@ type ButtonProps = {
 // 버튼 width 글자 크기에 따라 늘어나도록 GPT 한테 커스텀 받기
 const Button: React.FC<ButtonProps> = ({ mode, name, draggable = true, option, children, onClick }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
-
+    
     const openModalHandler = () => {
         setIsOpen(prevIsOpen => !prevIsOpen);
     };

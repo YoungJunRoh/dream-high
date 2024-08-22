@@ -59,7 +59,7 @@ public class MemberController {
     }
 
     @GetMapping("/{member-id}")
-    public ResponseEntity geMember(
+    public ResponseEntity getMember(
             @PathVariable("member-id") @Positive long memberId) {
         Member member = memberService.findMember(memberId);
 

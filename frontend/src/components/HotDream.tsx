@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useState } from "react";
-import { GetDreamResponse } from '../interfaces/dreamsResponse.ts';
+import { GetDreamResponse } from '../interfaces/dream.ts';
 import { getDream } from '../services/DreamService.ts';
 
 type TotalDreams = {
