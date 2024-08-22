@@ -63,7 +63,7 @@ public class MemberController {
             @PathVariable("member-id") @Positive long memberId) {
         Member member = memberService.findMember(memberId);
 
-        if (member.getStamp().getStampCount() % 5 == 0) {
+        if (member.getStamp().getCount() % 5 == 0) {
             int size = member.getMemberRewardPictures().size();
             if (size == 0) {
                 MemberRewardPicture memberRewardPicture = new MemberRewardPicture();
