@@ -1,17 +1,24 @@
 package com.springboot.stamp.service;
 
 import com.springboot.member.entity.Member;
+import com.springboot.member.entity.MemberRewardPicture;
 import com.springboot.member.service.MemberService;
+import com.springboot.picture.entity.RewardPicture;
+import com.springboot.picture.repository.RewardPictureRepository;
 import com.springboot.stamp.entity.Stamp;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class StampService {
 
     private final MemberService memberService;
 
-
     public StampService(MemberService memberService) {
         this.memberService = memberService;
+
     }
 
     public void incrementStampCount(Member member) {
@@ -30,4 +37,9 @@ public class StampService {
             memberService.updateMember(member); // 새 스탬프와 함께 멤버 저장
         }
     }
+
+
+
+
+
 }

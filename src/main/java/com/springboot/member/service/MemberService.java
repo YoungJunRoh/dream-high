@@ -77,6 +77,30 @@ public class MemberService {
         findMember.setModifiedAt(LocalDateTime.now());
         return memberRepository.save(findMember);
     }
+    public Member updateMemberPassword(Member member) {
+        // TODO should business logic
+        //throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
+        Member findMember = findVerifiedMember(member.getMemberId());
+
+        Optional.ofNullable(member.getPassword())
+                .ifPresent(password -> findMember.setPassword(password));
+
+        findMember.setModifiedAt(LocalDateTime.now());
+        return memberRepository.save(findMember);
+    }
+
+    public Member updateMemberProfile(Member member) {
+        // TODO should business logic
+        //throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
+        Member findMember = findVerifiedMember(member.getMemberId());
+
+        Optional.ofNullable(member.getProfileUrl())
+                .ifPresent(profileUrl-> findMember.setProfileUrl(profileUrl));
+
+        findMember.setModifiedAt(LocalDateTime.now());
+        return memberRepository.save(findMember);
+    }
+
 
     public Member findMember(long memberId) {
         // TODO should business logic
@@ -84,6 +108,11 @@ public class MemberService {
         return findVerifiedMember(memberId);
     }
 
+    public Member findMember(long memberId, String email) {
+        // TODO should business logic
+        //throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
+        return findVerifiedMember(memberId);
+    }
 
 
     public Page<Member> findMembers(int page, int size) {

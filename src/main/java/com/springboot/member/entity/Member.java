@@ -58,7 +58,7 @@ public class Member {
     private List<Like> likes = new ArrayList<>();
 
     @Column(nullable = true)
-    private Long profileNum;
+    private String profileUrl;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
     private List<MemberRewardPicture> memberRewardPictures = new ArrayList<>();
