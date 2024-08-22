@@ -42,7 +42,9 @@ public class SharingController {
 
     @PostMapping
     public ResponseEntity postSharing(@PathVariable("dreamId") Long dreamId,
+
                                       Authentication authentication) {
+
 //        Sharing newSharing = new Sharing();
         if (authentication == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

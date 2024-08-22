@@ -93,6 +93,13 @@ public class Member {
         }
 
     }
+
+    public void addSharing(Sharing sharing){
+        sharings.add(sharing);
+        if(sharing.getMember() != this){
+            sharing.setMember(this);
+        }
+    }
     public void setStamp(Stamp stamp) {
         this.stamp = stamp;
         if (stamp.getMember() != this) {
