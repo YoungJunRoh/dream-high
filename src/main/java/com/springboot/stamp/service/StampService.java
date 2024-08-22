@@ -9,6 +9,7 @@ public class StampService {
 
     private final MemberService memberService;
 
+
     public StampService(MemberService memberService) {
         this.memberService = memberService;
     }
