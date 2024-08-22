@@ -13,5 +13,4 @@ public interface SharingMapper {
     @Mapping(target = "sharingDate", expression = "java(java.time.LocalDateTime.now())") // 현재 시간으로 설정
     @Mapping(source = "requestBody.dreamId", target = "dream.dreamId") // dreamId를 dream의 id 필드로 매핑
     Sharing sharingPostToSharing(SharingDto.Post requestBody);
-
 }

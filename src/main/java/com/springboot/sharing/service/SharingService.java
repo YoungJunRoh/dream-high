@@ -32,8 +32,8 @@ public class SharingService {
     private final DreamService dreamService;
     private final StampService stampService;
     private final RewardPictureRepository rewardPictureRepository;
-
     public SharingService(SharingRepository sharingRepository, MemberService memberService, DreamService dreamService, StampService stampService, RewardPictureRepository rewardPictureRepository) {
+
         this.sharingRepository = sharingRepository;
         this.memberService = memberService;
         this.dreamService = dreamService;

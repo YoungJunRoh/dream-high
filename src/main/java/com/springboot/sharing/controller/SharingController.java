@@ -54,7 +54,6 @@ public class SharingController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         SharingDto.Post requestBody = new SharingDto.Post(dreamId);
-
         requestBody.setDreamId(dreamId);
         Sharing sharing = sharingMapper.sharingPostToSharing(requestBody);
 
@@ -65,6 +64,7 @@ public class SharingController {
             MemberRewardPictureDto.Response response = memberMapper.memberRewardPictureToMemberRewardPictureDto(createSharing.getMember().getMemberRewardPictures().get(size-1));
             return new ResponseEntity(response,HttpStatus.OK);
         }
+
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
