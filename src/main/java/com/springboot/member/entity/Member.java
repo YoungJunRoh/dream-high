@@ -3,6 +3,7 @@ package com.springboot.member.entity;
 import com.springboot.comment.entity.Comment;
 import com.springboot.dream.entity.Dream;
 import com.springboot.like.entity.Like;
+import com.springboot.sharing.entity.Sharing;
 import com.springboot.stamp.entity.Stamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -62,6 +63,9 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
     private List<MemberRewardPicture> memberRewardPictures = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
+    private List<Sharing> sharings = new ArrayList<>();
+
     public enum MemberStatus {
         MEMBER_ACTIVE("활동중"),
         MEMBER_SLEEP("휴면 상태"),
@@ -88,6 +92,13 @@ public class Member {
             comment.setMember(this);
         }
 
+    }
+
+    public void addSharing(Sharing sharing){
+        sharings.add(sharing);
+        if(sharing.getMember() != this){
+            sharing.setMember(this);
+        }
     }
     public void setStamp(Stamp stamp) {
         this.stamp = stamp;
