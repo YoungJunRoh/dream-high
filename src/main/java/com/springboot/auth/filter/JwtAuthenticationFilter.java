@@ -48,7 +48,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             Authentication authentication) throws ServletException, IOException {
         Member member = (Member) authentication.getPrincipal();
         String accessToken = delegateAccessToken(member);
-        String refreshToken = delegateRefreshToken(member);
+        String refreshToken = delegateRefreshToken(member, accessToken);
         response.setHeader("Authorization", "Bearer " + accessToken);
         response.setHeader("Refresh", refreshToken);
         this.getSuccessHandler().onAuthenticationSuccess(request,response,authentication);
@@ -70,16 +70,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         return accessToken;
     }
 
-    protected String delegateRefreshToken(Member member){
-        Map<String,Object> claims = new HashMap<>();
-        claims.put("username", member.getEmail());
-        claims.put("roles", member.getRoles());
+    protected String delegateRefreshToken(Member member,String accessToken){
 
         String subject = member.getEmail();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
 
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
-        String accessToken = jwtTokenizer.generateAccessToken(claims,subject,expiration,base64EncodedSecretKey);
+
         String refreshToken = jwtTokenizer.generateRefreshToken(subject,expiration,base64EncodedSecretKey,accessToken);
 
         return refreshToken;

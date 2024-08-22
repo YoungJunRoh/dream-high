@@ -9,7 +9,8 @@ public class MemberRewardPictureDto {
     @Getter
     @AllArgsConstructor
     public static class Post{
-        long profileNum;
+        private long memberId;
+        private long rewardPictureId;
     }
 
     @AllArgsConstructor
@@ -17,11 +18,9 @@ public class MemberRewardPictureDto {
     @NoArgsConstructor
     @Setter
     public static class Response{
-
-        private long memberId;
-        private long rewardPictureId;
-        private String rewardUrl;
-
+        private Long memberRewardPictureId;
+        private Long rewardPictureId; // 보상 사진의 ID
+        private String rewardUrl; // 보상 사진의 URL
     }
 
 }
