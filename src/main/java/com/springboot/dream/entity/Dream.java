@@ -100,7 +100,7 @@ public class Dream {
         }
     }
     
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "dream", cascade = CascadeType.PERSIST)
     private List<Sharing> sharingList = new ArrayList<>();
 
     public void addView(View view) {

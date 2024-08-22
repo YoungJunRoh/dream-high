@@ -8,7 +8,6 @@ public class SharingDto {
     @Getter
     @AllArgsConstructor
     public static class Post {
-        private Long memberId;
         @Setter
         private Long dreamId;
 

@@ -129,6 +129,14 @@ public class Member {
         }
     }
 
+    public void addSharing(Sharing sharing){
+        this.sharings.add(sharing);
+        if(sharing.getMember() != this){
+            sharing.setMember(this);
+        }
+    }
+
+
 //    public void removeDream(Dream dream) {
 //        this.dreams.remove(dream);
 //        if (dream.getMember() == this){
