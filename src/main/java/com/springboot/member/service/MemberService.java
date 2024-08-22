@@ -1,6 +1,7 @@
 package com.springboot.member.service;
 
 import com.springboot.auth.utils.JwtAuthorityUtils;
+import com.springboot.dream.entity.Dream;
 import com.springboot.exception.BusinessLogicException;
 import com.springboot.exception.ExceptionCode;
 import com.springboot.helper.event.MemberRegistrationApplicationEvent;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.springboot.member.entity.Member.MemberStatus.MEMBER_ACTIVE;
+import static com.springboot.member.entity.Member.MemberStatus.MEMBER_QUIT;
 
 @Service
 public class MemberService {
@@ -94,7 +96,14 @@ public class MemberService {
     public void deleteMember(long memberId) {
         // TODO should business logic
         Member findMember = findVerifiedMember(memberId);
-        memberRepository.delete(findMember);
+
+        findMember.setMemberStatus(MEMBER_QUIT);
+
+        for(Dream dream : findMember.getDreams()){
+            dream.setDreamStatus(Dream.DreamStatus.DREAM_DEACTIVE);
+        }
+
+        memberRepository.save(findMember);
         //throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
     }
 

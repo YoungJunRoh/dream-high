@@ -73,5 +73,4 @@ public class EmailService {
         return redisTemplate.opsForValue().get(RESET_PREFIX + resetToken);
     }
 
-
 }
