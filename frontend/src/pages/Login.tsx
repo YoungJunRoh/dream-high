@@ -9,7 +9,7 @@ import { postLogin } from '../services/LoginService.ts';
 import { useAuth } from '../hooks/AuthProvider.tsx';
 
 const Login = () => {
-    const { authorization, refresh, setAuthorization, setRefresh } = useAuth();
+    const { authorization, refresh, login, setAuthorization, setRefresh, setLogin } = useAuth();
     // 전역적으로 토큰 저장
 
     const [response, setResponse] = useState<LoginResponse | null>(null);
@@ -32,9 +32,16 @@ const Login = () => {
     const loginHandler = async () => {
         const response = await postLogin(email as string, password as string);
         setResponse(response);
+    };
+
+    if (response !== null) {
         setAuthorization(response.headers.authorization);
         setRefresh(response.headers.refresh);
-    };
+    }
+
+    if (authorization !== null) {
+        setLogin(true);
+    }
 
     return (
         <div className='login-background'>
