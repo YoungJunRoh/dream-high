@@ -44,49 +44,71 @@ function SignUp() {
                     <h5>닉네임</h5>
                     <TextArea
                         placeholder='닉네임을 입력하세요'
-                        height='15vw'
-                        width='85vw'
-                        fontSize='20px'
+                        m_height='11em'
+                        m_width='95vw'
+                        m_fontSize='18px'
+                        w_height='198px'
+                        w_width='356.25px'
+                        w_fontSize='20px'
                     />
                 </div>
                 <div className='login-input'>
                     <h5>이메일 중복</h5>
                     <TextArea
                         placeholder='이메일을 입력하세요'
-                        height='15vw'
-                        width='85vw'
-                        fontSize='20px'
+                        m_height='11em'
+                        m_width='95vw'
+                        m_fontSize='18px'
+                        w_height='198px'
+                        w_width='356.25px'
+                        w_fontSize='20px'
                     />
                 </div>
                 <div className='login-input'>
                     <h5>이메일 인증</h5>
                     <TextArea
                         placeholder='이메일을 재입력 입력하세요'
-                        height='15vw'
-                        width='85vw'
-                        fontSize='20px'
+                        m_height='11em'
+                        m_width='95vw'
+                        m_fontSize='18px'
+                        w_height='198px'
+                        w_width='356.25px'
+                        w_fontSize='20px'
                     />
                 </div>
                 <div className='login-input'>
                     <h5>비밀번호입력</h5>
                     <TextArea
                         placeholder='비밀번호를 입력하세요'
-                        height='15vw'
-                        width='85vw'
-                        fontSize='20px'
+                        m_height='11em'
+                        m_width='95vw'
+                        m_fontSize='18px'
+                        w_height='198px'
+                        w_width='356.25px'
+                        w_fontSize='20px'
                     />
                 </div>
                 <div className='login-input'>
                     <h5>비밀번호확인</h5>
                     <TextArea
                         placeholder='비밀번호를 재입력 입력하세요'
-                        height='15vw'
-                        width='85vw'
-                        fontSize='20px'
+                        m_height='11em'
+                        m_width='95vw'
+                        m_fontSize='18px'
+                        w_height='198px'
+                        w_width='356.25px'
+                        w_fontSize='20px'
                     />
                 </div>
-                <div className='button-gradient'>
-                    <button onClick={handleOpenModal}>이용약관 보기</button>
+                <h5 className='h5'>이용약관 확인하라옹</h5>
+                <div className='cat-paw-button'>
+                    <button onClick={handleOpenModal}>
+                    <div className="paw"></div>
+                        <div className="paw"></div>
+                        <div className="paw"></div>
+                        <div className="paw"></div>
+                        <div className="paw"></div>
+                        </button>
                     
                 </div>
             </ResultBigBox>

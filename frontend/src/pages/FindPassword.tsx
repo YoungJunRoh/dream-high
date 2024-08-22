@@ -17,9 +17,12 @@ function FindPassword() {
                     <h5>이메일</h5>
                     <TextArea
                         placeholder='이메일을 입력하세요'
-                        height='15vw'
-                        width='85vw'
-                        fontSize='20px'
+                        m_height='15vw'
+                        m_width='85vw'
+                        m_fontSize='20px'
+                        w_height='15vw'
+                        w_width='85vw'
+                        w_fontSize='20px'
                     ></TextArea>
                 </div>
             </ResultBigBox>
