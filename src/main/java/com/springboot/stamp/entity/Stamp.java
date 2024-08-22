@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "stamp")
 @Entity
 public class Stamp {
     @Id
@@ -18,7 +19,7 @@ public class Stamp {
     private Long stampId;
 
     @Column(nullable = false)
-    private int stampCount;
+    private int count;
 
     @OneToOne
     @JoinColumn(name = "MEMBER_ID")
