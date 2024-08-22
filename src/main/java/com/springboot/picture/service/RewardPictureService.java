@@ -16,6 +16,7 @@ public class RewardPictureService {
     }
 
     public RewardPicture createRewardPicture(RewardPicture rewardPicture){
+
         return rewardPictureRepository.save(rewardPicture);
     }
 

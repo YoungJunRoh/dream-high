@@ -272,7 +272,7 @@
     text-align: left;
     /* 텍스트 왼쪽 정렬 */
     /* 텍스트 중앙 정렬 */
-    height: 250px;
+    height: 270px;
     /* 높이를 자동으로 조정하여 내용에 맞게 변경 */
     margin-top: 20px;
     /* 위로 이동할 거리 조정 (원하는 만큼 조절 가능) */
@@ -354,6 +354,61 @@
     /* 그라데이션 배경 */
     border-radius: 12px 12px 0 0;
     /* 위쪽 모서리 둥글게 */
+}
+
+.result-font-size-18 {
+    font-size: 18px;
+}
+
+#result-sharing {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+    color: white;
+    font-size:20px;
+    align-items: center;
+}
+
+#result-sharing-area {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+
+#result-sharing-kakao {
+    background-image: url('../assets/icon-kakao-talk.png');
+    background-size: cover;
+    /* 배경 이미지의 크기 조절 */
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+}
+
+#result-sharing-insta {
+    background-image: url('https://i.namu.wiki/i/ohRV1NmPY7zmhEHBpHtlZi9apt6h46Sc0X2lTRdokYduCzN362FbwL5gbzHx01xhdINeSnYhz-wRwnVzBCASjqJaJwQtJ77oAmX-t3yMMpFqaqnKNq5OkBd15mJnsx3AhJrXtYt757ebZ5JexnGVtw.svg');
+    background-size: cover;
+    /* 배경 이미지의 크기 조절 */
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+}
+
+#result-sharing-x {
+    background-image: url('../assets/icon-twitter.svg');
+    background-size: cover;
+    /* 배경 이미지의 크기 조절 */
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+}
+
+#result-sharing-link {
+    background-image: url('../assets/icon-link.svg');
+    background-size: cover;
+    background-color: white;
+    /* 배경 이미지의 크기 조절 */
+    width: 50px;
+    height: 50px;
 }
 
 @media all and (max-width:430px) {
@@ -515,7 +570,7 @@
         /* 가로 중앙 정렬 */
         text-align: center;
         /* 텍스트 중앙 정렬 */
-        height: 48em;
+        height: 20vw;
         /* 높이를 자동으로 조정하여 내용에 맞게 변경 */
         margin-top: 50px;
         /* 위로 이동할 거리 조정 (원하는 만큼 조절 가능) */
@@ -630,7 +685,7 @@
         /* 세로 방향으로도 위쪽 정렬 */
         text-align: left;
         /* 텍스트 왼쪽 정렬 */
-        height: 80vw;
+        height: 75vw;
         /* 높이를 자동으로 조정하여 내용에 맞게 변경 */
         margin-top: 8vw;
         /* 위로 이동할 거리 조정 (원하는 만큼 조절 가능) */

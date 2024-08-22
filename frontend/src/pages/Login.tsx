@@ -1,26 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, createContext, useContext, ReactNode } from 'react';
 import '../styles/login.css';
 import ResultBigBox from '../components/BigBox.tsx';
 import ResultSmallBox from '../components/SmallBox.tsx';
 import Button from '../components/Button.tsx';
 import TextArea from '../components/TextArea.tsx';
-import { AxiosResponse } from 'axios';
+import { LoginResponse } from '../interfaces/login.ts'
+import { postLogin } from '../services/LoginService.ts';
+import { useAuth } from '../hooks/AuthProvider.tsx';
 
 const Login = () => {
-    const [response, setResponse] = useState<AxiosResponse | null>(null);
+    const { authorization, refresh, login, setAuthorization, setRefresh, setLogin } = useAuth();
+    // 전역적으로 토큰 저장
+
+    const [response, setResponse] = useState<LoginResponse | null>(null);
     const [email, setEmail] = useState<string>();
     const [password, setPassword] = useState<string>();
 
+    // 이메일 추출
     const emailHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setEmail(e.target.value);
         console.log(email);
-    }
+    };
 
+    // 패스워드 추출
     const passwordHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setPassword(e.target.value);
         console.log(password);
+    };
+
+    // 로그인 처리
+    const loginHandler = async () => {
+        const response = await postLogin(email as string, password as string);
+        setResponse(response);
+    };
+
+    if (response !== null) {
+        setAuthorization(response.headers.authorization);
+        setRefresh(response.headers.refresh);
     }
 
+    if (authorization !== null) {
+        setLogin(true);
+    }
 
     return (
         <div className='login-background'>
@@ -57,6 +78,7 @@ const Login = () => {
                 name='로그인🐾'
                 mode='login'
                 draggable={true}
+                onClick={loginHandler}
             >
             </Button>
             <Button

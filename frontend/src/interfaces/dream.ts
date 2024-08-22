@@ -43,7 +43,7 @@ interface PageInfo {
 }
 
 // getdreams 에 대한 인터페이스
-interface GetDreams {
+export interface GetDreams {
     dreamId: number;
     memberId: number;
     content: string;
