@@ -3,6 +3,8 @@ package com.springboot.sharing.controller;
 import com.springboot.dream.entity.Dream;
 import com.springboot.dream.service.DreamService;
 import com.springboot.exception.ExceptionCode;
+import com.springboot.member.dto.MemberRewardPictureDto;
+import com.springboot.member.mapper.MemberMapper;
 import com.springboot.member.service.MemberService;
 import com.springboot.sharing.dto.SharingDto;
 import com.springboot.sharing.mapper.SharingMapper;
@@ -30,11 +32,16 @@ public class SharingController {
 
     private final SharingService sharingService;
     SharingMapper sharingMapper;
+    private final DreamService dreamService;
+    private final StampService stampService;
+    private final MemberMapper memberMapper;
 
-
-    public SharingController(SharingService sharingService, SharingMapper sharingMapper, DreamService dreamService, StampService stampService) {
+    public SharingController(SharingService sharingService, SharingMapper sharingMapper, DreamService dreamService, StampService stampService, MemberMapper memberMapper) {
         this.sharingService = sharingService;
         this.sharingMapper = sharingMapper;
+        this.dreamService = dreamService;
+        this.stampService = stampService;
+        this.memberMapper = memberMapper;
     }
 
     @PostMapping
@@ -47,19 +54,19 @@ public class SharingController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         SharingDto.Post requestBody = new SharingDto.Post(dreamId);
-
-
+        requestBody.setDreamId(dreamId);
         Sharing sharing = sharingMapper.sharingPostToSharing(requestBody);
 
         Sharing createSharing = sharingService.logSharing(sharing, authentication.getName());
+
+        if(createSharing.getMember().getStamp().getCount() % 5 == 0){
+            int size = createSharing.getMember().getMemberRewardPictures().size();
+            MemberRewardPictureDto.Response response = memberMapper.memberRewardPictureToMemberRewardPictureDto(createSharing.getMember().getMemberRewardPictures().get(size-1));
+            return new ResponseEntity(response,HttpStatus.OK);
+        }
+
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
-
-
-
-
-
-
