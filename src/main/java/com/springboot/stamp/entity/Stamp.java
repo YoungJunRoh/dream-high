@@ -19,7 +19,7 @@ public class Stamp {
     private Long stampId;
 
     @Column(nullable = false)
-    private int count;
+    private int count = 0;
 
     @OneToOne
     @JoinColumn(name = "MEMBER_ID")

@@ -41,7 +41,7 @@ public class SharingController {
     }
 
     @PostMapping
-    public ResponseEntity postSharing(@PathVariable Long dreamId,
+    public ResponseEntity postSharing(@PathVariable("dreamId") Long dreamId,
                                       @Validated @RequestBody SharingDto.Post requestBody) {
 //        Sharing newSharing = new Sharing();
 
@@ -55,6 +55,7 @@ public class SharingController {
         requestBody.setDreamId(dreamId);
         Sharing sharing = sharingMapper.sharingPostToSharing(requestBody);
         sharing.setDream(dream);
+//        sharing.setMember(sharing.getDream().getMember());
 
         Sharing createSharing = sharingService.logSharing(sharing);
 
