@@ -1,8 +1,11 @@
 package com.springboot.comment.controller;
 
+import com.springboot.auth.service.AuthService;
 import com.springboot.comment.dto.CommentDto;
 import com.springboot.comment.entity.Comment;
 import com.springboot.comment.service.CommentService;
+import com.springboot.exception.BusinessLogicException;
+import com.springboot.exception.ExceptionCode;
 import com.springboot.response.MultiResponseDto;
 import com.springboot.response.SingleResponseDto;
 import lombok.extern.slf4j.Slf4j;
@@ -28,10 +31,12 @@ public class CommentController {
 
     private final CommentMapper mapper;
     private final CommentService commentService;
+    private final AuthService authService;
 
-    public CommentController(CommentMapper mapper, CommentService commentService) {
+    public CommentController(CommentMapper mapper, CommentService commentService, AuthService authService) {
         this.mapper = mapper;
         this.commentService = commentService;
+        this.authService = authService;
     }
 
     @PostMapping("/dreams/{dream-id}/comments")
@@ -39,10 +44,18 @@ public class CommentController {
                                       @RequestBody CommentDto.Post commentPostDto,
                                       Authentication authentication){
         commentPostDto.setDreamId(dreamId);
-        if (authentication == null) {
+        String email = null;
+
+        if (authentication != null) {
+            email = (String) authentication.getPrincipal();
+            // 로그아웃 상태 확인: 토큰이 Redis에서 이미 삭제된 경우
+            boolean isLoggedOut = !authService.isTokenValid(email);
+            if (isLoggedOut) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+        }else{
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        String email = authentication.getName();
         Comment comment = commentService.postComment(mapper.commentPostDtoToComment(commentPostDto), email);
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -53,7 +66,20 @@ public class CommentController {
                                        @Valid @RequestBody CommentDto.Patch commentPatchDto,
                                        Authentication authentication){
         commentPatchDto.setCommentId(commentId);
-        String email = (String) authentication.getPrincipal();
+
+        String email = null;
+
+        if (authentication != null) {
+            email = (String) authentication.getPrincipal();
+            // 로그아웃 상태 확인: 토큰이 Redis에서 이미 삭제된 경우
+            boolean isLoggedOut = !authService.isTokenValid(email);
+            if (isLoggedOut) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+        }else{
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
         Comment comment = commentService.updateComment(mapper.commentPatchDtoToComment(commentPatchDto),email);
 
         return new ResponseEntity<>(
@@ -75,8 +101,18 @@ public class CommentController {
     @DeleteMapping("/comments/{comment-id}")
     public ResponseEntity deleteComment(@PathVariable("comment-id") @Positive long commentId,
                                         Authentication authentication){
+        String email = null;
 
-        String email = (String) authentication.getPrincipal();
+        if (authentication != null) {
+            email = (String) authentication.getPrincipal();
+            // 로그아웃 상태 확인: 토큰이 Redis에서 이미 삭제된 경우
+            boolean isLoggedOut = !authService.isTokenValid(email);
+            if (isLoggedOut) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+        }else{
+            throw new BusinessLogicException(ExceptionCode.NOT_YOUR_COMMENT);
+        }
         commentService.deleteComment(commentId, email);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
