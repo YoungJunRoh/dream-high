@@ -1,19 +1,46 @@
 import React from 'react';
 import '../styles/board.css';
 import '../styles/global.css';
+import { GetDreams } from '../interfaces/dream.ts';
 
 type BoardList = {
-    no: number;
-    content: string;
-    created: string;
+    contentData: GetDreams;
 }
 
-const BoardList = () => {  // 수정
+const formatDate = (date: Date): string => {
+    const now = new Date();
+    const diff = now.getTime() - date.getTime();
+    const diffHours = Math.floor(diff / (1000 * 60 * 60));
+    const diffMinutes = Math.floor(diff / (1000 * 60));
+
+    if (diffHours < 24) {
+        if (diffHours >= 1) {
+             return `${diffHours}시간 전`;
+        } else if (diffMinutes >= 1) {
+            return `${diffMinutes}분 전`;
+        } else {
+            return `방금 전`;
+        }
+    } else {
+        const month = date.getMonth() + 1; // getMonth()는 0부터 시작함.
+        const day = date.getDate();
+        return `${month}.${day}`;
+    }
+};
+
+const BoardList: React.FC<BoardList> = ({ contentData }) => {  // 수정
+    const number: number = contentData.dreamId;
+    const content: string = contentData.content;
+    const createdAt: Date = new Date(contentData.createdAt);
+
+    // 2024-08-22 09:49:25
+
+
     return (
         <div id='board-list-container' className='font-normal'>
-            <div className='board-no'>1</div>
-            <div className='board-content font-extrabold font-size-17 order-left'>귀신이 꿈에 나왔는데 치킨을 나한테</div>
-            <div className='board-created'>10시간전</div>
+            <div className='board-no'>{number}</div>
+            <div className='board-content font-extrabold font-size-17 order-left'>{content}</div>
+            <div className='board-created'>{formatDate(createdAt)}</div>
             {/* API 받아서 Map */}
         </div>
     );

@@ -88,6 +88,7 @@ public class MemberController {
     @GetMapping("/{member-id}")
     public ResponseEntity getMember(
             @PathVariable("member-id") @Positive long memberId, Authentication authentication) {
+
         Member member = memberService.findMember(memberId);
 
         String email = null;

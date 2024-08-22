@@ -1,4 +1,4 @@
-import axios, { Axios, AxiosRequestConfig } from 'axios';
+import axios, { Axios, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { APIResponse } from '../interfaces/response.ts';
 
 const client: Axios = axios.create({
@@ -11,8 +11,17 @@ const client: Axios = axios.create({
 // POST 메서드
 export const postData = async <T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<APIResponse<T>> => {
     try {
-        const response = await client.post<APIResponse<T>>(url, data, config);
+        const response: AxiosResponse<APIResponse<T>> = await client.post<APIResponse<T>>(url, data, config);
         return response.data;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+};
+
+export const login = async <T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<any> => {
+    try {
+        const response: AxiosResponse<AxiosResponse<T>> = await client.post<AxiosResponse<T>>(url, data, config);
+        return response;
     } catch (error) {
         throw new Error(error.message);
     }

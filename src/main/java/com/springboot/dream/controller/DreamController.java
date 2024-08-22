@@ -29,7 +29,6 @@ import java.util.Map;
 @RequestMapping("/dreams")
 @Validated
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3000")
 public class DreamController {
 
     private final DreamService dreamService;
@@ -44,6 +43,7 @@ public class DreamController {
 
 
     @PostMapping
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity postDream(@Valid @RequestBody DreamDto.Post dreamPost,
                                     Authentication authentication){
 
