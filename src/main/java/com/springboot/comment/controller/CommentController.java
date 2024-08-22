@@ -25,6 +25,7 @@ import java.util.List;
 @RequestMapping("/")
 @RestController
 public class CommentController {
+
     private final CommentMapper mapper;
     private final CommentService commentService;
 
@@ -44,7 +45,7 @@ public class CommentController {
         String email = authentication.getName();
         Comment comment = commentService.postComment(mapper.commentPostDtoToComment(commentPostDto), email);
 
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PatchMapping("/comments/{comment-id}")
@@ -56,7 +57,7 @@ public class CommentController {
         Comment comment = commentService.updateComment(mapper.commentPatchDtoToComment(commentPatchDto),email);
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.commentToCommentResponseDto(comment))
+                new SingleResponseDto(mapper.commentToCommentResponseDto(comment))
                 , HttpStatus.OK);
     }
 
@@ -66,8 +67,8 @@ public class CommentController {
                                       @Positive @RequestParam int size){
         Page<Comment> pageComments = commentService.findComments(dreamId,page-1,size);
         List<Comment> commentList = pageComments.getContent();
-        return new ResponseEntity(
-                new MultiResponseDto<>(mapper.commentsToCommentResponseDtos(commentList),pageComments),
+        return new ResponseEntity<>(
+                new MultiResponseDto(mapper.commentsToCommentResponseDtos(commentList),pageComments),
                 HttpStatus.OK);
     }
 
