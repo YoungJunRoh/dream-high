@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import '../styles/global.css';
 import '../styles/mypage.css';
 import ProfileImg from '../components/ProfileImg.tsx';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/AuthProvider.tsx'
+import Swal from 'sweetalert2';
 
 // Modal Container
 export const ModalContainer = styled.div`
@@ -80,7 +81,9 @@ export const ModalView = styled.div.attrs(() => ({
 
 export const MenuTap = () => {
   // 토큰 정보
-  const { authorization, refresh, setAuthorization, setRefresh } = useAuth();
+  const { authorization, refresh, login, setAuthorization, setRefresh, setLogin } = useAuth();
+  
+  console.log('로그인 상태: ' + login + '토큰: ' + authorization);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -94,6 +97,31 @@ export const MenuTap = () => {
   const closeModalHandler = () => {
     setIsOpen(false);
   }
+
+  useEffect(() => {
+    if (login !== false) {
+      setIsLogin(true);
+    } else setIsLogin(false);
+  })
+
+  const logoutHandler = () => {
+    console.log('로그아웃 감지');
+    Swal.fire({
+      title: '로그아웃 할거냥?',
+      icon: 'info',
+      confirmButtonText: '예',
+      cancelButtonText: '아니요',
+      showCancelButton: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setIsLogin(false);
+        setLogin(false);
+        setAuthorization(null);
+        setRefresh(null);
+        Swal.fire('다음에 또 보자냥~');
+      }
+    })
+  };
 
   const name: string = '강룰루';
 
@@ -126,7 +154,10 @@ export const MenuTap = () => {
                     <div className='menu-content font-bold'>마이페이지</div>
                   </Link>
                   <div className='menu-content font-bold'>게시판 보러가기</div>
-                  <div className='menu-content font-bold'>로그아웃</div>
+                  <div
+                    className='menu-content font-bold'
+                    onClick={logoutHandler}
+                  >로그아웃</div>
                 </div>
               </ModalView>
             </ModalBackdrop>
