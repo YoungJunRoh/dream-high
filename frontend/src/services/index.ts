@@ -16,7 +16,7 @@ export const postData = async <T>(url: string, data?: any, config?: AxiosRequest
     return response;
 };
 
-export const login = async <T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<any> => {
+export const login = async <T>(url: string, data?: any, config?: AxiosRequestConfig) => {
     console.log('=============== login ==================');
     const response: AxiosResponse<T> = await client.post<T>(url, data, config);
     console.log(response);

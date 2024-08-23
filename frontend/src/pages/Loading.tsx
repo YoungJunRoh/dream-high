@@ -57,7 +57,7 @@ const Loading = () => {
 
     const postAsync = async () => {
             const result = await postDream(prompt);
-            setResponseContent(result);
+            setResponseContent(result.data);
     }
 
     useEffect(() => {
@@ -65,6 +65,8 @@ const Loading = () => {
     }, []);
 
     if (responseContent) {
+        console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
+
         const interpretationResponse = responseContent.data.interpretationResponse;
         const advice = interpretationResponse.advice;
         const interpertaionKeyword = interpretationResponse.keyword;
@@ -75,6 +77,8 @@ const Loading = () => {
         navigate('/interpretation-result', {
             state: { advice, interpertaionKeyword, summary, dreamContent, interpertaionContent }
         });
+    }else {
+        console.log("123123213213123123123");
     }
 
     return (
