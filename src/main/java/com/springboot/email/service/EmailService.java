@@ -65,6 +65,11 @@ public class EmailService {
 
     public boolean verifyAuthCode(String email, String authCode) {
         String storedCode = redisTemplate.opsForValue().get(EMAIL_PREFIX + email);
+        return authCode.equals(storedCode);
+    }
+
+    public boolean verfiyFinalAuthCode(String email, String authCode){
+        String storedCode = redisTemplate.opsForValue().get(EMAIL_PREFIX + email);
         redisTemplate.delete(EMAIL_PREFIX + email);
         return authCode.equals(storedCode);
     }
