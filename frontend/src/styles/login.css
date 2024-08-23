@@ -2,9 +2,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vw;
+    height: 100%;
     background-image: url("../assets/img-background-night.png");
-    background-size: 100vh;
+    background-size: 100%;
     background-color: #340C62;
     background-repeat: no-repeat;
 }
@@ -115,15 +115,30 @@ h5 {
     margin-left: 120px;
     margin-top: 20px;
 }
-
+#blank{
+    height: 100px;
+}
+.password-background {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    background-image: url("../assets/img-background-night.png");
+    background-size: 100%;
+    background-color: #340C62;
+    background-repeat: no-repeat;
+}
+#passwordblank{
+    height: 80px;
+}
 @media all and (max-width:430px) {
     .login-background {
         display: flex;
         flex-direction: column;
         align-items: center;
-        height: 100vh;
+        height: 100%;
         background-image: url("../assets/img-background-night.png");
-        background-size: 100vh;
+        background-size: 100%;
         background-color: #340C62;
         background-repeat: no-repeat;
     }
@@ -187,5 +202,21 @@ h5 {
     #catpawbutton-margin {
         margin-left: 35vw;
         margin-top: 4vw;
+    }
+    #blank{
+        height: 10vw;
+    }
+    .password-background {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        background-image: url("../assets/img-background-night.png");
+        background-size: 100%;
+        background-color: #340C62;
+        background-repeat: no-repeat;
+    }
+    #passwordblank{
+        height: 58vw;
     }
 }

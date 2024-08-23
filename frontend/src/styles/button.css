@@ -49,8 +49,8 @@
   outline: none;
   border-radius: 12px;
   /* 둥근 모서리 */
-  width: 84vw;
-  height: 2.5em;
+  width: 310px;
+  height: 50px;
   /* 크기 */
   z-index: 2;
   position: relative;
@@ -126,46 +126,16 @@
   outline: none;
   border-radius: 20px;
   /* 둥근 모서리 */
-  width: 12em;
-  height: 3em;
+  width: 220px;
+  height: 60px;
   box-shadow: 0 0 0 4px #fff, 4px 4px 0 0 #333;
   /* 클릭 시 살짝 눌리는 효과 */
   transform: translate(4px, 4px);
-  margin-top: 70px;
-  margin-bottom: 20px;
+  margin-top: 60px;
+  margin-bottom: 30px;
   z-index: 2;
   position: relative;
 }
-
-.go-login-button {
-  background-color: #BAC7FB;
-  /* 버튼 색상 */
-  border: 4px solid #333;
-  /* 진한 테두리 */
-  box-shadow: 0 0 0 4px #fff, 8px 8px 0 0 #333;
-  /* 픽셀 느낌의 그림자 */
-  color: #333;
-  /* 글자 색상 */
-  font-size: 18px;
-  padding: 10px 20px;
-  font-family: "PF-StartDust-ExtraBold";
-  /* 픽셀 폰트 */
-  text-transform: uppercase;
-  cursor: pointer;
-  outline: none;
-  border-radius: 20px;
-  /* 둥근 모서리 */
-  width: 180.7px;
-  height: 45px;
-  bottom: 70px;
-  left: 55px;
-  box-shadow: 0 0 0 4px #fff, 4px 4px 0 0 #333;
-  /* 클릭 시 살짝 눌리는 효과 */
-  transform: translate(4px, 4px);
-  z-index: 2;
-  position: relative;
-}
-
 
 .result-button {
   background-color: #3ff0b8;
@@ -212,7 +182,7 @@
   outline: none;
   border-radius: 20px;
   /* 둥근 모서리 */
-  width: 200px;
+  width: 210px;
   height: 60px;
   position: absolute;
   left: 0px;
@@ -250,6 +220,7 @@
   /* 클릭 시 살짝 눌리는 효과 */
   transform: translate(4px, 4px);
   margin-top: 40px;
+  margin-bottom: 0px;
   z-index: 2;
   position: relative;
 }
@@ -308,10 +279,10 @@
   outline: none;
   border-radius: 20px;
   /* 둥근 모서리 */
-  width: 180px;
+  width: 190px;
   height: 60px;
   position: absolute;
-  left: 67px;
+  left: 60px;
   box-shadow: 0 0 0 4px #fff, 4px 4px 0 0 #333;
   /* 클릭 시 살짝 눌리는 효과 */
   transform: translate(4px, 4px);
@@ -404,13 +375,13 @@
     outline: none;
     border-radius: 20px;
     /* 둥근 모서리 */
-    width: 12em;
-    height: 3em;
+    width: 60vw;
+    height: 20vw;
     box-shadow: 0 0 0 4px #fff, 4px 4px 0 0 #333;
     /* 클릭 시 살짝 눌리는 효과 */
     transform: translate(4px, 4px);
-    margin-top: 70px;
-    margin-bottom: 20px;
+    margin-top: 25vw;
+    margin-bottom: 8vw;
     z-index: 2;
     position: relative;
   }
@@ -433,7 +404,7 @@
     outline: none;
     border-radius: 20px;
     /* 둥근 모서리 */
-    width: 50vw;
+    width: 53.1vw;
     height: 12vw;
     position: absolute;
     left: 50px;
@@ -483,7 +454,7 @@
   }
 
 
-  .go-sing-button {
+  .go-sign-button {
     background-color: #BAC7FB;
     /* 버튼 색상 */
     border: 4px solid #333;
@@ -501,14 +472,15 @@
     outline: none;
     border-radius: 20px;
     /* 둥근 모서리 */
-    width: 200px;
-    height: 60px;
+    width: 60vw;
+    height: 17vw;
     position: absolute;
     left: 0px;
     box-shadow: 0 0 0 4px #fff, 4px 4px 0 0 #333;
     /* 클릭 시 살짝 눌리는 효과 */
     transform: translate(4px, 4px);
-    margin-top: 20px;
+    margin-top: 16vw;
+    margin-bottom: -8vw;
     z-index: 2;
     position: relative;
   }
