@@ -13,6 +13,7 @@ import Timer from '../components/Timer.tsx';
 import Swal from 'sweetalert2';
 import { postMember, postEmail, postVerifyEmail } from '../services/MemberService.ts';
 import { AxiosResponse } from 'axios';
+import Input from '../components/Input.tsx';
 
 const SignUp = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -33,6 +34,7 @@ const SignUp = () => {
     // ================================= ↓ 회원가입 양식 상태 코드 ===================================
     const nicknameHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setNickname(e.target.value);
+        console.log(nickname);
     }
     const emailHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setEmail(e.target.value);
@@ -44,6 +46,7 @@ const SignUp = () => {
     }
     const passwordHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setPassword(e.target.value);
+        console.log(password);
     }
     const repasswordHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setRepassword(e.target.value);
@@ -138,18 +141,15 @@ const SignUp = () => {
     const handleComplete = async () => {
         if (isAgreed) {
             // 동의한 경우에만 api 요청
-            try {
                 const response = await postMember(email, password, nickname);
                 setPostResponse(response);
-                console.log(response);
-            } catch {
-                throw new Error("회원가입에러");
-            }
+                
         } else {
-            alert('이용약관에 동의해야 합니다.'); // 동의하지 않았을 경우 경고
+            Swal.fire("이용약관에 동의해야 합니다.");
         }
 
         if (postResponse?.status === 201) {
+            navigate('/login-home');
             Swal.fire({
                 text: '회원가입이 완료되었다냥😽',
                 icon: 'success',
@@ -159,7 +159,6 @@ const SignUp = () => {
                     navigate('/login-home');
                 }
             })
-            navigate('/login-home');
         }
     };
 
@@ -174,7 +173,7 @@ const SignUp = () => {
                             <h5>닉네임</h5>
                             {/* <span className='signup-validation-text font-extrabold'>중복된 닉네임 입니다.</span> */}
                         </div>
-                        <TextArea
+                        <Input
                             onChange={nicknameHandler}
                             placeholder='닉네임을 입력하세요'
                             m_height='15vw'
@@ -184,11 +183,11 @@ const SignUp = () => {
                             w_width='320px'
                             w_fontSize='20px'
                         >
-                        </TextArea>
+                        </Input>
                     </div>
                     <div className='login-input'>
                         <h5>이메일</h5>
-                        <TextArea
+                        <Input
                             onChange={emailHandler}
                             placeholder='이메일을 입력하세요'
                             m_height='15vw'
@@ -197,6 +196,7 @@ const SignUp = () => {
                             w_height='56px'
                             w_width='320px'
                             w_fontSize='20px'
+                            type='email'
                         />
                     </div>
                     <div className='login-input'>
@@ -204,7 +204,7 @@ const SignUp = () => {
                             <h5>비밀번호</h5>
                             <span className='signup-validation-text font-extrabold'>{verifyPassword}</span>
                         </div>
-                        <TextArea
+                        <Input
                             onChange={passwordHandler}
                             placeholder='비밀번호를 입력하세요'
                             m_height='15vw'
@@ -213,6 +213,7 @@ const SignUp = () => {
                             w_height='56px'
                             w_width='320px'
                             w_fontSize='20px'
+                            type='password'
                         />
                     </div>
                     <div className='login-input'>
@@ -220,7 +221,7 @@ const SignUp = () => {
                             <h5>비밀번호 확인</h5>
                             <span className='signup-validation-text font-extrabold'>{verifyPassword}</span>
                         </div>
-                        <TextArea
+                        <Input
                             onChange={repasswordHandler}
                             placeholder='비밀번호를 재입력 입력하세요'
                             m_height='15vw'
@@ -229,6 +230,7 @@ const SignUp = () => {
                             w_height='56px'
                             w_width='320px'
                             w_fontSize='20px'
+                            type='password'
                         />
                     </div>
                     {!showVerification && <EmailButton />}
@@ -240,15 +242,16 @@ const SignUp = () => {
                                     {isTimer && <Timer />}
                                 </div>
                             </div>
-                            <TextArea
+                            <Input
                                 onChange={verifyCodeHandler}
-                                placeholder='이메일을 재입력 입력하세요'
+                                placeholder='인증번호를 입력해주세요.'
                                 m_height='15vw'
                                 m_width='85vw'
                                 m_fontSize='20px'
                                 w_height='56px'
                                 w_width='320px'
                                 w_fontSize='20px'
+                                type='number'
                             />
                             <Button
                                 mode='normalButton'

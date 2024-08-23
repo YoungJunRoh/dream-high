@@ -9,10 +9,6 @@ import ResultSmallBox from '../components/SmallBox.tsx';
 import Footer from '../components/Footer.tsx';
 import { useLocation } from 'react-router-dom';
 
-interface Window {
-    Kakao: any; // Kakao 객체의 타입을 정확히 정의할 수 있다면, any 대신에 정의된 타입을 사용하세요.
-}
-
 interface LocationState {
     advice: string;
     interpertaionKeyword: string;

@@ -9,6 +9,12 @@
     background-image: url("../assets/img-background-morning.png");
 }
 
+.result-imgdown {
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+}
+
 .bottom-button {
     display: flex;
     flex-direction: row;

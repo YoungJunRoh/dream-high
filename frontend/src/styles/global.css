@@ -8,6 +8,11 @@
   src: url("../assets/fonts/PF-StarDust-Bold.ttf") format("truetype");
 }
 
+a {
+  text-decoration: none;
+  color: black;
+}
+
 @font-face {
   font-family: "PF-StartDust-ExtraBold";
   src: url("../assets/fonts/PF-StarDust-ExtraBold.ttf") format("truetype");
