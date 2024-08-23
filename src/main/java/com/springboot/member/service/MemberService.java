@@ -188,4 +188,8 @@ public class MemberService {
     public boolean isNickNameAvailable(String nickName) {
         return !memberRepository.existsByNickName(nickName);
     }
+
+    public boolean isEmailDuplicate(String email) {
+        return !memberRepository.existsByEmail(email);
+    }
 }

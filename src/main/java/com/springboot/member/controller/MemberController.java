@@ -41,6 +41,7 @@ public class MemberController {
         this.authService = authService;
     }
 
+
     @PostMapping
     public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post requestBody){
         Member member = mapper.memberPostToMember(requestBody);
@@ -64,10 +65,24 @@ public class MemberController {
                 new SingleResponseDto<>(mapper.memberToMemberResponse(member)), HttpStatus.OK);
     }
     //닉네임 중복확인
-    @PostMapping("/check-nickName")
-    public ResponseEntity nickNameAvailability(@RequestBody String nickName){
-        boolean isAvailable = memberService.isNickNameAvailable(nickName);
+    @GetMapping("/check-nickName")
+    public ResponseEntity nickNameAvailability(@RequestBody MemberDto.NickName requestBody){
+        //매퍼로 매핑 requestBody -> member.nickName으로 바꿔줘야함
+        //nickNameDtoToNickName
+        boolean isAvailable = memberService.isNickNameAvailable(requestBody.getNickName());
         MemberDto.Check responseDto = new  MemberDto.Check(isAvailable);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(responseDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/check-email")
+    public ResponseEntity checkEmailDuplicate(@RequestBody MemberDto.EmailCheckDto requestBody){
+        //매퍼로 매핑 requestBody -> member.nickName으로 바꿔줘야함
+        //EmailCheckDtoToNickName
+        boolean isDuplicate = memberService.isEmailDuplicate(requestBody.getEmail());
+
+        MemberDto.Check responseDto = new  MemberDto.Check(isDuplicate);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(responseDto), HttpStatus.OK);
