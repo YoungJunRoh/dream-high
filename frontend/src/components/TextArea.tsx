@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 type TextAreaProps = {
     onChange?(parm?: any): void;
+    onKeyDown?(parm?: any): void;
     placeholder?: string;
     children?: ReactNode;
     m_height: string;
@@ -13,6 +14,7 @@ type TextAreaProps = {
     w_height: string;
     w_width: string;
     w_fontSize: string;
+    value?:string;
 }
 
 const TextAreaForm = styled.textarea<TextAreaProps>`
@@ -24,6 +26,10 @@ font-size: ${(props) => props.w_fontSize};
 margin-bottom: 5px;
 resize: none;
 position: relative;
+white-space: nowrap; /* 자동 줄내림 막기 */
+overflow: hidden; /* 스크롤 막기 */
+value: ${(props) => props.value};
+
 
 @media all and (max-width:430px) {
 height: ${(props) => props.m_height};
@@ -34,10 +40,11 @@ font-size: ${(props) => props.m_fontSize};
 margin-bottom: 5px;
 resize: none;
 position: relative;
+value: ${(props) => props.value};
 }
 `;
 
-const TextArea: React.FC<TextAreaProps> = ({ onChange, placeholder, children, m_height, m_width, m_fontSize, w_height, w_width, w_fontSize }) => {
+const TextArea: React.FC<TextAreaProps> = ({ onChange, onKeyDown, value, placeholder, children, m_height, m_width, m_fontSize, w_height, w_width, w_fontSize }) => {
     return (
         <TextAreaForm
             className='font-normal'
@@ -49,6 +56,8 @@ const TextArea: React.FC<TextAreaProps> = ({ onChange, placeholder, children, m_
             w_height={w_height}
             w_width={w_width}
             w_fontSize={w_fontSize}
+            onKeyDown={onKeyDown}
+            value={value}
         >
             {children}
         </TextAreaForm>
