@@ -13,28 +13,33 @@ import SignUp from '../pages/SignUp.tsx';
 import MyCollection from '../pages/MyCollection.tsx';
 import GetPicture from '../pages/GetPicture.tsx';
 import Interpretation from '../pages/Interpretation.tsx';
+import MemberModification from '../pages/MemberModification.tsx';
+import { ProfileProvider } from './ProfileContext.tsx'; // 경로를 맞춰주세요
 
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <div id='wrap'>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/interpretation" element={<Interpretation />} />
-          <Route path='/interpretation-result' element={<InterpretationResult />} />
-          <Route path='/login-home' element={<Login />} />
-          <Route path='/loading' element={<Loading />} />
-          <Route path='/mypage' element={<MyPage />} />
-          <Route path='/login-passwordfind' element={<FindPassword/>}/>
-          <Route path='/login-passwordreset' element={<PasswordReset/>}/>
-          <Route path='/signup' element={<SignUp/>}/>
-          <Route path='/mycollection' element={<MyCollection/>}/>
-          <Route path='/getpicture' element={<GetPicture/>}/>
-        </Routes>
-      </div>
-    </BrowserRouter>
+    <ProfileProvider> {/* ProfileProvider로 감싸기 */}
+      <BrowserRouter>
+        <div id='wrap'>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/interpretation" element={<Interpretation />} />
+            <Route path='/interpretation-result' element={<InterpretationResult />} />
+            <Route path='/login-home' element={<Login />} />
+            <Route path='/loading' element={<Loading />} />
+            <Route path='/mypage' element={<MyPage />} />
+            <Route path='/login-passwordfind' element={<FindPassword />} />
+            <Route path='/login-passwordreset' element={<PasswordReset />} />
+            <Route path='/signup' element={<SignUp />} />
+            <Route path='/mycollection' element={<MyCollection />} />
+            <Route path='/getpicture' element={<GetPicture />} />
+            <Route path='/memberModification' element={<MemberModification />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </ProfileProvider> // ProfileProvider로 감싸기
   );
 }
 

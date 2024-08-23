@@ -94,6 +94,12 @@ const Button: React.FC<ButtonProps> = ({ mode, name, draggable = true, option, c
         case 'snslogin':
             currentClass = 'go-snslogin-button';
             break;
+        case 'modification':
+            currentClass = 'go-modification-button';
+            break;
+        case 'leave':
+            currentClass = 'go-leave-button';
+            break;
         default:
             break; // 기본 클래스 유지
     }
