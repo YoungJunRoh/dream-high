@@ -2,6 +2,7 @@ package com.springboot.member.service;
 
 import com.springboot.auth.utils.JwtAuthorityUtils;
 import com.springboot.dream.entity.Dream;
+import com.springboot.email.service.EmailService;
 import com.springboot.exception.BusinessLogicException;
 import com.springboot.exception.ExceptionCode;
 import com.springboot.helper.event.MemberRegistrationApplicationEvent;
@@ -31,17 +32,21 @@ public class MemberService {
     private final ApplicationEventPublisher publisher;
     private final PasswordEncoder passwordEncoder;
     private final JwtAuthorityUtils authorityUtils;
+    private final EmailService emailService;
 
-    public MemberService(MemberRepository memberRepository, ApplicationEventPublisher publisher, PasswordEncoder passwordEncoder, JwtAuthorityUtils authorityUtils) {
+    public MemberService(MemberRepository memberRepository, ApplicationEventPublisher publisher, PasswordEncoder passwordEncoder, JwtAuthorityUtils authorityUtils, EmailService emailService) {
         this.memberRepository = memberRepository;
         this.publisher = publisher;
         this.passwordEncoder = passwordEncoder;
         this.authorityUtils = authorityUtils;
+        this.emailService = emailService;
     }
 
     public Member createMember(Member member) {
         // TODO should business logic
         // throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
+
+
         verifyExistsEmail(member.getEmail());
 
         String encryptedPassword = passwordEncoder.encode(member.getPassword());
@@ -177,6 +182,7 @@ public class MemberService {
         if (member.isPresent()) throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
     }
 
+
     @Transactional(readOnly = true)
     public Member findVerifiedMember(String email){
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
@@ -187,5 +193,9 @@ public class MemberService {
 
     public boolean isNickNameAvailable(String nickName) {
         return !memberRepository.existsByNickName(nickName);
+    }
+
+    public boolean isEmailDuplicate(String email) {
+        return !memberRepository.existsByEmail(email);
     }
 }

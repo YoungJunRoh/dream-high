@@ -9,6 +9,8 @@ import { postLogin } from '../services/MemberService.ts';
 import { useAuth } from '../hooks/AuthProvider.tsx';
 import { Link, useNavigate } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
+import Footer from '../components/Footer.tsx';
+
 
 const Login = () => {
     const { authorization, refresh, login, setAuthorization, setRefresh, setLogin } = useAuth();
@@ -97,12 +99,15 @@ const Login = () => {
                     draggable={true}>
                 </Button>
             </Link>
-            <Button
-                name='비밀번호 찾기'
-                mode='pass'
-                draggable={true}>
-            </Button>
-        <div className='login-blank'></div>
+            <Link to='/login-passwordfind'>
+                <Button
+                    name='비밀번호 찾기'
+                    mode='pass'
+                    draggable={true}>
+                </Button>
+            </Link>
+            <div id='blank'></div>
+            <Footer/>
         </div>
     );
 }

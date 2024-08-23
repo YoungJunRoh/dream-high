@@ -14,5 +14,5 @@ const PageName = () => {
     );
   }
   
-  export default PageName;
+export default PageName;
   ```

@@ -3,6 +3,8 @@ import '../styles/global.css';
 import '../styles/mypage.css';
 import LongPress from '../components/LongPress.tsx';
 import { useProfile } from '../components/ProfileContext.tsx'; // Context 가져오기
+import Button from '../components/Button.tsx';
+import { Link } from 'react-router-dom';
 
 const MyPage: React.FC = () => {
     const { profileImage } = useProfile(); // Context에서 프로필 이미지 가져오기
@@ -14,9 +16,9 @@ const MyPage: React.FC = () => {
                     <div id='mypage-profile' className='font-extrabold'>
                         {profileImage ? (
                             <LongPress>
-                                <img 
-                                    src={profileImage} 
-                                    alt="Profile" 
+                                <img
+                                    src={profileImage}
+                                    alt="Profile"
                                     style={{ width: '100px', height: '100px', borderRadius: '50%' }} // 이미지 스타일 추가
                                 />
                             </LongPress>
@@ -25,6 +27,11 @@ const MyPage: React.FC = () => {
                         )}
                         <p id='nickname'>강룰루</p>
                     </div>
+                    <Link to={'/memberModification'}>
+                    <div id='button'>
+                    수정하러가기🐾
+                    </div>
+                    </Link>
                 </div>
                 <div id='mypage-stamp-container' className='font-extrabold'>
                     <div id='mypage-stamp'>
@@ -43,7 +50,7 @@ const MyPage: React.FC = () => {
                     </div>
                 </div>
                 <div id='mypage-recently-post-container'>
-                    리스트입니다
+                    나의 꿈해몽🐾
                 </div>
             </div>
         </div>

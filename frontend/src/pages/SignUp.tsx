@@ -5,6 +5,7 @@ import TextArea from '../components/TextArea.tsx';
 import '../styles/login.css';
 import '../styles/terms.css';
 import '../styles/global.css';
+import Footer from '../components/Footer.tsx';
 import Button from '../components/Button.tsx';
 import TermsModal from '../components/TermsModal.tsx';
 import { useNavigate } from 'react-router-dom'; // react-router-dom을 사용하여 페이지 이동\
@@ -280,7 +281,7 @@ const SignUp = () => {
             {isModalOpen && (
                 <TermsModal onClose={handleCloseModal} onAgree={handleAgree} />
             )}
-
+                <Footer />
         </div>
     );
 }

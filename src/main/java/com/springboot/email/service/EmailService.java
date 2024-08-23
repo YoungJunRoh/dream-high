@@ -1,5 +1,8 @@
 package com.springboot.email.service;
 
+import com.springboot.exception.BusinessLogicException;
+import com.springboot.exception.ExceptionCode;
+import com.springboot.member.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -20,6 +23,8 @@ public class EmailService {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
+    private MemberRepository memberRepository;
+
     private static final String EMAIL_PREFIX = "email:";
     private static final String RESET_PREFIX = "reset:";
 
@@ -35,12 +40,17 @@ public class EmailService {
 
     public void sendPasswordResetEmail(String email, String resetToken) {
         redisTemplate.opsForValue().set(RESET_PREFIX + resetToken, email, Duration.ofHours(1)); // 1시간 동안 유효
+        if (memberRepository.existsByEmail(email)) {
+            String resetLink = "https://locahost:8080/reset-password?token=" + resetToken;
+            String subject = "비밀번호 재설정 링크입니다.";
+            String content = "비밀번호 재설정을 하려면 다음 링크를 클릭하세요: <a href=\"" + resetLink + "\">비밀번호 재설정</a>";
 
-        String resetLink = "https://locahost:8080/reset-password?token=" + resetToken;
-        String subject = "비밀번호 재설정 링크입니다.";
-        String content = "비밀번호 재설정을 하려면 다음 링크를 클릭하세요: <a href=\"" + resetLink + "\">비밀번호 재설정</a>";
+            sendEmail(email, subject, content);
+        }
+        else {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+        }
 
-        sendEmail(email, subject, content);
     }
 
     private String generateAuthCode() {
@@ -64,6 +74,11 @@ public class EmailService {
     }
 
     public boolean verifyAuthCode(String email, String authCode) {
+        String storedCode = redisTemplate.opsForValue().get(EMAIL_PREFIX + email);
+        return authCode.equals(storedCode);
+    }
+
+    public boolean verfiyFinalAuthCode(String email, String authCode){
         String storedCode = redisTemplate.opsForValue().get(EMAIL_PREFIX + email);
         redisTemplate.delete(EMAIL_PREFIX + email);
         return authCode.equals(storedCode);

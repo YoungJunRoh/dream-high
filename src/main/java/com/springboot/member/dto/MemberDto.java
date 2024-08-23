@@ -28,12 +28,25 @@ public class MemberDto {
 
         @NotBlank
         private String nickName;
+
+        @NotBlank
+        private String authCode;
     }
     @Getter
     @AllArgsConstructor
     public static class PatchProfile{
         @NotBlank
         private String profileUrl;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class PostNickName{
+        private long memberId;
+
+        @NotSpace(message = "회원 이름은 공백이 아니어야 합니다")
+        private String nickName;
+
     }
 
     @Getter
@@ -86,8 +99,18 @@ public class MemberDto {
 
     @Getter
     @AllArgsConstructor
-    public static class Check{
-        private boolean isAvailable;
-    }
+    public static class Check{ private boolean isAvailable;}
 
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class NickName{ private String nickName;}
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class EmailCheckDto {
+        @Email
+        private String email;
+    }
 }
