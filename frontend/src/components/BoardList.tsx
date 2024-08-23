@@ -2,6 +2,7 @@ import React from 'react';
 import '../styles/board.css';
 import '../styles/global.css';
 import { GetDreams } from '../interfaces/dream.ts';
+import { Link } from 'react-router-dom';
 
 type BoardList = {
     contentData: GetDreams;
@@ -15,7 +16,7 @@ const formatDate = (date: Date): string => {
 
     if (diffHours < 24) {
         if (diffHours >= 1) {
-             return `${diffHours}시간 전`;
+            return `${diffHours}시간 전`;
         } else if (diffMinutes >= 1) {
             return `${diffMinutes}분 전`;
         } else {
@@ -32,14 +33,22 @@ const BoardList: React.FC<BoardList> = ({ contentData }) => {  // 수정
     const number: number = contentData.dreamId;
     const content: string = contentData.content;
     const createdAt: Date = new Date(contentData.createdAt);
-
+    const urn = '/board/' + number;
     // 2024-08-22 09:49:25
 
 
     return (
         <div id='board-list-container' className='font-normal'>
             <div className='board-no'>{number}</div>
-            <div className='board-content font-extrabold font-size-17 order-left'>{content}</div>
+            <Link
+                to={urn}
+                style={{ textDecoration: 'none', color: 'black' }}
+            >
+                <div
+                className='board-content font-extrabold font-size-17 order-left'
+                >
+                    {content}</div>
+            </Link>
             <div className='board-created'>{formatDate(createdAt)}</div>
             {/* API 받아서 Map */}
         </div>

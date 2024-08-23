@@ -13,6 +13,12 @@
   src: url("../assets/fonts/PF-StarDust-ExtraBold.ttf") format("truetype");
 }
 
+#header-home {
+  width: 30px;
+  height: 30px;
+  background-image: url('../assets/icon-home.png');
+}
+
 .font-normal {
   font-family: "PF-StartDust";
 }
@@ -103,12 +109,13 @@ header {
 
 @keyframes fade-in-right {
   0% {
-      opacity: 0;
-      transform: translate3d(100%, 0, 0);
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
   }
+
   to {
-      opacity: 1;
-      transform: translateZ(0);
+    opacity: 1;
+    transform: translateZ(0);
   }
 }
 
