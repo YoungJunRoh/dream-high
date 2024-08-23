@@ -190,6 +190,6 @@ public class MemberService {
     }
 
     public boolean isEmailDuplicate(String email) {
-        return memberRepository.existsByEmail(email);
+        return !memberRepository.existsByEmail(email);
     }
 }
