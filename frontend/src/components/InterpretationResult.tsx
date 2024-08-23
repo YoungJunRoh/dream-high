@@ -21,33 +21,33 @@ interface DreamDatas {
 }
 
 const InterpretationResult:React.FC<DreamDatas> = ({advice, interpertaionKeyword, summary, dreamContent, interpertaionContent } ) => {
-    useEffect(() => {
-        if (!window.Kakao.isInitialized()) {
-            // window.Kakao.init(process.env.REACT_APP_KAKAO_API_KEY);
-            window.Kakao.init('');
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (!window.Kakao.isInitialized()) {
+    //         // window.Kakao.init(process.env.REACT_APP_KAKAO_API_KEY);
+    //         window.Kakao.init('');
+    //     }
+    // }, []);
 
-    const handleShareKakaoClick = () => {
-        if (window.Kakao) {
-            const kakao = window.Kakao;
+    // const handleShareKakaoClick = () => {
+    //     if (window.Kakao) {
+    //         const kakao = window.Kakao;
 
-            kakao.Share.sendDefault({
-                objectType: 'feed',
-                content: {
-                    title: "TEST",
-                    description: "TEST".substring(0, 30) + '...',
-                    imageUrl:
-                        'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.utoimage.com%2F%3Fm%3Dgoods.free%26mode%3Dview%26idx%3D22250682&psig=AOvVaw0NHQpVEQpAxakywtyyChcW&ust=1724386608224000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNCH5-veh4gDFQAAAAAdAAAAABAE' ??
-                        '-디폴트 썸네일-',
-                    link: {
-                        mobileWebUrl: 'http://tdtest.kro.kr:3000/',
-                        webUrl: 'http://tdtest.kro.kr:3000/',
-                    },
-                },
-            });
-        }
-    }
+    //         kakao.Share.sendDefault({
+    //             objectType: 'feed',
+    //             content: {
+    //                 title: "TEST",
+    //                 description: "TEST".substring(0, 30) + '...',
+    //                 imageUrl:
+    //                     'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.utoimage.com%2F%3Fm%3Dgoods.free%26mode%3Dview%26idx%3D22250682&psig=AOvVaw0NHQpVEQpAxakywtyyChcW&ust=1724386608224000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNCH5-veh4gDFQAAAAAdAAAAABAE' ??
+    //                     '-디폴트 썸네일-',
+    //                 link: {
+    //                     mobileWebUrl: 'http://tdtest.kro.kr:3000/',
+    //                     webUrl: 'http://tdtest.kro.kr:3000/',
+    //                 },
+    //             },
+    //         });
+    //     }
+    // }
 
     return (
         <div className='background-morning'>
@@ -68,7 +68,7 @@ const InterpretationResult:React.FC<DreamDatas> = ({advice, interpertaionKeyword
                     <div id="result-sharing-area">
                         <div
                             id='result-sharing-kakao'
-                            onClick={handleShareKakaoClick}
+                            // onClick={handleShareKakaoClick}
                         ></div>
                         <div id='result-sharing-insta'></div>
                         <div id='result-sharing-x'></div>

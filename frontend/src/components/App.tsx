@@ -47,7 +47,7 @@ const App = () => {
           </HeaderManager>
         </div>
       </BrowserRouter>
-      </ProfileProvider> // ProfileProvider로 감싸기
+      </ProfileProvider> 
     </AuthProvider>
   );
 }
