@@ -43,7 +43,6 @@ public class DreamController {
 
 
     @PostMapping
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity postDream(@Valid @RequestBody DreamDto.Post dreamPost,
                                     Authentication authentication){
 
