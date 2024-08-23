@@ -99,8 +99,18 @@ public class MemberDto {
 
     @Getter
     @AllArgsConstructor
-    public static class Check{
-        private boolean isAvailable;
-    }
+    public static class Check{ private boolean isAvailable;}
 
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class NickName{ private String nickName;}
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class EmailCheckDto {
+        @Email
+        private String email;
+    }
 }
