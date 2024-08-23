@@ -14,179 +14,43 @@
 }
 
 .loading-text {
-    padding: 20px;
-    color: #f5d5e5;
-    font-weight: 700;
-    font-family: 'PF-StartDust-Bold';
-    /* 폰트 설정 */
-    margin-top: 20px;
-    margin-left: 15%;
-    width: 22em;
-}
-
-.clock {
-    margin-top: 150px;
-    margin-left: 12px;
-    border: 2px solid #f5d5e5;
-    /* 핑크색 테두리 */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    /* 부드러운 그림자 효과 */
-}
-
-.clock::before {
-    content: '';
+    font-size: 25px;
+    padding: 10px 20px;
+    font-family: "PF-StartDust-ExtraBold";
+    /* 픽셀 폰트 */
     position: absolute;
-    bottom: -10px;
-    /* 아래쪽으로 위치 조정 (탁상 느낌을 주기 위해) */
+    /* 절대 위치 설정 */
+    top: 50%;
+    /* 화면 세로 중앙 */
     left: 50%;
-    /* 중앙 정렬을 위한 위치 */
-    transform: translateX(-50%);
-    /* 가운데 정렬 */
-    width: 120%;
-    /* 너비 조정 (탁상 느낌을 더 강조) */
-    height: 8px;
-    /* 높이 조정 (탁상 느낌을 위해 두껍게) */
-    background: linear-gradient(to right, #fbc8d4, #ffffff);
-    border-radius: 12px;
-    /* 모서리 둥글게 */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    /* 부드러운 그림자 효과 */
+    /* 화면 가로 중앙 */
+    transform: translate(-50%, -50%);
+    /* 중앙 정렬을 위한 변환 */
+    color: white;
+    /* 텍스트 색상 */
+    text-align: center;
+    /* 텍스트 중앙 정렬 */
 }
-
-.background {
-    background-color: #340C62;
-    background-size: 100%;
-    background-repeat: no-repeat;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 900px;
-}
-
-.stars {
-    position: absolute;
-    top: 0;
-    left: 90vw;
-    /* 중앙 정렬을 위해 left를 50%로 설정 */
-    width: 100vw;
-    height: 100%;
-    pointer-events: none;
-    /* 클릭 이벤트 방지 */
-    overflow: hidden;
-    /* 별이 바깥으로 나가지 않도록 */
-    transform: translateX(-50%);
-    /* 왼쪽으로 50% 이동하여 중앙 정렬 */
-}
-
-
-.star {
-    position: absolute;
-    background-color: rgb(246, 251, 98);
-    /* 별 색상 */
-    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-    /* 별 모    opacity: 0.8; /* 투명도 */
-}
-
-@keyframes fall {
-    0% {
-        transform: translateY(-100px) translateX(var(--random-x));
-        /* 시작 위치 */
-    }
-
-    100% {
-        transform: translateY(900px) translateX(var(--random-x));
-        /* 끝 위치 - 랜덤한 X축 이동 */
-    }
-}
-
-
-
 
 
 @media all and (max-width:430px) {
     .loading-text {
-        padding: 20px;
-        color: #f5d5e5;
-        font-weight: 700;
-        font-family: 'PF-StartDust-Bold';
-        /* 폰트 설정 */
-        margin-top: 20px;
-        margin-left: 15%;
-        width: 17em;
-    }
 
-    .clock {
-        margin-top: 150px;
-        margin-left: 12px;
-        border: 2px solid #f5d5e5;
-        /* 핑크색 테두리 */
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        /* 부드러운 그림자 효과 */
-    }
-
-    .clock::before {
-        content: '';
+        font-size: 25px;
+        padding: 10px 0px;
+        font-family: "PF-StartDust-ExtraBold";
+        /* 픽셀 폰트 */
         position: absolute;
-        bottom: -10px;
-        /* 아래쪽으로 위치 조정 (탁상 느낌을 주기 위해) */
+        /* 절대 위치 설정 */
+        top: 50%;
+        /* 화면 세로 중앙 */
         left: 50%;
-        /* 중앙 정렬을 위한 위치 */
-        transform: translateX(-50%);
-        /* 가운데 정렬 */
-        width: 120%;
-        /* 너비 조정 (탁상 느낌을 더 강조) */
-        height: 8px;
-        /* 높이 조정 (탁상 느낌을 위해 두껍게) */
-        background: linear-gradient(to right, #fbc8d4, #ffffff);
-        border-radius: 12px;
-        /* 모서리 둥글게 */
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        /* 부드러운 그림자 효과 */
-    }
-
-    .background {
-        background-color: #340C62;
-        background-size: 100%;
-        background-repeat: no-repeat;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        height: 900px;
-    }
-
-    .stars {
-        position: absolute;
-        top: 0;
-        left: 50%;
-        /* 중앙 정렬을 위해 left를 50%로 설정 */
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        /* 클릭 이벤트 방지 */
-        overflow: hidden;
-        /* 별이 바깥으로 나가지 않도록 */
-        transform: translateX(-50%);
-        /* 왼쪽으로 50% 이동하여 중앙 정렬 */
-    }
-
-
-    .star {
-        position: absolute;
-        background-color: rgb(246, 251, 98);
-        /* 별 색상 */
-        clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-        /* 별 모    opacity: 0.8; /* 투명도 */
-    }
-
-    @keyframes fall {
-        0% {
-            transform: translateY(-100px) translateX(var(--random-x));
-            /* 시작 위치 */
-        }
-
-        100% {
-            transform: translateY(900px) translateX(var(--random-x));
-            /* 끝 위치 - 랜덤한 X축 이동 */
-        }
+        /* 화면 가로 중앙 */
+        transform: translate(-50%, -50%);
+        /* 중앙 정렬을 위한 변환 */
+        color: white;
+        /* 텍스트 색상 */
+        text-align: center;
+        /* 텍스트 중앙 정렬 */
     }
 }

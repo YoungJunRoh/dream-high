@@ -10,7 +10,7 @@ import BoardList from '../components/BoardList.tsx';
 import BoardSeeMore from '../components/BoardSeeMore.tsx';
 import Footer from '../components/Footer.tsx';
 import { getDreams } from '../services/DreamService.ts';
-import { GetDreamsResponse } from '../interfaces/dreamsResponse.ts';
+import { GetDreamsResponse } from '../interfaces/dream.ts';
 import HotDream from '../components/HotDream.tsx';
 
 const Home = () => {
@@ -30,15 +30,22 @@ const Home = () => {
         getDreamsAsync();
     }, [])
 
-    const randomHotDream: number = Math.floor(Math.random() * 10);
+    const totalElements = responseDreams?.pageInfo.totalElements as number;
+
+    const hotDreamMaker = () => {
+        if (responseDreams && totalElements > 0) {
+            // totalElements가 10 이하인 경우에도 인덱스 범위 내에서 랜덤 선택
+            const maxIndex = Math.min(totalElements, 10);
+            const randomHotDream: number = Math.floor(Math.random() * maxIndex);
+            return responseDreams.data[randomHotDream].content;
+        }
+        return "데이터가 없습니다."; // fallback 메시지 또는 null
+    };
+
     const randomTmiIdx: number = Math.floor(Math.random() * tmiDatas.length);
 
-    const BoardLists = () => {
-
-        return (
-        <BoardList></BoardList>
-        );
-    }
+    const datas = responseDreams?.data || [];
+    const boards = datas.map((data) => (<BoardList contentData={data}></BoardList>))
 
     return (
         <div className='background-night'>
@@ -53,10 +60,10 @@ const Home = () => {
                 <div className='content-name-container'>
                     <span className='font-bold content-name'>이런 해몽도 있다냥 🐾</span>
                 </div>
-                <HotDream>{responseDreams?.data[randomHotDream].content}</HotDream>
+                <HotDream>{hotDreamMaker()}</HotDream>
                 <div className='another-dream font-extrabold'>다른꿈도 보러가기  ▼</div>
                 <BoardIndex />
-                <BoardLists />
+                {boards}
                 <BoardSeeMore />
                 <Footer />
             </div>

@@ -1,6 +1,5 @@
-import { LargeNumberLike } from "crypto";
 import { postData, getData } from "./index.ts";
-import { GetDreamsResponse, PostDreamResponse, GetDreamResponse } from '../interfaces/dreamsResponse.ts';
+import { GetDreamsResponse, PostDreamResponse, GetDreamResponse } from '../interfaces/dream.ts';
 
 const REQUEST_URL: string = "http://localhost:8080/dreams";
 

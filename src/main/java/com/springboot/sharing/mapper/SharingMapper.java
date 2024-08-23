@@ -1,5 +1,6 @@
 package com.springboot.sharing.mapper;
 
+import com.springboot.dream.entity.Dream;
 import com.springboot.sharing.dto.SharingDto;
 import com.springboot.sharing.entity.Sharing;
 import org.mapstruct.Mapper;

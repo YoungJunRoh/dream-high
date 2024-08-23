@@ -1,5 +1,6 @@
 package com.springboot.dream.controller;
 
+import com.springboot.auth.service.AuthService;
 import com.springboot.dream.dto.DreamDto;
 import com.springboot.dream.dto.OpenAiRequest;
 import com.springboot.dream.dto.OpenAiResponse;
@@ -28,25 +29,34 @@ import java.util.Map;
 @RequestMapping("/dreams")
 @Validated
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3000")
 public class DreamController {
 
     private final DreamService dreamService;
     private final DreamMapper mapper;
+    private final AuthService authService;
 
-    public DreamController(DreamService dreamService, DreamMapper mapper) {
+    public DreamController(DreamService dreamService, DreamMapper mapper, AuthService authService) {
         this.dreamService = dreamService;
         this.mapper = mapper;
+        this.authService = authService;
     }
 
 
     @PostMapping
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity postDream(@Valid @RequestBody DreamDto.Post dreamPost,
                                     Authentication authentication){
+
         String email = null;
 
         if (authentication != null) {
             email = (String) authentication.getPrincipal();
+
+            // 로그아웃 상태 확인: 토큰이 Redis에서 이미 삭제된 경우
+            boolean isLoggedOut = !authService.isTokenValid(email);
+            if (isLoggedOut) {
+                email = null;
+            }
         }
 
         Dream dream = dreamService.createDream(mapper.dreamPostToDream(dreamPost), email);
@@ -62,10 +72,15 @@ public class DreamController {
                                      @Valid @RequestBody DreamDto.Patch dreamPatchDto,
                                      Authentication authentication) {
         dreamPatchDto.setDreamId(dreamId);
-        if (authentication == null) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        String email = null;
+        if(authentication != null){
+            email = (String) authentication.getPrincipal();
+            boolean isLoggedOut = !authService.isTokenValid(email);
+            if(isLoggedOut){
+                email = null;
+            }
         }
-        String email = (String) authentication.getPrincipal();
+
         Dream dream =
                 dreamService.updateDream(mapper.dreamPatchDtoToDream(dreamPatchDto), email);
 
@@ -80,6 +95,12 @@ public class DreamController {
         String email = null;
         if (authentication != null) {
             email = (String) authentication.getPrincipal();
+            boolean isLoggedOut = !authService.isTokenValid(email);
+            if(isLoggedOut){
+                email = null;
+                Dream dream = dreamService.findDream(dreamId);
+                return new ResponseEntity(new SingleResponseDto<>(mapper.dreamToDreamResponseDto(dream)), HttpStatus.OK);
+            }
             Dream dream = dreamService.findDream(dreamId, email);
             return new ResponseEntity(new SingleResponseDto<>(mapper.dreamToDreamResponseDto(dream)), HttpStatus.OK);
         }else {
@@ -110,10 +131,17 @@ public class DreamController {
     @DeleteMapping("/{dream-id}")
     public ResponseEntity deleteDream(@PathVariable("dream-id") @Positive long dreamId,
                                       Authentication authentication){
-        if (authentication == null) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        String email = null;
+
+        if (authentication != null) {
+            email = (String) authentication.getPrincipal();
+
+            // 로그아웃 상태 확인: 토큰이 Redis에서 이미 삭제된 경우
+            boolean isLoggedOut = !authService.isTokenValid(email);
+            if (isLoggedOut) {
+                email = null;
+            }
         }
-        String email = (String) authentication.getPrincipal();
         dreamService.deleteDream(dreamId, email);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

@@ -58,7 +58,7 @@ public class Member {
     private List<Like> likes = new ArrayList<>();
 
     @Column(nullable = true)
-    private Long profileNum;
+    private String profileUrl;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
     private List<MemberRewardPicture> memberRewardPictures = new ArrayList<>();
@@ -128,6 +128,14 @@ public class Member {
             memberRewardPicture.addMember(this);
         }
     }
+
+    public void addSharing(Sharing sharing){
+        this.sharings.add(sharing);
+        if(sharing.getMember() != this){
+            sharing.setMember(this);
+        }
+    }
+
 
 //    public void removeDream(Dream dream) {
 //        this.dreams.remove(dream);
