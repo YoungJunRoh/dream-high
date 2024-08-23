@@ -2,7 +2,10 @@ package com.springboot.member.controller;
 
 
 import com.springboot.auth.service.AuthService;
+import com.springboot.email.dto.EmailAuthDto;
+import com.springboot.email.service.EmailService;
 import com.springboot.exception.BusinessLogicException;
+import com.springboot.exception.ExceptionCode;
 import com.springboot.member.dto.MemberDto;
 import com.springboot.member.dto.MemberRewardPictureDto;
 import com.springboot.member.entity.Member;
@@ -33,26 +36,36 @@ public class MemberController {
     private final MemberService memberService;
     private final MemberMapper mapper;
     private final AuthService authService;
+    private final EmailService emailService;
 
 
-    public MemberController(MemberService memberService, MemberMapper mapper, AuthService authService) {
+    public MemberController(MemberService memberService, MemberMapper mapper, AuthService authService, EmailService emailService) {
         this.memberService = memberService;
         this.mapper = mapper;
         this.authService = authService;
+        this.emailService = emailService;
     }
 
 
     @PostMapping
     public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post requestBody){
+
+        boolean isEmailVerified = emailService.verfiyFinalAuthCode(requestBody.getEmail(), requestBody.getAuthCode());
+
+        if (!isEmailVerified) {
+            throw new BusinessLogicException(ExceptionCode.EMAIL_NOT_AUTH);
+        }
+
         Member member = mapper.memberPostToMember(requestBody);
 
         member.setStamp(new Stamp());
 
         Member createdMember = memberService.createMember(member);
-        URI location = UriCreator.createUri(MEMBER_DEFAULT_URL, createdMember.getMemberId());
+        URI location = UriCreator.createUri("/api/members", createdMember.getMemberId());
 
         return ResponseEntity.created(location).build();
     }
+
 
     @PatchMapping("/{member-id}")
     public ResponseEntity patchMember(
@@ -65,6 +78,7 @@ public class MemberController {
                 new SingleResponseDto<>(mapper.memberToMemberResponse(member)), HttpStatus.OK);
     }
     //닉네임 중복확인
+
     @GetMapping("/check-nickName")
     public ResponseEntity nickNameAvailability(@RequestBody MemberDto.NickName requestBody){
         //매퍼로 매핑 requestBody -> member.nickName으로 바꿔줘야함
@@ -75,6 +89,7 @@ public class MemberController {
         return new ResponseEntity<>(
                 new SingleResponseDto<>(responseDto), HttpStatus.OK);
     }
+
 
     @GetMapping("/check-email")
     public ResponseEntity checkEmailDuplicate(@RequestBody MemberDto.EmailCheckDto requestBody){
@@ -88,13 +103,14 @@ public class MemberController {
                 new SingleResponseDto<>(responseDto), HttpStatus.OK);
     }
 
+
     @PatchMapping("/{member-id}/password")
     public ResponseEntity patchMemberPassword(
             @PathVariable("member-id") @Positive long memberId,
-            @Valid @RequestBody MemberDto.Patch requestBody){
+            @Valid @RequestBody MemberDto.PatchPassword requestBody){
         requestBody.setMemberId(memberId);
 
-        Member member = memberService.updateMemberPassword(mapper.memberPatchToMember(requestBody));
+        Member member = memberService.updateMemberPassword(mapper.memberPatchPasswordToMember(requestBody));
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.memberToMemberResponse(member)), HttpStatus.OK);
     }
