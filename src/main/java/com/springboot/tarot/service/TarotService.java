@@ -60,8 +60,13 @@ public class TarotService {
     }
 
     private Tarot drawRandomTarotCard() {
+        long tarotLength = tarotRepository.count();
+        if (tarotLength == 0) {
+            throw new IllegalStateException("No Tarot cards available in the database.");
+        }
         Random random = new Random();
-        long randomId = random.nextInt((int) tarotRepository.count()) + 1;
+       // long randomId = random.nextInt((int)tarotLength);
+        long randomId = random.nextInt((int)tarotLength);
         Optional<Tarot> tarotCard = tarotRepository.findById(randomId);
         return tarotCard.orElseThrow(() -> new IllegalArgumentException("Invalid Tarot ID: " + randomId));
     }

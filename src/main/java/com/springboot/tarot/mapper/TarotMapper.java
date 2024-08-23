@@ -11,7 +11,7 @@ public interface TarotMapper {
 
 
     // Post DTO를 TarotCategory로 변환하는 매핑 메서드
-    @Mapping(target = "categoryName", source = "inputCategory.categoryName")
+    @Mapping(target = "categoryName", source = "inputCategory.category")
     TarotCategory postDtoToTarotCategory(TarotDto.Post inputCategory);
 
 }
