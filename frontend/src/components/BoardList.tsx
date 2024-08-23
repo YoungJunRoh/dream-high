@@ -1,11 +1,11 @@
 import React from 'react';
 import '../styles/board.css';
 import '../styles/global.css';
-import { GetDreams } from '../interfaces/dream.ts';
+import { DreamData } from '../interfaces/dream.ts';
 import { Link } from 'react-router-dom';
 
 type BoardList = {
-    contentData: GetDreams;
+    contentData: DreamData;
 }
 
 const formatDate = (date: Date): string => {

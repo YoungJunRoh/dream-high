@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'; // react-router-dom@^6.3.0
 import Home from '../pages/Home.tsx';
 import Login from '../pages/Login.tsx';
@@ -21,33 +21,39 @@ import MemberModification from '../pages/MemberModification.tsx';
 import { ProfileProvider } from './ProfileContext.tsx'; // 경로를 맞춰주세요
 
 const App = () => {
+  useEffect(() => {
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(process.env.REACT_APP_KAKAO_APP_KEY);
+    }
+  }, []);
+
   return (
     <AuthProvider>
-       <ProfileProvider> {/* ProfileProvider로 감싸기 */}
-      <BrowserRouter>
-        <div id='wrap'>
-          <HeaderManager>
-            <Header />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/interpretation" element={<Interpretation />} />
-              <Route path='/interpretation-result' element={<InterpretationResult />} />
-              <Route path='/login-home' element={<Login />} />
-              <Route path='/loading' element={<Loading />} />
-              <Route path='/mypage' element={<MyPage />} />
-              <Route path='/login-passwordfind' element={<FindPassword />} />
-              <Route path='/login-passwordreset' element={<PasswordReset />} />
-              <Route path='/signup' element={<SignUp />} />
-              <Route path='/mycollection' element={<MyCollection />} />
-              <Route path='/getpicture' element={<GetPicture />} />
-              <Route path='/memberModification' element={<MemberModification />} />
-              <Route path='/board' element={<Board />} />
-              <Route path='/board/:id' element={<BoardDetail />} />
-            </Routes>
-          </HeaderManager>
-        </div>
-      </BrowserRouter>
-      </ProfileProvider> // ProfileProvider로 감싸기
+      <ProfileProvider>
+        <BrowserRouter>
+          <div id='wrap'>
+            <HeaderManager>
+              <Header />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/interpretation" element={<Interpretation />} />
+                <Route path='/interpretation-result' element={<InterpretationResult />} />
+                <Route path='/login-home' element={<Login />} />
+                <Route path='/loading' element={<Loading />} />
+                <Route path='/mypage' element={<MyPage />} />
+                <Route path='/login-passwordfind' element={<FindPassword />} />
+                <Route path='/login-passwordreset' element={<PasswordReset />} />
+                <Route path='/signup' element={<SignUp />} />
+                <Route path='/mycollection' element={<MyCollection />} />
+                <Route path='/getpicture' element={<GetPicture />} />
+                <Route path='/memberModification' element={<MemberModification />} />
+                <Route path='/board' element={<Board />} />
+                <Route path='/board/:id' element={<BoardDetail />} />
+              </Routes>
+            </HeaderManager>
+          </div>
+        </BrowserRouter>
+      </ProfileProvider>
     </AuthProvider>
   );
 }

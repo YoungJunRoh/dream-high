@@ -8,6 +8,7 @@ import { LoginResponse } from '../interfaces/member.ts'
 import { postLogin } from '../services/MemberService.ts';
 import { useAuth } from '../hooks/AuthProvider.tsx';
 import { Link, useNavigate } from 'react-router-dom';
+import { AxiosResponse } from 'axios';
 
 const Login = () => {
     const { authorization, refresh, login, setAuthorization, setRefresh, setLogin } = useAuth();
@@ -15,7 +16,7 @@ const Login = () => {
 
     const navigate = useNavigate();
 
-    const [response, setResponse] = useState<LoginResponse | null>(null);
+    const [response, setResponse] = useState<AxiosResponse | null>(null);
     const [email, setEmail] = useState<string>();
     const [password, setPassword] = useState<string>();
 

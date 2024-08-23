@@ -86,6 +86,7 @@ export const MenuTap = () => {
   const { authorization, refresh, login, setAuthorization, setRefresh, setLogin } = useAuth();
   const [isOpen, setIsOpen] = useState<boolean>(false); // 메뉴탭 상태
   const [isLogin, setIsLogin] = useState<boolean>(false); // 로그인 상태
+  
   // AxiosRequestConfig 타입 선언.
   const accessToken: AxiosRequestConfig = {
     headers: {

@@ -5,17 +5,17 @@ import SearchBar from '../components/SearchBar.tsx';
 import Button from '../components/Button.tsx';
 import BoardIndex from '../components/BoardIndex.tsx';
 import BoardList from '../components/BoardList.tsx';
-import { GetDreamsResponse } from '../interfaces/dream.ts';
+import { GetsApiResponse } from '../interfaces/dream.ts';
 import { getDreams } from '../services/DreamService.ts';
 import Footer from '../components/Footer.tsx';
 
-const PageName = () => {
+const Board = () => {
     const { setHeaderMode } = useHeaderMode();
     useEffect(() => {
         setHeaderMode('board');
     }, [])
 
-    const [responseDreams, setResponseDreams] = useState<GetDreamsResponse | null>(null);
+    const [responseDreams, setResponseDreams] = useState<GetsApiResponse | null>(null);
 
     const getDreamsAsync = async () => {
         try {
@@ -31,7 +31,7 @@ const PageName = () => {
         getDreamsAsync();
     }, [])
 
-    const datas = responseDreams?.data || [];
+    const datas = responseDreams?.data.data || [];
     const boards = datas.map((data) => (<BoardList contentData={data}></BoardList>))
 
     return (
@@ -58,4 +58,4 @@ const PageName = () => {
     );
 }
 
-export default PageName;
+export default Board;

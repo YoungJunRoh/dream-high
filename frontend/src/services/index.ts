@@ -9,50 +9,38 @@ const client: Axios = axios.create({
 });
 
 // POST 메서드
-export const postData = async <T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<APIResponse<T>> => {
-    try {
-        const response: AxiosResponse<APIResponse<T>> = await client.post<APIResponse<T>>(url, data, config);
-        return response.data;
-    } catch (error) {
-        throw new Error(error.message);
-    }
+export const postData = async <T>(url: string, data?: any, config?: AxiosRequestConfig) => {
+    console.log('=============== POST ==================');
+    const response: AxiosResponse<T> = await client.post<T>(url, data, config);
+    console.log("POSTDATA" + response.data);
+    return response;
 };
 
 export const login = async <T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<any> => {
-    try {
-        const response: AxiosResponse<AxiosResponse<T>> = await client.post<AxiosResponse<T>>(url, data, config);
-        return response;
-    } catch (error) {
-        throw new Error(error.message);
-    }
+    console.log('=============== login ==================');
+    const response: AxiosResponse<T> = await client.post<T>(url, data, config);
+    console.log(response);
+    return response;
 };
 
 // PATCH 메서드
-export const patchData = async <T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<APIResponse<T>> => {
-    try {
-        const response = await client.patch<APIResponse<T>>(url, data, config);
-        return response.data;
-    } catch (error) {
-        throw new Error(error.message);
-    }
+export const patchData = async <T>(url: string, data?: any, config?: AxiosRequestConfig) => {
+    const response: AxiosResponse<T> = await client.patch<T>(url, data, config);
+    console.log(response);
+    return response;
 };
 
 // GET 메서드
-export const getData = async <T>(url: string, config?: AxiosRequestConfig): Promise<APIResponse<T>> => {
-    try {
-        const response = await client.get<APIResponse<T>>(url, config);
-        return response.data;
-    } catch (error) {
-        throw new Error(error.message);
-    }
+export const getData = async <T>(url: string, config?: AxiosRequestConfig) => {
+    console.log('=============== get ==================');
+    const response: AxiosResponse<T> = await client.get<T>(url, config);
+    console.log(response);
+    return response;
 };
 
 // DELETE 메서드
-export const deleteData = async <T>(url: string, config?: AxiosRequestConfig): Promise<APIResponse<T>> => {
-    try {
-        const response = await client.delete<APIResponse<T>>(url, config);
-        return response.data;
-    } catch (error) {
-        throw new Error(error.message);
-    }
+export const deleteData = async <T>(url: string, config?: AxiosRequestConfig) => {
+    const response: AxiosResponse<T> = await client.delete<T>(url, config);
+    console.log(response);
+    return response.data;
 };
