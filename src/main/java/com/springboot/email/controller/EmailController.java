@@ -5,6 +5,7 @@ import com.springboot.email.dto.EmailAuthDto;
 import com.springboot.email.dto.EmailCheckDto;
 import com.springboot.email.dto.EmailRequestDto;
 import com.springboot.email.service.EmailService;
+import com.springboot.member.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.*;
 public class EmailController {
 
     private final EmailService emailService;
+    private final MemberService memberService;
 
-    public EmailController(EmailService emailService) {
+    public EmailController(EmailService emailService, MemberService memberService) {
         this.emailService = emailService;
+        this.memberService = memberService;
     }
 
     @PostMapping("/send-verification")
@@ -34,6 +37,7 @@ public class EmailController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("인증번호 불일치");
         }
     }
+
 
     @PostMapping("/validate-email")
     public String validateEmail(@RequestBody EmailCheckDto emailDto) {

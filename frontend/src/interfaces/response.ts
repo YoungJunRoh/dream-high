@@ -15,5 +15,4 @@ export interface APIResponse<T> {
     message: string; // 메시지
     result: T; // 데이터 내용
     timestamp: Date; // 시간 
-    allResponse: AxiosResponse<T>;
 }

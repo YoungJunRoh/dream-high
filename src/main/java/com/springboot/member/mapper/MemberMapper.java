@@ -16,7 +16,15 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MemberMapper {
-    Member memberPostToMember(MemberDto.Post requestBody);
+    default Member memberPostToMember(MemberDto.Post requestBody){
+        Member member = new Member();
+        member.setEmail(requestBody.getEmail());
+        member.setPassword(requestBody.getPassword());
+        member.setNickName(requestBody.getNickName());
+
+        return member;
+    }
+
     Member memberPatchToMember(MemberDto.Patch requestBody);
     Member memberPatchPasswordToMember(MemberDto.PatchPassword requestBody);
     Member memberPatchProfileToMember(MemberDto.PatchProfile requestBody);

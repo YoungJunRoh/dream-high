@@ -5,6 +5,7 @@ import TextArea from '../components/TextArea.tsx';
 import '../styles/login.css';
 import '../styles/terms.css';
 import '../styles/global.css';
+import Footer from '../components/Footer.tsx';
 import Button from '../components/Button.tsx';
 import TermsModal from '../components/TermsModal.tsx';
 import { useNavigate } from 'react-router-dom'; // react-router-dom을 사용하여 페이지 이동\
@@ -27,7 +28,30 @@ const SignUp = () => {
     const [isTimer, setIsTimer] = useState<boolean>(false); // 재시작 타이머 상태
     const [resendEmail, setResendEmail] = useState<boolean>(false); // 이메일 재전송 상태
     const [postResponse, setPostResponse] = useState<AxiosResponse | null>(null); // 회원가입 완료 코드
-    const [postEmailResponse, setpostEmailResponse] = useState<AxiosResponse | null>(null); // 이메일 인증 완료 코드
+    const [postEmailResponse, setPostEmailResponse] = useState<AxiosResponse | null>(null); // 이메일 인증 완료 코드
+    
+    // ================================= ↓ 회원가입 양식 상태 코드 ===================================
+    const nicknameHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setNickname(e.target.value);
+    }
+    const emailHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setEmail(e.target.value);
+        console.log(email);
+    }
+    const verifyCodeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setVerificationCode(e.target.value);
+        console.log(verificationCode);
+    }
+    const passwordHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setPassword(e.target.value);
+    }
+    const repasswordHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setRepassword(e.target.value);
+    }
+    const handleAgree = () => {
+        setIsAgreed(true); // 동의 상태를 true로 설정
+        console.log('이용약관에 동의했습니다.');
+    };
 
     // Task.Delay 같은 친구.
     const sleep = (time: number): Promise<void> => {
@@ -52,32 +76,20 @@ const SignUp = () => {
         try {
             console.log('인증번호 확인');
             const response = await postVerifyEmail(email, verificationCode);
-            setpostEmailResponse(response);
-            response.status === 200 ? setShowVerification(false) : Swal.fire({ text: '잘못된 인증번호 입니다.' });
-        } catch {
-            throw new Error('인증 코드 확인 에러');
+            console.log('API 응답 상태 코드:', response); // 응답 상태 코드 출력
+            
+            // 상태 코드가 200일 때만 성공 처리
+            if (response && response.status === 200) {
+                setPostEmailResponse(response);
+                setShowVerification(false);
+            } else {
+                Swal.fire({ text: '잘못된 인증번호 입니다.' });
+            }
+        } catch (error: any) {
+            // 에러 핸들링
+            console.error('인증 코드 확인 중 오류:', error);
+            Swal.fire({ text: '인증 코드 확인 중 오류가 발생했습니다. 다시 시도해주세요.' });
         }
-    }
-
-    // ================================= ↓ 회원가입 양식 상태 코드 ===================================
-    const nicknameHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setNickname(e.target.value);
-    }
-    const emailHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setEmail(e.target.value);
-    }
-    const verifyCodeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setVerificationCode(e.target.value);
-    }
-    const passwordHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setPassword(e.target.value);
-    }
-    const repasswordHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setRepassword(e.target.value);
-    }
-    const handleAgree = () => {
-        setIsAgreed(true); // 동의 상태를 true로 설정
-        console.log('이용약관에 동의했습니다.');
     };
 
     // ================================= ↓ (임시) 비밀번호 Valid ===================================
@@ -101,7 +113,7 @@ const SignUp = () => {
     };
 
     const emailReSenderAsync = async () => {
-        Swal.fire("이메일 재전송을 완료하였습니다. 이메일 재전송은 한 번만 가능합니다.")
+        Swal.fire({ text: "이메일 재전송을 완료하였습니다. 이메일 재전송은 한 번만 가능합니다." })
         if (!resendEmail) {
             // 재전송 API
             setIsTimer(false);
@@ -110,7 +122,7 @@ const SignUp = () => {
             await sendEmailAsync();
             console.log("이메일 재전송");
             setResendEmail(true);
-        } else Swal.fire("이메일 재전송은 한 번만 가능합니다.");
+        } else Swal.fire({ text: "이메일 재전송은 한 번만 가능합니다." });
     }
 
     // ================================= ↓ 약관 동의 관련 코드 ===================================
@@ -238,18 +250,17 @@ const SignUp = () => {
                                 w_width='320px'
                                 w_fontSize='20px'
                             />
-                            {!resendEmail && <Button
-                                mode='normalButton'
-                                name='이메일 재전송'
-                                onClick={emailReSenderAsync}
-                            />}
-
-                            <div className='blank'></div>
                             <Button
                                 mode='normalButton'
                                 name='인증 완료'
                                 onClick={matchCodeAsync}
                             />
+                            <div className='blank'></div>
+                            {!resendEmail && <Button
+                                mode='normalButton'
+                                name='이메일 재전송'
+                                onClick={emailReSenderAsync}
+                            />}
                         </div>
                     )}
                     <h5 className='h5'>이용약관 확인하라옹</h5>
@@ -270,7 +281,7 @@ const SignUp = () => {
             {isModalOpen && (
                 <TermsModal onClose={handleCloseModal} onAgree={handleAgree} />
             )}
-
+                <Footer />
         </div>
     );
 }

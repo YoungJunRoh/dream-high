@@ -20,32 +20,16 @@ interface InterpretationResponse {
     keyword: InterpretationKeyword;
 }
 
-// 꿈 데이터에 대한 인터페이스
-interface DreamData {
-    dreamId: number;
-    memberId: number;
-    content: string;
-    dreamStatus: string;
-    dreamSecret: string;
-    createdAt: string;
-    modifiedAt: string | null;
-    dreamKeywords: DreamKeyword[];
-    interpretationResponse: InterpretationResponse;
-    viewCount:number;
-    likeCount:number;
-    comments: any[]; // 댓글이 있는 경우, 적절한 타입을 지정해 주세요
-}
-
 // 페이지네이션에 대한 인터페이스
 interface PageInfo {
-    page:number;
-    size:number;
-    totalPage:number;
-    totalElements:number;
+    page: number;
+    size: number;
+    totalPage: number;
+    totalElements: number;
 }
 
 // getdreams 에 대한 인터페이스
-export interface GetDreams {
+export interface DreamData { // boardList에서 필요함.
     dreamId: number;
     memberId: number;
     content: string;
@@ -53,21 +37,40 @@ export interface GetDreams {
     dreamSecret: string;
     createdAt: string;
     modifiedAt: string | null;
+    viewCount: number;
+    likeCount: number;
     dreamKeywords: DreamKeyword[];
     interpretationResponse: InterpretationResponse;
     comments: any[]; // 댓글이 있는 경우, 적절한 타입을 지정해 주세요
+}
+
+interface Data {
+    config: {};
+    data: DreamData;
+    headers: {};
+    request: {};
+    status: number;
+    statusText: string
+}
+
+interface Datas {
+    config: {};
+    data: DreamData[];
+    pageInfo: PageInfo;
+    headers: {};
+    request: {};
+    status: number;
+    statusText: string
 }
 
 export interface PostDreamResponse {
     data: DreamData;
 }
 
-export interface GetDreamResponse {
-    data: DreamData;
-    StatusCode:number;
+export interface GetApiResponse {
+    data: Data;
 }
 
-export interface GetDreamsResponse {
-    data: GetDreams[];
-    pageInfo: PageInfo;
+export interface GetsApiResponse {
+    data: Datas;
 }
