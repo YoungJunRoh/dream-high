@@ -1,16 +1,19 @@
-import React, { useState, createContext, useContext, ReactNode } from 'react';
+import React, { useState, createContext, useContext, ReactNode, useEffect } from 'react';
 import '../styles/login.css';
 import ResultBigBox from '../components/BigBox.tsx';
 import ResultSmallBox from '../components/SmallBox.tsx';
 import Button from '../components/Button.tsx';
 import TextArea from '../components/TextArea.tsx';
-import { LoginResponse } from '../interfaces/login.ts'
-import { postLogin } from '../services/LoginService.ts';
+import { LoginResponse } from '../interfaces/member.ts'
+import { postLogin } from '../services/MemberService.ts';
 import { useAuth } from '../hooks/AuthProvider.tsx';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const { authorization, refresh, login, setAuthorization, setRefresh, setLogin } = useAuth();
     // 전역적으로 토큰 저장
+
+    const navigate = useNavigate();
 
     const [response, setResponse] = useState<LoginResponse | null>(null);
     const [email, setEmail] = useState<string>();
@@ -37,10 +40,8 @@ const Login = () => {
     if (response !== null) {
         setAuthorization(response.headers.authorization);
         setRefresh(response.headers.refresh);
-    }
-
-    if (authorization !== null) {
         setLogin(true);
+        navigate('/');
     }
 
     return (
@@ -88,17 +89,19 @@ const Login = () => {
                 draggable={true}
             >
             </Button>
-            <Button
-                name='회원가입'
-                mode='pass'
-                draggable={true}>
-            </Button>
+            <Link to='/signup'>
+                <Button
+                    name='회원가입'
+                    mode='pass'
+                    draggable={true}>
+                </Button>
+            </Link>
             <Button
                 name='비밀번호 찾기'
                 mode='pass'
                 draggable={true}>
             </Button>
-
+        <div className='login-blank'></div>
         </div>
     );
 }

@@ -21,7 +21,7 @@ const ImageContainer = styled.div`
     align-items: center; /* 수직 정렬 */
 `;
 
-const images = [      require('../assets/image-rulru03.png').default, "../assets/image-rulru02.png", "../assets/img-main-cat.png", "../assets/img-main-cat.png" ];
+const images = [require('../assets/image-rulru02.png').default, "../assets/image-rulru02.png", "../assets/img-main-cat.png", "../assets/img-main-cat.png" ];
 
 function MyCollection() {
     return (

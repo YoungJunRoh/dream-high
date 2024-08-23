@@ -64,7 +64,7 @@ type ButtonProps = {
 // 버튼 width 글자 크기에 따라 늘어나도록 GPT 한테 커스텀 받기
 const Button: React.FC<ButtonProps> = ({ mode, name, draggable = true, option, children, onClick }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    
+
     const openModalHandler = () => {
         setIsOpen(prevIsOpen => !prevIsOpen);
     };
@@ -93,6 +93,12 @@ const Button: React.FC<ButtonProps> = ({ mode, name, draggable = true, option, c
             break;
         case 'snslogin':
             currentClass = 'go-snslogin-button';
+            break;
+        case 'normalButton' :
+            currentClass = 'normal-button';
+            break;
+        case 'search' :
+            currentClass = 'search-button';
             break;
         default:
             break; // 기본 클래스 유지

@@ -6,7 +6,7 @@
 ```
 import React from 'react';
 
-function PageName() {
+const PageName = () => {
     return (
         <div>
             <h1>Page1</h1>

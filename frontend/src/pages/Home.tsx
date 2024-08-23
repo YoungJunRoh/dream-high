@@ -12,8 +12,15 @@ import Footer from '../components/Footer.tsx';
 import { getDreams } from '../services/DreamService.ts';
 import { GetDreamsResponse } from '../interfaces/dream.ts';
 import HotDream from '../components/HotDream.tsx';
+import { useHeaderMode } from '../hooks/HeaderManager.tsx';
 
 const Home = () => {
+    const { headerMode, setHeaderMode } = useHeaderMode();
+
+    useEffect(() => {
+        setHeaderMode('main');
+    }, [])
+
     const [responseDreams, setResponseDreams] = useState<GetDreamsResponse | null>(null);
 
     const getDreamsAsync = async () => {
@@ -32,6 +39,9 @@ const Home = () => {
 
     const totalElements = responseDreams?.pageInfo.totalElements as number;
 
+    const datas = responseDreams?.data || [];
+    const boards = datas.map((data) => (<BoardList contentData={data}></BoardList>))
+
     const hotDreamMaker = () => {
         if (responseDreams && totalElements > 0) {
             // totalElements가 10 이하인 경우에도 인덱스 범위 내에서 랜덤 선택
@@ -43,9 +53,6 @@ const Home = () => {
     };
 
     const randomTmiIdx: number = Math.floor(Math.random() * tmiDatas.length);
-
-    const datas = responseDreams?.data || [];
-    const boards = datas.map((data) => (<BoardList contentData={data}></BoardList>))
 
     return (
         <div className='background-night'>
@@ -64,7 +71,9 @@ const Home = () => {
                 <div className='another-dream font-extrabold'>다른꿈도 보러가기  ▼</div>
                 <BoardIndex />
                 {boards}
-                <BoardSeeMore />
+                <Link to='/board'>
+                    <BoardSeeMore />
+                </Link>
                 <Footer />
             </div>
         </div>
