@@ -9,6 +9,7 @@ const EMAIL_URL: string = 'http://localhost:8080/api/email/send-verification';
 const VERIFY_EMAIL_URL: string = 'http://localhost:8080/api/email/verify'
 
 export const postLogin = async (username: string, password: string): Promise<LoginResponse> => {
+    //리스폰스로 오는것들 인터페이스로 구현해야함
     try {
         const response = await login<LoginResponse>(LOGIN_URL, { username, password });
         return response; // result에서 DreamData 반환

@@ -21,20 +21,45 @@ const Login = () => {
 
     // 이메일 추출
     const emailHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setEmail(e.target.value);
-        console.log(email);
+        let value = e.target.value;
+        setEmail(value);
+       
+    };
+
+
+    // 키다운 이벤트로 이메일 입력 필터링
+    const handleEmailKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        const allowedKeys = /^[a-zA-Z0-9@._-]+$/;
+
+        // 한글 및 허용되지 않은 키 입력 차단
+        if (!allowedKeys.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') {
+            e.preventDefault();
+        }
     };
 
     // 패스워드 추출
     const passwordHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setPassword(e.target.value);
-        console.log(password);
+        let value = e.target.value;
+
+        // 입력된 값이 모두 별표로 표시되도록 함
+        value = '*'.repeat(value.length);
+
+        setPassword(value);
+        
+    };
+
+     // Enter 키 입력 방지 함수
+     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // 엔터키 입력으로 줄바꿈 방지
+        }
     };
 
     // 로그인 처리
     const loginHandler = async () => {
         const response = await postLogin(email as string, password as string);
         setResponse(response);
+        console.log("Logging in with:", { email, password });
     };
 
     if (response !== null) {
@@ -52,6 +77,7 @@ const Login = () => {
                     <h5>이메일</h5>
                     <TextArea
                         onChange={emailHandler}
+                        onKeyDown={(e) => { handleKeyDown(e); handleEmailKeyDown(e); }}
                         placeholder='아이디를 입력하세요'
                         m_height='15vw'
                         m_width='85vw'
@@ -59,12 +85,14 @@ const Login = () => {
                         w_height='56px'
                         w_width='320px'
                         w_fontSize='20px'
+                      
                     ></TextArea>
                 </div>
                 <div className='login-input'>
                     <h5>비밀번호</h5>
                     <TextArea
                         onChange={passwordHandler}
+                        onKeyDown={handleKeyDown}
                         placeholder='비밀번호를 입력하세요'
                         m_height='15vw'
                         m_width='85vw'
@@ -72,6 +100,7 @@ const Login = () => {
                         w_height='56px'
                         w_width='320px'
                         w_fontSize='20px'
+                        value={password}
                     ></TextArea>
                 </div>
             </ResultBigBox>

@@ -18,6 +18,7 @@ const PageName = () => {
     const [responseDreams, setResponseDreams] = useState<GetDreamsResponse | null>(null);
 
     const getDreamsAsync = async () => {
+        // 비동기는 다 asynic붙여줘야함
         try {
             const result = await getDreams(1, 10);
             setResponseDreams(result);
