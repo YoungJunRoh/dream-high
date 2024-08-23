@@ -146,4 +146,8 @@ public class MemberService {
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         return findMember;
     }
+
+    public boolean isNickNameAvailable(String nickName) {
+        return !memberRepository.existsByNickName(nickName);
+    }
 }

@@ -57,9 +57,18 @@ public class MemberController {
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.memberToMemberResponse(member)), HttpStatus.OK);
     }
+    //닉네임 중복확인
+    @PostMapping("/check-nickName")
+    public ResponseEntity nickNameAvailability(@RequestBody String nickName){
+        boolean isAvailable = memberService.isNickNameAvailable(nickName);
+        MemberDto.Check responseDto = new  MemberDto.Check(isAvailable);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(responseDto), HttpStatus.OK);
+    }
 
     @GetMapping("/{member-id}")
-    public ResponseEntity geMember(
+    public ResponseEntity getMember(
             @PathVariable("member-id") @Positive long memberId) {
         Member member = memberService.findMember(memberId);
 
