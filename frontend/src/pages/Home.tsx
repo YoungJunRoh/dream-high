@@ -10,7 +10,7 @@ import BoardList from '../components/BoardList.tsx';
 import BoardSeeMore from '../components/BoardSeeMore.tsx';
 import Footer from '../components/Footer.tsx';
 import { getDreams } from '../services/DreamService.ts';
-import { GetDreamsResponse } from '../interfaces/dream.ts';
+import { GetsApiResponse } from '../interfaces/dream.ts';
 import HotDream from '../components/HotDream.tsx';
 import { useHeaderMode } from '../hooks/HeaderManager.tsx';
 
@@ -21,7 +21,7 @@ const Home = () => {
         setHeaderMode('main');
     }, [])
 
-    const [responseDreams, setResponseDreams] = useState<GetDreamsResponse | null>(null);
+    const [responseDreams, setResponseDreams] = useState<GetsApiResponse | null>(null);
 
     const getDreamsAsync = async () => {
         try {
@@ -36,10 +36,10 @@ const Home = () => {
     useEffect(() => {
         getDreamsAsync();
     }, [])
-
-    const totalElements = responseDreams?.pageInfo.totalElements as number;
-
-    const datas = responseDreams?.data || [];
+    
+    const totalElements = responseDreams?.data.pageInfo.totalElements as number;
+  
+    const datas: any[] = responseDreams?.data.data || [];
     const boards = datas.map((data) => (<BoardList contentData={data}></BoardList>))
 
     const hotDreamMaker = () => {
@@ -47,7 +47,7 @@ const Home = () => {
             // totalElements가 10 이하인 경우에도 인덱스 범위 내에서 랜덤 선택
             const maxIndex = Math.min(totalElements, 10);
             const randomHotDream: number = Math.floor(Math.random() * maxIndex);
-            return responseDreams.data[randomHotDream].content;
+            return responseDreams?.data.data[randomHotDream].content;
         }
         return "데이터가 없습니다."; // fallback 메시지 또는 null
     };

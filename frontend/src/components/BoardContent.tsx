@@ -7,10 +7,9 @@ import ResultBox from '../components/ResultBox.tsx';
 import ResultBigBox from '../components/BigBox.tsx';
 import ResultSmallBox from '../components/SmallBox.tsx';
 import Footer from '../components/Footer.tsx';
-
-interface Window {
-    Kakao: any; // Kakao 객체의 타입을 정확히 정의할 수 있다면, any 대신에 정의된 타입을 사용하세요.
-}
+import Share from './Share.tsx';
+import domtoimage from 'dom-to-image';
+import { saveAs } from 'file-saver';
 
 interface DreamDatas {
     advice: string;
@@ -18,36 +17,16 @@ interface DreamDatas {
     summary: string;
     dreamContent: string;
     interpertaionContent: string;
+    boardId: number
+    username: string | null
 }
 
-const InterpretationResult:React.FC<DreamDatas> = ({advice, interpertaionKeyword, summary, dreamContent, interpertaionContent } ) => {
-    // useEffect(() => {
-    //     if (!window.Kakao.isInitialized()) {
-    //         // window.Kakao.init(process.env.REACT_APP_KAKAO_API_KEY);
-    //         window.Kakao.init('');
-    //     }
-    // }, []);
-
-    // const handleShareKakaoClick = () => {
-    //     if (window.Kakao) {
-    //         const kakao = window.Kakao;
-
-    //         kakao.Share.sendDefault({
-    //             objectType: 'feed',
-    //             content: {
-    //                 title: "TEST",
-    //                 description: "TEST".substring(0, 30) + '...',
-    //                 imageUrl:
-    //                     'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.utoimage.com%2F%3Fm%3Dgoods.free%26mode%3Dview%26idx%3D22250682&psig=AOvVaw0NHQpVEQpAxakywtyyChcW&ust=1724386608224000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNCH5-veh4gDFQAAAAAdAAAAABAE' ??
-    //                     '-디폴트 썸네일-',
-    //                 link: {
-    //                     mobileWebUrl: 'http://tdtest.kro.kr:3000/',
-    //                     webUrl: 'http://tdtest.kro.kr:3000/',
-    //                 },
-    //             },
-    //         });
-    //     }
-    // }
+const BoardContent: React.FC<DreamDatas> = ({ advice, interpertaionKeyword, summary, dreamContent, interpertaionContent, boardId, username }) => {
+    const onDownloadImg = (): void => {
+        domtoimage.toBlob(document.querySelector('.card') as HTMLElement).then(blob => {
+            saveAs(blob, 'card.png');
+        });
+    };
 
     return (
         <div className='background-morning'>
@@ -66,10 +45,11 @@ const InterpretationResult:React.FC<DreamDatas> = ({advice, interpertaionKeyword
                 <div id='result-sharing'>
                     <p className='font-bold'>공유하기</p>
                     <div id="result-sharing-area">
-                        <div
-                            id='result-sharing-kakao'
-                            // onClick={handleShareKakaoClick}
-                        ></div>
+                        <Share
+                            boardId={boardId}
+                            username={username}
+                            content={dreamContent}
+                        />
                         <div id='result-sharing-insta'></div>
                         <div id='result-sharing-x'></div>
                         <div id='result-sharing-link'></div>
@@ -89,4 +69,4 @@ const InterpretationResult:React.FC<DreamDatas> = ({advice, interpertaionKeyword
     );
 }
 
-export default InterpretationResult;
+export default BoardContent;

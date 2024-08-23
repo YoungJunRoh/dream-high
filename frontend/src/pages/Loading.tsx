@@ -1,110 +1,96 @@
 import React, { useEffect, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { ClockLoader } from 'react-spinners';
 import '../styles/loading.css';
+import { postDream } from '../services/DreamService.ts';
 
-const MeteorKeyframe = (direction: "left" | "right", angle: number) => keyframes`
-    0% {
-        top: -10vh;
-        transform: translateX(0px);
-        opacity: 1;
-    }
-    100% {
-        top: 110vh;
-        transform: translateX(${direction === "left" ? "-" : "+"}${120 / Math.tan((angle * Math.PI) / 180)}vh);
-        opacity: 1;
-    }
-`;
-
-interface MeteorLayoutProps {
-    $direction: "left" | "right";
-    $angle: number;
+// 인터페이스 정의
+interface DreamKeyword {
+    dreamKeywordId: number;
+    name: string;
+    dreamId: number;
 }
 
-const MeteorEffectLayout = styled.div<MeteorLayoutProps>`
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-image: linear-gradient(to top, #a7a6cb 0%, #8989ba 52%, #8989ba 100%);
-    
-    .star {
-        position: relative;
-        top: 50%;
-        width: 4px;
-        height: 4px;
-        border-radius: 50%;
-        background-color: white;
-        animation: ${(props) => MeteorKeyframe(props.$direction, props.$angle)} 4s ease-in infinite;
-        opacity: 0;
-    }
-
-    .star::after {
-        position: absolute;
-        top: calc(50% - 1px);
-        left: -950%;
-        width: 2000%;
-        height: 2px;
-        background: linear-gradient(to left, #fff0, #ffffff);
-        content: "";
-        transform: ${(props) => props.$direction === "left" ? `rotateZ(-${props.$angle}deg)` : `rotateZ(-${180 - props.$angle}deg)`} translateX(50%);
-    }
-    
-`;
-
-interface MeteorEffectProps {
-    count?: number;
-    white?: boolean;
-    maxDelay?: number;
-    minSpeed?: number;
-    maxSpeed?: number;
-    angle?: number;
-    direction?: "left" | "right";
+interface InterpretationKeyword {
+    interpretationMoodKeywordId: number;
+    name: string;
 }
 
-const MAX_STAR_COUNT = 50;
-const colors = ["#c77eff", "#f6ff7e", "#ff8d7e", "#ffffff"];
+interface InterpretationResponse {
+    interpretationId: number;
+    content: string;
+    summary: string;
+    advice: string;
+    keyword: InterpretationKeyword;
+}
 
-export default function MeteorEffect({
-    count = 12,
-    white = false,
-    maxDelay = 15,
-    minSpeed = 2,
-    maxSpeed = 4,
-    angle = 30,
-    direction = "right"
-}: MeteorEffectProps) {
-    const starCount = count < MAX_STAR_COUNT ? count : MAX_STAR_COUNT;
-    const [starInterval, setStarInterval] = useState<number>(0);
+interface DreamData {
+    dreamId: number;
+    memberId: number;
+    content: string;
+    dreamStatus: string;
+    dreamSecret: string;
+    createdAt: string;
+    modifiedAt: string | null;
+    dreamKeywords: DreamKeyword[];
+    interpretationResponse: InterpretationResponse;
+    comments: any[];
+}
+
+interface ApiResponse {
+    data: DreamData;
+}
+
+type LocationState = {
+    prompt: string;
+}
+
+const Loading = () => {
+    const location = useLocation();
+    const state = location.state as LocationState | null;
+    const prompt = state?.prompt || '기본값';
+    const navigate = useNavigate();
+
+    console.log(prompt);
+
+    const [responseContent, setResponseContent] = useState<ApiResponse | null>(null);
+
+    const postAsync = async () => {
+            const result = await postDream(prompt);
+            setResponseContent(result);
+    }
 
     useEffect(() => {
-        const calcStarInterval = () => {
-            let innerWidth = window.innerWidth;
-            const adjustedWidth = innerWidth < 400 ? 1000 : innerWidth;
-            setStarInterval(Math.floor((adjustedWidth * 1.5) / (count * 5)));
-        };
-        calcStarInterval();
-        window.addEventListener("resize", calcStarInterval);
-        return () => {
-            window.removeEventListener("resize", calcStarInterval);
-        };
-    }, [count]);
+        postAsync();
+    }, []);
+
+    if (responseContent) {
+        const interpretationResponse = responseContent.data.interpretationResponse;
+        const advice = interpretationResponse.advice;
+        const interpertaionKeyword = interpretationResponse.keyword;
+        const summary = interpretationResponse.summary;
+        const dreamContent = responseContent.data.content;
+        const interpertaionContent = interpretationResponse.content;
+
+        navigate('/interpretation-result', {
+            state: { advice, interpertaionKeyword, summary, dreamContent, interpertaionContent }
+        });
+    }
 
     return (
-        <MeteorEffectLayout $direction={direction} $angle={angle}>
-            {(new Array(starCount)).fill(0).map((_, idx) => {
-                const left = direction === "left" ? `${Math.random() * count * 5 * starInterval}px` : `${window.innerHeight - Math.random() * count * 5 * starInterval}px`;
-                const animationDelay = `${Math.random() * maxDelay}s`;
-                const animationDuration = maxSpeed > minSpeed ? `${minSpeed + Math.random() * maxSpeed}s` : `${2 + Math.random() * 4}`;
-                const colorIndex = Math.floor(Math.random() * colors.length - 0.001);
-                const size = `${2 + Math.floor(Math.random() * 5)}px`;
-                const boxShadow = `0px 0px 10px 3px ${colors[colorIndex]}`;
-                return (
-                    <div key={idx} style={{ left, animationDelay, animationDuration, boxShadow, width: size, height: size }} className='star'></div>
-                );
-            })}
-            <div className="loading-text">좀만 기다려달라냥 🐾</div> {/* 추가된 문구 */}
-        </MeteorEffectLayout>
+        <div className='background'>
+            <div className="stars"></div>
+            <ClockLoader className='clock'
+                color="#FEE500"
+                loading
+                size={100}
+                speedMultiplier={2}
+            />
+            <div className="loading-text">
+                <h2> 좀만 기다려달라 냥!🐾 </h2>
+            </div>
+        </div>
     );
 }
+
+export default Loading;
