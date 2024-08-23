@@ -17,10 +17,13 @@ import Board from '../pages/Board.tsx';
 import BoardDetail from '../pages/BoardDetails.tsx';
 import { AuthProvider } from '../hooks/AuthProvider.tsx';
 import { HeaderManager } from '../hooks/HeaderManager.tsx';
+import MemberModification from '../pages/MemberModification.tsx';
+import { ProfileProvider } from './ProfileContext.tsx'; // 경로를 맞춰주세요
 
 const App = () => {
   return (
     <AuthProvider>
+       <ProfileProvider> {/* ProfileProvider로 감싸기 */}
       <BrowserRouter>
         <div id='wrap'>
           <HeaderManager>
@@ -37,12 +40,14 @@ const App = () => {
               <Route path='/signup' element={<SignUp />} />
               <Route path='/mycollection' element={<MyCollection />} />
               <Route path='/getpicture' element={<GetPicture />} />
+              <Route path='/memberModification' element={<MemberModification />} />
               <Route path='/board' element={<Board />} />
               <Route path='/board/:id' element={<BoardDetail />} />
             </Routes>
           </HeaderManager>
         </div>
       </BrowserRouter>
+      </ProfileProvider> // ProfileProvider로 감싸기
     </AuthProvider>
   );
 }

@@ -1,22 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../styles/global.css';
 import '../styles/mypage.css';
 import LongPress from '../components/LongPress.tsx';
+import { useProfile } from '../components/ProfileContext.tsx'; // Context 가져오기
 
-function MyPage() {
-    const [coupon, setCoupon] = useState<number>(2);
-
-    // 1. 컴포넌트 
+const MyPage: React.FC = () => {
+    const { profileImage } = useProfile(); // Context에서 프로필 이미지 가져오기
 
     return (
         <div id='mypage-backgound-night'>
-            <div id='mypage-container' >
+            <div id='mypage-container'>
                 <div id='mypage-profile-container' className='font-extrabold'>
                     <div id='mypage-profile' className='font-extrabold'>
-                            <LongPress></LongPress>
+                        {profileImage ? (
+                            <LongPress>
+                                <img 
+                                    src={profileImage} 
+                                    alt="Profile" 
+                                    style={{ width: '100px', height: '100px', borderRadius: '50%' }} // 이미지 스타일 추가
+                                />
+                            </LongPress>
+                        ) : (
+                            <p>프로필 이미지가 없습니다.</p> // 이미지가 없는 경우 메시지
+                        )}
                         <p id='nickname'>강룰루</p>
                     </div>
-
                 </div>
                 <div id='mypage-stamp-container' className='font-extrabold'>
                     <div id='mypage-stamp'>

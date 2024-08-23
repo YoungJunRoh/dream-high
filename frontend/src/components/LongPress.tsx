@@ -31,9 +31,17 @@ const LongPress: React.FC = () => {
 
     return (
         <div>
-            <button {...longPressEvents()}>
+               <button 
+                {...longPressEvents()} 
+                onMouseDown={(e) => e.preventDefault()} // 마우스 클릭 시 기본 이벤트 방지
+                style={{ border: 'none', background: 'none', padding: 0 }} // 스타일 조정
+            >
                 <ProfileImg>
-                    <img src="path/to/your/image.jpg" alt="Long Press Me" />
+                    <img 
+                        src="'../assets/img-leave.png" // 실제 이미지 경로로 변경
+                        alt="Long Press Me" 
+                        style={{ width: '100%', height: 'auto' }} // 이미지 스타일 조정
+                    />
                 </ProfileImg>
             </button>
         </div>
