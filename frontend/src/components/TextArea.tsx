@@ -23,6 +23,7 @@ padding: 10px;
 font-size: ${(props) => props.w_fontSize};
 margin-bottom: 5px;
 resize: none;
+position: relative;
 
 @media all and (max-width:430px) {
 height: ${(props) => props.m_height};
@@ -32,6 +33,7 @@ padding: 10px;
 font-size: ${(props) => props.m_fontSize};
 margin-bottom: 5px;
 resize: none;
+position: relative;
 }
 `;
 

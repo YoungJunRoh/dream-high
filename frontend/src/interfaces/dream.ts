@@ -31,6 +31,8 @@ interface DreamData {
     modifiedAt: string | null;
     dreamKeywords: DreamKeyword[];
     interpretationResponse: InterpretationResponse;
+    viewCount:number;
+    likeCount:number;
     comments: any[]; // 댓글이 있는 경우, 적절한 타입을 지정해 주세요
 }
 
@@ -43,7 +45,7 @@ interface PageInfo {
 }
 
 // getdreams 에 대한 인터페이스
-interface GetDreams {
+export interface GetDreams {
     dreamId: number;
     memberId: number;
     content: string;
@@ -62,6 +64,7 @@ export interface PostDreamResponse {
 
 export interface GetDreamResponse {
     data: DreamData;
+    StatusCode:number;
 }
 
 export interface GetDreamsResponse {

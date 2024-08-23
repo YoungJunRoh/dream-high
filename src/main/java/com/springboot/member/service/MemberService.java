@@ -1,6 +1,7 @@
 package com.springboot.member.service;
 
 import com.springboot.auth.utils.JwtAuthorityUtils;
+import com.springboot.dream.entity.Dream;
 import com.springboot.exception.BusinessLogicException;
 import com.springboot.exception.ExceptionCode;
 import com.springboot.helper.event.MemberRegistrationApplicationEvent;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.springboot.member.entity.Member.MemberStatus.MEMBER_ACTIVE;
+import static com.springboot.member.entity.Member.MemberStatus.MEMBER_QUIT;
 
 @Service
 public class MemberService {
@@ -75,6 +77,30 @@ public class MemberService {
         findMember.setModifiedAt(LocalDateTime.now());
         return memberRepository.save(findMember);
     }
+    public Member updateMemberPassword(Member member) {
+        // TODO should business logic
+        //throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
+        Member findMember = findVerifiedMember(member.getMemberId());
+
+        Optional.ofNullable(member.getPassword())
+                .ifPresent(password -> findMember.setPassword(password));
+
+        findMember.setModifiedAt(LocalDateTime.now());
+        return memberRepository.save(findMember);
+    }
+
+    public Member updateMemberProfile(Member member) {
+        // TODO should business logic
+        //throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
+        Member findMember = findVerifiedMember(member.getMemberId());
+
+        Optional.ofNullable(member.getProfileUrl())
+                .ifPresent(profileUrl-> findMember.setProfileUrl(profileUrl));
+
+        findMember.setModifiedAt(LocalDateTime.now());
+        return memberRepository.save(findMember);
+    }
+
 
     public Member findMember(long memberId) {
         // TODO should business logic
@@ -82,6 +108,11 @@ public class MemberService {
         return findVerifiedMember(memberId);
     }
 
+    public Member findMember(long memberId, String email) {
+        // TODO should business logic
+        //throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
+        return findVerifiedMember(memberId);
+    }
 
 
     public Page<Member> findMembers(int page, int size) {
@@ -94,7 +125,14 @@ public class MemberService {
     public void deleteMember(long memberId) {
         // TODO should business logic
         Member findMember = findVerifiedMember(memberId);
-        memberRepository.delete(findMember);
+
+        findMember.setMemberStatus(MEMBER_QUIT);
+
+        for(Dream dream : findMember.getDreams()){
+            dream.setDreamStatus(Dream.DreamStatus.DREAM_DEACTIVE);
+        }
+
+        memberRepository.save(findMember);
         //throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
     }
 
@@ -145,5 +183,9 @@ public class MemberService {
         Member findMember = optionalMember.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         return findMember;
+    }
+
+    public boolean isNickNameAvailable(String nickName) {
+        return !memberRepository.existsByNickName(nickName);
     }
 }

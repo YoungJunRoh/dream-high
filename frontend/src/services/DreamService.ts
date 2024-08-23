@@ -1,12 +1,12 @@
-import { LargeNumberLike } from "crypto";
 import { postData, getData } from "./index.ts";
-import { GetDreamsResponse, PostDreamResponse, GetDreamResponse } from '../interfaces/dreamsResponse.ts';
+import { GetDreamsResponse, PostDreamResponse, GetDreamResponse } from '../interfaces/dream.ts';
 
 const REQUEST_URL: string = "http://localhost:8080/dreams";
 
 export const postDream = async (prompt:string): Promise<any> => {
     try {
         const response = await postData<PostDreamResponse>(REQUEST_URL, prompt);
+        
         return response; // result에서 DreamData 반환
     } catch (error) {
         throw new Error('Interpretation 요청 실패');

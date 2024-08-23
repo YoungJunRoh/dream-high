@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import '../styles/global.css';
 import '../styles/mypage.css';
 import ProfileImg from '../components/ProfileImg.tsx';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../hooks/AuthProvider.tsx'
+import Swal from 'sweetalert2';
+import { postLogout } from '../services/MemberService.ts';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 // Modal Container
 export const ModalContainer = styled.div`
@@ -78,10 +82,21 @@ export const ModalView = styled.div.attrs(() => ({
 `;
 
 export const MenuTap = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  // 전역으로 토큰 및 로그인 상태를 저장하기 위한 훅스 호출
+  const { authorization, refresh, login, setAuthorization, setRefresh, setLogin } = useAuth();
+  const [isOpen, setIsOpen] = useState<boolean>(false); // 메뉴탭 상태
+  const [isLogin, setIsLogin] = useState<boolean>(false); // 로그인 상태
+  // AxiosRequestConfig 타입 선언.
+  const accessToken: AxiosRequestConfig = {
+    headers: {
+      Authorization: authorization,
+    },
+  };
 
-  // 로그인 처리 커스텀 하삼.
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  // 로그아웃 API 호출
+  const LogoutAsync = async () => {
+    const response: AxiosResponse = await postLogout(accessToken);
+  }
 
   const openModalHandler = () => {
     setIsOpen(prevIsOpen => !prevIsOpen);
@@ -91,9 +106,39 @@ export const MenuTap = () => {
     setIsOpen(false);
   }
 
+  useEffect(() => {
+    console.log('로그인 상태: ' + login + '토큰: ' + authorization + ' isLogin : ' + isLogin);
+    if (login !== null) {
+      setIsLogin(true);
+    } else setIsLogin(false);
+  })
+
+  // 로그아웃
+  const logoutHandler = () => {
+    console.log('로그아웃 감지');
+    Swal.fire({
+      title: '로그아웃 할거냥?',
+      icon: 'info',
+      confirmButtonText: '예',
+      cancelButtonText: '아니요',
+      showCancelButton: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setIsLogin(false);
+        setLogin(null);
+        setAuthorization(null);
+        setRefresh(null);
+        LogoutAsync();
+        closeModalHandler();
+        Swal.fire('다음에 또 보자냥~');
+      }
+    })
+  };
+
   const name: string = '강룰루';
 
   if (isLogin) {
+    // 로그인 상태
     return (
       <>
         <ModalContainer>
@@ -121,8 +166,17 @@ export const MenuTap = () => {
                   >
                     <div className='menu-content font-bold'>마이페이지</div>
                   </Link>
-                  <div className='menu-content font-bold'>게시판 보러가기</div>
-                  <div className='menu-content font-bold'>로그아웃</div>
+                  <Link
+                    to='/board'
+                    onClick={closeModalHandler}
+                    style={{ textDecoration: 'none' }}
+                  >
+                    <div className='menu-content font-bold'>게시판 보러가기</div>
+                  </Link>
+                  <div
+                    className='menu-content font-bold'
+                    onClick={logoutHandler}
+                  >로그아웃</div>
                 </div>
               </ModalView>
             </ModalBackdrop>
@@ -132,6 +186,7 @@ export const MenuTap = () => {
     );
   } else {
     return (
+      // 비로그인 상태
       <>
         <ModalContainer>
           <div
@@ -160,15 +215,27 @@ export const MenuTap = () => {
                     onClick={closeModalHandler}
                     style={{ textDecoration: 'none' }}
                   >
+                    <div className='menu-content font-bold'>로그인 하기</div>
+                  </Link>
+                  <Link
+                    to='/login-home'
+                    onClick={closeModalHandler}
+                    style={{ textDecoration: 'none' }}
+                  >
                     <div className='menu-content font-bold'>마이페이지</div>
                   </Link>
-                  <div className='menu-content font-bold'>게시판 보러가기</div>
-                  <div className='menu-content font-bold'>로그아웃</div>
+                  <Link
+                    to='/board'
+                    onClick={closeModalHandler}
+                    style={{ textDecoration: 'none' }}
+                  >
+                    <div className='menu-content font-bold'>게시판 보러가기</div>
+                  </Link>
                 </div>
               </ModalView>
             </ModalBackdrop>
           ) : null}
-        </ModalContainer>
+        </ModalContainer >
       </>
     );
   }

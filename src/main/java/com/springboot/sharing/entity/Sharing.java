@@ -42,4 +42,11 @@ public class Sharing {
         }
     }
 
+    public void setMember(Member member) {
+        this.member = member;
+        if (!this.member.getSharings().contains(this)) {
+            this.member.getSharings().add(this);
+        }
+    }
+
 }

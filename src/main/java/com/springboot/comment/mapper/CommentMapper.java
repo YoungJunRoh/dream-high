@@ -7,6 +7,7 @@ import com.springboot.dream.entity.Dream;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +22,6 @@ public interface CommentMapper {
 
         return comment;
     }
-
     default Comment commentPatchDtoToComment(CommentDto.Patch requestBody){
         Comment comment = new Comment();
         comment.setContent(requestBody.getContent());
@@ -44,5 +44,4 @@ public interface CommentMapper {
         return comments.stream()
                 .map(comment -> commentToCommentResponseDto(comment)).collect(Collectors.toList());
     }
-
 }

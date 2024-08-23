@@ -9,7 +9,7 @@ export const ModalContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  /* height: 100%; */
 `;
 
 // 백그라운드
@@ -99,6 +99,11 @@ const Button: React.FC<ButtonProps> = ({ mode, name, draggable = true, option, c
             break;
         case 'leave':
             currentClass = 'go-leave-button';
+        case 'normalButton' :
+            currentClass = 'normal-button';
+            break;
+        case 'search' :
+            currentClass = 'search-button';
             break;
         default:
             break; // 기본 클래스 유지

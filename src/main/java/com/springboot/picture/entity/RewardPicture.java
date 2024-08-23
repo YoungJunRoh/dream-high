@@ -24,9 +24,9 @@ public class RewardPicture {
     @OneToMany(mappedBy = "rewardPicture")
     private List<MemberRewardPicture> memberRewardPictures= new ArrayList<>();
 
-    public void addMemberRewardPicture(MemberRewardPicture memberRewardPicture){
+    public void addMemberRewardPicture(MemberRewardPicture memberRewardPicture) {
         this.memberRewardPictures.add(memberRewardPicture);
-        if( memberRewardPicture.getRewardPicture() != this){
+        if (memberRewardPicture.getRewardPicture() != this) {
             memberRewardPicture.addRewardPicture(this);
         }
     }

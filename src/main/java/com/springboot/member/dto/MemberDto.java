@@ -29,6 +29,12 @@ public class MemberDto {
         @NotBlank
         private String nickName;
     }
+    @Getter
+    @AllArgsConstructor
+    public static class PatchProfile{
+        @NotBlank
+        private String profileUrl;
+    }
 
     @Getter
     @AllArgsConstructor
@@ -45,6 +51,20 @@ public class MemberDto {
         }
 
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class PatchPassword{
+        private long memberId;
+
+        private String password;
+
+        public void setMemberId(long memberId) {
+            this.memberId = memberId;
+        }
+
+    }
+
     @AllArgsConstructor
     @Getter
     @NoArgsConstructor
@@ -62,6 +82,12 @@ public class MemberDto {
             return memberStatus.getStatus();
         }
 
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class Check{
+        private boolean isAvailable;
     }
 
 }
