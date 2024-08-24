@@ -59,9 +59,6 @@ const BoardContent: React.FC<DreamDatas> = ({ advice, interpertaionKeyword, summ
                             username={username}
                             content={dreamContent}
                         />
-                        <div id='result-sharing-insta'></div>
-                        <div id='result-sharing-x'></div>
-                        <div id='result-sharing-link'></div>
                     </div>
                     <div
                     className='result-imgdown'
