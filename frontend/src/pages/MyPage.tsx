@@ -28,9 +28,9 @@ const MyPage: React.FC = () => {
                         <p id='nickname'>강룰루</p>
                     </div>
                     <Link to={'/memberModification'}>
-                    <div id='button'>
-                    수정하러가기🐾
-                    </div>
+                        <div id='button'>
+                            수정하러가기🐾
+                        </div>
                     </Link>
                 </div>
                 <div id='mypage-stamp-container' className='font-extrabold'>

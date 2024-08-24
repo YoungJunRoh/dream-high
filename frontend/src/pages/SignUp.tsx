@@ -30,7 +30,7 @@ const SignUp = () => {
     const [resendEmail, setResendEmail] = useState<boolean>(false); // 이메일 재전송 상태
     const [postResponse, setPostResponse] = useState<AxiosResponse | null>(null); // 회원가입 완료 코드
     const [postEmailResponse, setPostEmailResponse] = useState<AxiosResponse | null>(null); // 이메일 인증 완료 코드
-    
+
     // ================================= ↓ 회원가입 양식 상태 코드 ===================================
     const nicknameHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setNickname(e.target.value);
@@ -80,7 +80,7 @@ const SignUp = () => {
             console.log('인증번호 확인');
             const response = await postVerifyEmail(email, verificationCode);
             console.log('API 응답 상태 코드:', response); // 응답 상태 코드 출력
-            
+
             // 상태 코드가 200일 때만 성공 처리
             if (response && response.status === 200) {
                 setPostEmailResponse(response);
@@ -140,25 +140,35 @@ const SignUp = () => {
 
     const handleComplete = async () => {
         if (isAgreed) {
-            // 동의한 경우에만 api 요청
+            try {
+                // 동의한 경우에만 api 요청
                 const response = await postMember(email, password, nickname);
-                setPostResponse(response);
-                
+                setPostResponse(response); // 응답을 상태에 설정
+
+                if (response?.status === 201) { // 여기서 response를 직접 확인
+                    Swal.fire({
+                        text: '회원가입이 완료되었다냥😽',
+                        icon: 'success',
+                        consmButtonText: '확인'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            navigate('/login-home'); // 성공적으로 이동
+                        }
+                    });
+                } else {
+                    // 에러 처리 (예: 400, 500 등)
+                    alert('회원가입에 실패하였습니다. 다시 시도해 주세요.');
+                }
+            } catch (error) {
+                // 네트워크 오류 또는 기타 예외 처리
+                Swal.fire({
+                    text: '이메일 중복이다옹ㅇㅅㅇ',
+                    icon: 'error',
+                    confirmButtonText: '다른아이디입력하러가기😽'
+                });
+            }
         } else {
             Swal.fire("이용약관에 동의해야 합니다.");
-        }
-
-        if (postResponse?.status === 201) {
-            navigate('/login-home');
-            Swal.fire({
-                text: '회원가입이 완료되었다냥😽',
-                icon: 'success',
-                confirmButtonText: '확인'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    navigate('/login-home');
-                }
-            })
         }
     };
 
@@ -284,7 +294,7 @@ const SignUp = () => {
             {isModalOpen && (
                 <TermsModal onClose={handleCloseModal} onAgree={handleAgree} />
             )}
-                <Footer />
+            <Footer />
         </div>
     );
 }

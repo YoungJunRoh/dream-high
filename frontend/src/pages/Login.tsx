@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext, ReactNode, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../styles/login.css';
 import ResultBigBox from '../components/BigBox.tsx';
 import ResultSmallBox from '../components/SmallBox.tsx';
@@ -7,15 +7,12 @@ import { LoginResponse } from '../interfaces/member.ts'
 import { postLogin } from '../services/MemberService.ts';
 import { useAuth } from '../hooks/AuthProvider.tsx';
 import { Link, useNavigate } from 'react-router-dom';
-import { AxiosResponse } from 'axios';
+import Swal from 'sweetalert2'; // Swal 추가
 import Footer from '../components/Footer.tsx';
 import Input from '../components/Input.tsx';
 
-
 const Login = () => {
-    const { authorization, refresh, login, setAuthorization, setRefresh, setLogin } = useAuth();
-    // 전역적으로 토큰 저장
-
+    const { setAuthorization, setRefresh, setLogin } = useAuth();
     const navigate = useNavigate();
 
     const [response, setResponse] = useState<LoginResponse | null>(null);
@@ -24,11 +21,8 @@ const Login = () => {
 
     // 이메일 추출
     const emailHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        let value = e.target.value;
-        setEmail(value);
-       
+        setEmail(e.target.value);
     };
-
 
     // 키다운 이벤트로 이메일 입력 필터링
     const handleEmailKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -42,13 +36,11 @@ const Login = () => {
 
     // 패스워드 추출
     const passwordHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        let value = e.target.value;
-        setPassword(value);
-        
+        setPassword(e.target.value);
     };
 
-     // Enter 키 입력 방지 함수
-     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // Enter 키 입력 방지 함수
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === 'Enter') {
             e.preventDefault(); // 엔터키 입력으로 줄바꿈 방지
         }
@@ -56,17 +48,33 @@ const Login = () => {
 
     // 로그인 처리
     const loginHandler = async () => {
-        const response = await postLogin(email as string, password as string);
-        setResponse(response.data);
-        console.log("Logging in with:", { email, password });
-    };
+        try {
+            const response = await postLogin(email, password);
+            setResponse(response.data);
+            console.log("Logging in with:", { email, password });
 
-    if (response !== null) {
-        setAuthorization(response.headers.authorization);
-        setRefresh(response.headers.refresh);
-        setLogin(true);
-        navigate('/');
-    }
+            // 로그인 성공 시 토큰 저장 및 페이지 이동
+            setAuthorization(response.headers.authorization);
+            setRefresh(response.headers.refresh);
+            setLogin(true);
+            navigate('/');
+        } catch (error) {
+            // 예외 처리
+            if (error.response && error.response.status === 401) {
+                Swal.fire({
+                    text: '이메일 또는 비밀번호가 잘못되었다냥 ㅇㅅㅇ',
+                    icon: 'error',
+                    confirmButtonText: '확인'
+                });
+            } else {
+                Swal.fire({
+                    text: '로그인 중 문제가 발생했서 다시 시도해라냥 ㅇㅅㅇ',
+                    icon: 'error',
+                    confirmButtonText: '확인'
+                });
+            }
+        }
+    };
 
     return (
         <div className='login-background'>
@@ -84,8 +92,7 @@ const Login = () => {
                         w_height='56px'
                         w_width='320px'
                         w_fontSize='20px'
-                        type='email'
-                      
+                        type='email'               
                     ></Input>
                 </div>
                 <div className='login-input'>
@@ -109,31 +116,29 @@ const Login = () => {
                 mode='login'
                 draggable={true}
                 onClick={loginHandler}
-            >
-            </Button>
+            />
             <Button
                 name='SNS로그인'
                 mode='pass'
                 option='modal'
                 draggable={true}
-            >
-            </Button>
+            />
             <Link to='/signup'>
                 <Button
                     name='회원가입'
                     mode='pass'
-                    draggable={true}>
-                </Button>
+                    draggable={true}
+                />
             </Link>
             <Link to='/login-passwordfind'>
                 <Button
                     name='비밀번호 찾기'
                     mode='pass'
-                    draggable={true}>
-                </Button>
+                    draggable={true}
+                />
             </Link>
             <div id='blank'></div>
-            <Footer/>
+            <Footer />
         </div>
     );
 }
