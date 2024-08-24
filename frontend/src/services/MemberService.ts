@@ -22,8 +22,8 @@ export const postLogout = async (accessToken: AxiosRequestConfig): Promise<Axios
     return response; // result에서 DreamData 반환
 };
 
-export const postMember = async (email: string, password: string, nickName: string): Promise<AxiosResponse> => {
-    const response = await postData<AxiosResponse>(REQUEST_URL, { email, password, nickName });
+export const postMember = async (email: string, password: string, nickName: string, authCode:string): Promise<AxiosResponse> => {
+    const response = await postData<AxiosResponse>(REQUEST_URL, { email, password, nickName, authCode });
     return response; // result에서 DreamData 반환
 }
 

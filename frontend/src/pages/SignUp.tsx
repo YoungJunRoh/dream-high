@@ -142,14 +142,14 @@ const SignUp = () => {
         if (isAgreed) {
             try {
                 // 동의한 경우에만 api 요청
-                const response = await postMember(email, password, nickname);
+                const response = await postMember(email, password, nickname, verificationCode);
                 setPostResponse(response); // 응답을 상태에 설정
 
                 if (response?.status === 201) { // 여기서 response를 직접 확인
                     Swal.fire({
                         text: '회원가입이 완료되었다냥😽',
                         icon: 'success',
-                        consmButtonText: '확인'
+                        confirmButtonText: '확인'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             navigate('/login-home'); // 성공적으로 이동
