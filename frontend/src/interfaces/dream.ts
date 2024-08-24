@@ -63,7 +63,7 @@ interface Datas {
     statusText: string
 }
 
-export interface PostDreamResponse {
+export interface PostApiResponse {
     data: DreamData;
 }
 

@@ -56,8 +56,8 @@ const Loading = () => {
     const [responseContent, setResponseContent] = useState<ApiResponse | null>(null);
 
     const postAsync = async () => {
-            const result = await postDream(prompt);
-            setResponseContent(result);
+            const response = await postDream(prompt);
+            setResponseContent(response.data);
     }
 
     useEffect(() => {

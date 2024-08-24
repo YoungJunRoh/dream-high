@@ -12,11 +12,9 @@ const REQUEST_URL: string = 'http://localhost:8080/members';
 const EMAIL_URL: string = 'http://localhost:8080/api/email/send-verification';
 const VERIFY_EMAIL_URL: string = 'http://localhost:8080/api/email/verify'
 
-
 export const postLogin = async (username: string, password: string) => {
     const response = await login<LoginResponse>(LOGIN_URL, { username, password });
     return response; // result에서 DreamData 반환
-
 };
 
 export const postLogout = async (accessToken: AxiosRequestConfig): Promise<AxiosResponse> => {

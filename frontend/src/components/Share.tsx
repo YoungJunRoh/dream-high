@@ -5,9 +5,10 @@ type ShareProps = {
     boardId: number;
     username: string | null;
     content: string;
+    onClick?(parm?:any): void;
 }
 
-const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
+const Share: React.FC<ShareProps> = ({ boardId, username, content, onClick }) => {
     const handleShareKakaoClick = () => {
         if (window.Kakao) {
             const kakao = window.Kakao;
