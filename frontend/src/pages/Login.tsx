@@ -3,20 +3,21 @@ import '../styles/login.css';
 import ResultBigBox from '../components/BigBox.tsx';
 import ResultSmallBox from '../components/SmallBox.tsx';
 import Button from '../components/Button.tsx';
-import TextArea from '../components/TextArea.tsx';
-import { LoginResponse } from '../interfaces/member.ts';
+import { LoginResponse } from '../interfaces/member.ts'
 import { postLogin } from '../services/MemberService.ts';
 import { useAuth } from '../hooks/AuthProvider.tsx';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'; // Swal 추가
 import Footer from '../components/Footer.tsx';
+import Input from '../components/Input.tsx';
 
 const Login = () => {
     const { setAuthorization, setRefresh, setLogin } = useAuth();
     const navigate = useNavigate();
+
     const [response, setResponse] = useState<LoginResponse | null>(null);
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+    const [email, setEmail] = useState<string>();
+    const [password, setPassword] = useState<string>();
 
     // 이메일 추출
     const emailHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -81,7 +82,7 @@ const Login = () => {
             <ResultBigBox mode='loginbox'>
                 <div className='login-input'>
                     <h5>이메일</h5>
-                    <TextArea
+                    <Input
                         onChange={emailHandler}
                         onKeyDown={(e) => { handleKeyDown(e); handleEmailKeyDown(e); }}
                         placeholder='아이디를 입력하세요'
@@ -91,11 +92,12 @@ const Login = () => {
                         w_height='56px'
                         w_width='320px'
                         w_fontSize='20px'
-                    />
+                        type='email'               
+                    ></Input>
                 </div>
                 <div className='login-input'>
                     <h5>비밀번호</h5>
-                    <TextArea
+                    <Input
                         onChange={passwordHandler}
                         onKeyDown={handleKeyDown}
                         placeholder='비밀번호를 입력하세요'
@@ -105,8 +107,8 @@ const Login = () => {
                         w_height='56px'
                         w_width='320px'
                         w_fontSize='20px'
-                        value={password}
-                    />
+                        type='password'
+                    ></Input>
                 </div>
             </ResultBigBox>
             <Button

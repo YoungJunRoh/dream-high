@@ -1,10 +1,10 @@
 import { postData, getData } from "./index.ts";
-import { GetsApiResponse, PostDreamResponse, GetApiResponse } from '../interfaces/dream.ts';
+import { GetsApiResponse, PostApiResponse, GetApiResponse } from '../interfaces/dream.ts';
 
 const REQUEST_URL: string = "http://localhost:8080/dreams";
 
 export const postDream = async (prompt: string) => {
-    const response = await postData<PostDreamResponse>(REQUEST_URL, prompt);
+    const response = await postData<PostApiResponse>(REQUEST_URL, prompt);
     return response; // result에서 DreamData 반환
 };
 

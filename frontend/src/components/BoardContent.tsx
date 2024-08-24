@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useRef } from 'react';
 import ChatBalloon from '../components/ChatBalloon.tsx';
 import Button from '../components/Button.tsx';
 import '../styles/result.css';
@@ -10,6 +10,7 @@ import Footer from '../components/Footer.tsx';
 import Share from './Share.tsx';
 import domtoimage from 'dom-to-image';
 import { saveAs } from 'file-saver';
+import Swal from 'sweetalert2';
 
 interface DreamDatas {
     advice: string;
@@ -22,10 +23,18 @@ interface DreamDatas {
 }
 
 const BoardContent: React.FC<DreamDatas> = ({ advice, interpertaionKeyword, summary, dreamContent, interpertaionContent, boardId, username }) => {
+    const cardRef = useRef<HTMLLIElement>(null);
+
     const onDownloadImg = (): void => {
-        domtoimage.toBlob(document.querySelector('.card') as HTMLElement).then(blob => {
-            saveAs(blob, 'card.png');
-        });
+        if (cardRef.current) {
+            domtoimage.toBlob(cardRef.current)
+                .then(blob => {
+                    saveAs(blob, 'card.png');
+                })
+                .catch(error => {
+                    // 에러 메시지
+                });
+        }
     };
 
     return (
@@ -54,7 +63,15 @@ const BoardContent: React.FC<DreamDatas> = ({ advice, interpertaionKeyword, summ
                         <div id='result-sharing-x'></div>
                         <div id='result-sharing-link'></div>
                     </div>
-                    <span className='font-normal result-font-size-18'>이미지로 저장하기</span>
+                    <div
+                    className='result-imgdown'
+                     onClick={onDownloadImg}>
+                    <span
+                        className='font-normal result-font-size-18'
+                    >
+                        이미지로 저장하기</span>
+                    </div>
+                    
                 </div>
             </div>
             <ResultSmallBox name='자세한 꿈해몽이다 냥냥🐾' />

@@ -12,7 +12,7 @@ const client: Axios = axios.create({
 export const postData = async <T>(url: string, data?: any, config?: AxiosRequestConfig) => {
     console.log('=============== POST ==================');
     const response: AxiosResponse<T> = await client.post<T>(url, data, config);
-    console.log("POSTDATA" + response.data);
+    console.log("POSTDATA" + response);
     return response;
 };
 

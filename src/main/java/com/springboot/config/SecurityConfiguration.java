@@ -85,7 +85,7 @@ public class SecurityConfiguration {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
-        configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.addAllowedOrigin("https://dream-high.s3.ap-northeast-2.amazonaws.com");
         configuration.setExposedHeaders(Arrays.asList("Authorization", "Refresh"));
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
