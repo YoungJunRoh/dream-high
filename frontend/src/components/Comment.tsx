@@ -1,8 +1,8 @@
 import React from 'react';
 import '../styles/global.css';
 import styled from 'styled-components';
-import { OptionTab } from './OptionTab';
-import OptionContent from './OptionContent';
+import { OptionTab } from './OptionTab.tsx';
+import OptionContent from './OptionContent.tsx';
 
 export const CommentForm = styled.div`
     display: flex;

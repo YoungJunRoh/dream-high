@@ -3,14 +3,14 @@ import '../styles/result.css';
 
 type ShareProps = {
     boardId: number;
-    username: string | null; 
+    username: string | null;
     content: string;
     onClick?(parm?: any): void;
 }
 
 const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
     const shareUrl = `http://tdtest.kro.kr:3000/board/${boardId}`;
-    
+
     const handleShareKakaoClick = () => {
         if (window.Kakao) {
             const kakao = window.Kakao;
@@ -44,13 +44,31 @@ const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
         const instagramUrl = `https://www.instagram.com/direct/inbox/`;
         const deepLink = `instagram://user?username=${instagramUsername}`;
 
-        // 인스타그램 앱이 설치되어 있는 경우 앱을 열고, 그렇지 않은 경우 웹 브라우저에서 열기
-        if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) {
-            window.location.href = deepLink;
-        } else {
-            window.location.href = instagramUrl;
-        }
+        navigator.clipboard.writeText(shareUrl)
+        .then(() => {
+            alert('링크가 클립보드에 복사되었습니다!');
+        
+            if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) {
+                window.location.href = deepLink;
+            } else {
+                window.location.href = instagramUrl;
+            }
+        })
+        .catch(err => {
+            console.error('클립보드에 복사 실패:', err);
+        });
     };
+
+    const handleCopyLinkClick = () => {
+        navigator.clipboard.writeText(shareUrl)
+            .then(() => {
+                alert('공유 링크가 클립보드에 복사되었습니다!');
+            })
+            .catch(err => {
+                console.error('클립보드에 복사 실패:', err);
+            });
+    };
+
 
     return (
         <div className="share-buttons">
@@ -60,7 +78,7 @@ const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
             </div>
             <div id="result-sharing-insta" onClick={handleShareInstagramClick}>
             </div>
-            <div id='result-sharing-link'></div>
+            <div id="result-sharing-link" onClick={handleCopyLinkClick}></div>
         </div>
     );
 }
