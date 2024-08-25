@@ -5,6 +5,7 @@ type ShareProps = {
     boardId: number;
     username: string | null; 
     content: string;
+    onClick?(parm?: any): void;
 }
 
 const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
@@ -38,12 +39,16 @@ const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
     };
 
     // 인스타그램 공유 (링크 복사 기능 사용)
-    const handleShareInstagramClick = async () => {
-        try {
-            await navigator.clipboard.writeText(shareUrl);
-            alert('링크가 클립보드에 복사되었습니다. 인스타그램에 직접 붙여넣어 주세요.');
-        } catch (err) {
-            console.error('클립보드에 링크 복사 실패:', err);
+    const handleShareInstagramClick = () => {
+        const instagramUsername = 'target_username';  // 공유할 상대방의 인스타그램 사용자 이름
+        const instagramUrl = `https://www.instagram.com/direct/inbox/`;
+        const deepLink = `instagram://user?username=${instagramUsername}`;
+
+        // 인스타그램 앱이 설치되어 있는 경우 앱을 열고, 그렇지 않은 경우 웹 브라우저에서 열기
+        if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) {
+            window.location.href = deepLink;
+        } else {
+            window.location.href = instagramUrl;
         }
     };
 
