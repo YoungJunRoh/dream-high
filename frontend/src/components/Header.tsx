@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/global.css';
 import { Link } from 'react-router-dom';
-import { MenuTap } from '../components/MenuTap.tsx';
+import { MenuTab } from './MenuTab.tsx';
 import { useHeaderMode } from '../hooks/HeaderManager.tsx';
 
 const Header = () => {
@@ -12,7 +12,7 @@ const Header = () => {
             return <header>
                 <div className='width-wrapper'></div>
                 <Link to='/'><img id='logo' src={require('../assets/logo.png')} className='draggable-img' /></Link>
-                <MenuTap></MenuTap>
+                <MenuTab />
             </header>
         } else if ('board') {
             return <header>
@@ -21,12 +21,12 @@ const Header = () => {
                 <div className='width-wrapper'></div>
                 <div className='width-wrapper'></div>
                 <Link to='/'><div id='header-home' /></Link>
-                <MenuTap></MenuTap>
+                <MenuTab />
             </header>
         }
     }
     return (
-        <HeaderView/>
+        <HeaderView />
     );
 }
 

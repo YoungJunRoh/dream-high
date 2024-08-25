@@ -5,14 +5,14 @@ import ResultSmallBox from '../components/SmallBox.tsx';
 import Button from '../components/Button.tsx';
 import { LoginResponse } from '../interfaces/member.ts'
 import { postLogin } from '../services/MemberService.ts';
-import { useAuth } from '../hooks/AuthProvider.tsx';
+import { useMember } from '../hooks/MemberManager.tsx';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'; // Swal 추가
 import Footer from '../components/Footer.tsx';
 import Input from '../components/Input.tsx';
 
 const Login = () => {
-    const { setAuthorization, setRefresh, setLogin } = useAuth();
+    const { setAuthorization, setRefresh, setLogin } = useMember();
     const navigate = useNavigate();
 
     const [response, setResponse] = useState<LoginResponse | null>(null);
@@ -49,7 +49,7 @@ const Login = () => {
     // 로그인 처리
     const loginHandler = async () => {
         try {
-            const response = await postLogin(email, password);
+            const response = await postLogin(email as string, password as string);
             setResponse(response.data);
             console.log("Logging in with:", { email, password });
 

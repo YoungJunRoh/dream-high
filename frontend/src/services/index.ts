@@ -42,5 +42,5 @@ export const getData = async <T>(url: string, config?: AxiosRequestConfig) => {
 export const deleteData = async <T>(url: string, config?: AxiosRequestConfig) => {
     const response: AxiosResponse<T> = await client.delete<T>(url, config);
     console.log(response);
-    return response.data;
+    return response;
 };
