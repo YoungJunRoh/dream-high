@@ -35,6 +35,17 @@ a {
 .font-extrabold {
   font-family: "PF-StartDust-ExtraBold";
 }
+.swal-title {
+  font-family: "PF-StartDust-Bold", sans-serif; /* 제목에 폰트 적용 */
+}
+
+.swal-content {
+  font-family: "PF-StartDust-Bold", sans-serif; /* 내용에 폰트 적용 */
+}
+
+.swal-button {
+  font-family: "PF-StartDust-Bold", sans-serif; /* 버튼에 폰트 적용 */
+}
 
 body {
   background-color: white;
