@@ -1,7 +1,7 @@
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 
 // 타입 정의
-export interface AuthContextType {
+export interface MemberContextType {
   authorization: string | null;
   refresh: string | null;
   setAuthorization: (authorization: string | null) => void;
@@ -11,56 +11,56 @@ export interface AuthContextType {
 }
 
 // 기본 값 설정
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const MemberContext = createContext<MemberContextType | undefined>(undefined);
 
 // Provider 컴포넌트
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const MemberManager: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [authorization, setAuthorization] = useState<string | null>(null);
   const [refresh, setRefresh] = useState<string | null>(null);
   const [login, setLogin] = useState<boolean | null>(null);
 
-  // 세션에 데이터 저장
+  // 로컬 스토리지에서 데이터 가져오기
   useEffect(() => {
-    const storedAuthorization = sessionStorage.getItem('authorization');
-    const storedRefresh = sessionStorage.getItem('refresh');
-    const storedLogin = sessionStorage.getItem('login');
+    const storedAuthorization = localStorage.getItem('authorization');
+    const storedRefresh = localStorage.getItem('refresh');
+    const storedLogin = localStorage.getItem('login');
 
     setAuthorization(storedAuthorization);
     setRefresh(storedRefresh);
     setLogin(storedLogin === 'true' ? true : storedLogin === 'false' ? false : null);
   }, []);
 
-  // 상태 변경 시 sessionStorage에 저장
+  // 상태 변경 시 localStorage에 저장
   useEffect(() => {
     if (authorization !== null) {
-      sessionStorage.setItem('authorization', authorization);
+      localStorage.setItem('authorization', authorization);
     } else {
-      sessionStorage.removeItem('authorization');
+      localStorage.removeItem('authorization');
     }
 
     if (refresh !== null) {
-      sessionStorage.setItem('refresh', refresh);
+      localStorage.setItem('refresh', refresh);
     } else {
-      sessionStorage.removeItem('refresh');
+      localStorage.removeItem('refresh');
     }
 
     if (login !== null) {
-      sessionStorage.setItem('login', login.toString());
+      localStorage.setItem('login', login.toString());
     } else {
-      sessionStorage.removeItem('login');
+      localStorage.removeItem('login');
     }
   }, [authorization, refresh, login]);
 
   return (
-    <AuthContext.Provider value={{ authorization, setAuthorization, refresh, setRefresh, login, setLogin }}>
+    <MemberContext.Provider value={{ authorization, setAuthorization, refresh, setRefresh, login, setLogin }}>
       {children}
-    </AuthContext.Provider>
+    </MemberContext.Provider>
   );
 };
 
 // 토큰 hooks
-export const useAuth = (): AuthContextType => {
-  const context = useContext(AuthContext);
+export const useMember = (): MemberContextType => {
+  const context = useContext(MemberContext);
   if (context === undefined) {
     throw new Error('토큰 정보 없음');
   }

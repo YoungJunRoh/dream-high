@@ -3,7 +3,7 @@ import '../styles/global.css';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-type TextAreaProps = {
+type InputProps = {
     onChange?(parm?: any): void;
     onKeyDown?(parm?: any): void;
     placeholder?: string;
@@ -14,10 +14,10 @@ type TextAreaProps = {
     w_height: string;
     w_width: string;
     w_fontSize: string;
-    value?:string;
+    type?:string;
 }
 
-const TextAreaForm = styled.textarea<TextAreaProps>`
+const InputForm = styled.input<InputProps>`
 height: ${(props) => props.w_height};
 width: ${(props) => props.w_width};
 border: 5px solid black;
@@ -28,6 +28,7 @@ resize: none;
 position: relative;
 white-space: nowrap; /* 자동 줄내림 막기 */
 overflow: hidden; /* 스크롤 막기 */
+type: ${(props) => props.type};
 
 @media all and (max-width:430px) {
 height: ${(props) => props.m_height};
@@ -38,12 +39,13 @@ font-size: ${(props) => props.m_fontSize};
 margin-bottom: 5px;
 resize: none;
 position: relative;
+type: ${(props) => props.type};
 }
 `;
 
-const TextArea: React.FC<TextAreaProps> = ({ onChange, onKeyDown, value, placeholder, children, m_height, m_width, m_fontSize, w_height, w_width, w_fontSize }) => {
+const TextArea: React.FC<InputProps> = ({ onChange, onKeyDown, type, placeholder, children, m_height, m_width, m_fontSize, w_height, w_width, w_fontSize }) => {
     return (
-        <TextAreaForm
+        <InputForm
             className='font-normal'
             placeholder={placeholder}
             onChange={onChange}
@@ -54,10 +56,10 @@ const TextArea: React.FC<TextAreaProps> = ({ onChange, onKeyDown, value, placeho
             w_width={w_width}
             w_fontSize={w_fontSize}
             onKeyDown={onKeyDown}
-            value={value}
+            type={type}
         >
             {children}
-        </TextAreaForm>
+        </InputForm>
     );
 }
 

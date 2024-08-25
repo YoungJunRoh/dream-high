@@ -12,11 +12,11 @@ const client: Axios = axios.create({
 export const postData = async <T>(url: string, data?: any, config?: AxiosRequestConfig) => {
     console.log('=============== POST ==================');
     const response: AxiosResponse<T> = await client.post<T>(url, data, config);
-    console.log("POSTDATA" + response.data);
+    console.log("POSTDATA" + response);
     return response;
 };
 
-export const login = async <T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<any> => {
+export const login = async <T>(url: string, data?: any, config?: AxiosRequestConfig) => {
     console.log('=============== login ==================');
     const response: AxiosResponse<T> = await client.post<T>(url, data, config);
     console.log(response);
@@ -42,5 +42,5 @@ export const getData = async <T>(url: string, config?: AxiosRequestConfig) => {
 export const deleteData = async <T>(url: string, config?: AxiosRequestConfig) => {
     const response: AxiosResponse<T> = await client.delete<T>(url, config);
     console.log(response);
-    return response.data;
+    return response;
 };

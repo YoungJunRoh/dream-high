@@ -63,14 +63,33 @@ interface Datas {
     statusText: string
 }
 
-export interface PostDreamResponse {
+export interface PostApiResponse {
     data: DreamData;
 }
 
 export interface GetApiResponse {
-    data: Data;
+    config: {};
+    data: DreamData;
+    headers: {};
+    request: {};
+    status: number;
+    statusText: string
 }
 
+// export interface GetApiResponse {
+//     data: Data;
+// }
+
 export interface GetsApiResponse {
-    data: Datas;
+    config: {};
+    data: DreamData[];
+    pageInfo: PageInfo;
+    headers: {};
+    request: {};
+    status: number;
+    statusText: string
 }
+
+// export interface GetsApiResponse {
+//     data: Datas;
+// }

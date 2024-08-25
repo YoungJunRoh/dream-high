@@ -1,34 +1,28 @@
-import React, { useState, createContext, useContext, ReactNode, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../styles/login.css';
 import ResultBigBox from '../components/BigBox.tsx';
 import ResultSmallBox from '../components/SmallBox.tsx';
 import Button from '../components/Button.tsx';
-import TextArea from '../components/TextArea.tsx';
 import { LoginResponse } from '../interfaces/member.ts'
 import { postLogin } from '../services/MemberService.ts';
-import { useAuth } from '../hooks/AuthProvider.tsx';
+import { useMember } from '../hooks/MemberManager.tsx';
 import { Link, useNavigate } from 'react-router-dom';
-import { AxiosResponse } from 'axios';
+import Swal from 'sweetalert2'; // Swal 추가
 import Footer from '../components/Footer.tsx';
-
+import Input from '../components/Input.tsx';
 
 const Login = () => {
-    const { authorization, refresh, login, setAuthorization, setRefresh, setLogin } = useAuth();
-    // 전역적으로 토큰 저장
-
+    const { setAuthorization, setRefresh, setLogin } = useMember();
     const navigate = useNavigate();
 
-    const [response, setResponse] = useState<AxiosResponse | null>(null);
+    const [response, setResponse] = useState<LoginResponse | null>(null);
     const [email, setEmail] = useState<string>();
     const [password, setPassword] = useState<string>();
 
     // 이메일 추출
     const emailHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        let value = e.target.value;
-        setEmail(value);
-       
+        setEmail(e.target.value);
     };
-
 
     // 키다운 이벤트로 이메일 입력 필터링
     const handleEmailKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -42,17 +36,11 @@ const Login = () => {
 
     // 패스워드 추출
     const passwordHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        let value = e.target.value;
-
-        // 입력된 값이 모두 별표로 표시되도록 함
-        value = '*'.repeat(value.length);
-
-        setPassword(value);
-        
+        setPassword(e.target.value);
     };
 
-     // Enter 키 입력 방지 함수
-     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // Enter 키 입력 방지 함수
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === 'Enter') {
             e.preventDefault(); // 엔터키 입력으로 줄바꿈 방지
         }
@@ -60,17 +48,33 @@ const Login = () => {
 
     // 로그인 처리
     const loginHandler = async () => {
-        const response = await postLogin(email as string, password as string);
-        setResponse(response);
-        console.log("Logging in with:", { email, password });
-    };
+        try {
+            const response = await postLogin(email as string, password as string);
+            setResponse(response.data);
+            console.log("Logging in with:", { email, password });
 
-    if (response !== null) {
-        setAuthorization(response.headers.authorization);
-        setRefresh(response.headers.refresh);
-        setLogin(true);
-        navigate('/');
-    }
+            // 로그인 성공 시 토큰 저장 및 페이지 이동
+            setAuthorization(response.headers.authorization);
+            setRefresh(response.headers.refresh);
+            setLogin(true);
+            navigate('/');
+        } catch (error) {
+            // 예외 처리
+            if (error.response && error.response.status === 401) {
+                Swal.fire({
+                    text: '이메일 또는 비밀번호가 잘못되었다냥 ㅇㅅㅇ',
+                    icon: 'error',
+                    confirmButtonText: '확인'
+                });
+            } else {
+                Swal.fire({
+                    text: '로그인 중 문제가 발생했서 다시 시도해라냥 ㅇㅅㅇ',
+                    icon: 'error',
+                    confirmButtonText: '확인'
+                });
+            }
+        }
+    };
 
     return (
         <div className='login-background'>
@@ -78,7 +82,7 @@ const Login = () => {
             <ResultBigBox mode='loginbox'>
                 <div className='login-input'>
                     <h5>이메일</h5>
-                    <TextArea
+                    <Input
                         onChange={emailHandler}
                         onKeyDown={(e) => { handleKeyDown(e); handleEmailKeyDown(e); }}
                         placeholder='아이디를 입력하세요'
@@ -88,12 +92,12 @@ const Login = () => {
                         w_height='56px'
                         w_width='320px'
                         w_fontSize='20px'
-                      
-                    ></TextArea>
+                        type='email'               
+                    ></Input>
                 </div>
                 <div className='login-input'>
                     <h5>비밀번호</h5>
-                    <TextArea
+                    <Input
                         onChange={passwordHandler}
                         onKeyDown={handleKeyDown}
                         placeholder='비밀번호를 입력하세요'
@@ -103,8 +107,8 @@ const Login = () => {
                         w_height='56px'
                         w_width='320px'
                         w_fontSize='20px'
-                        value={password}
-                    ></TextArea>
+                        type='password'
+                    ></Input>
                 </div>
             </ResultBigBox>
             <Button
@@ -112,31 +116,29 @@ const Login = () => {
                 mode='login'
                 draggable={true}
                 onClick={loginHandler}
-            >
-            </Button>
+            />
             <Button
                 name='SNS로그인'
                 mode='pass'
                 option='modal'
                 draggable={true}
-            >
-            </Button>
+            />
             <Link to='/signup'>
                 <Button
                     name='회원가입'
                     mode='pass'
-                    draggable={true}>
-                </Button>
+                    draggable={true}
+                />
             </Link>
             <Link to='/login-passwordfind'>
                 <Button
                     name='비밀번호 찾기'
                     mode='pass'
-                    draggable={true}>
-                </Button>
+                    draggable={true}
+                />
             </Link>
             <div id='blank'></div>
-            <Footer/>
+            <Footer />
         </div>
     );
 }

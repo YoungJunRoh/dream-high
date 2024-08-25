@@ -20,8 +20,8 @@ const Board = () => {
     const getDreamsAsync = async () => {
         // 비동기는 다 asynic붙여줘야함
         try {
-            const result = await getDreams(1, 10);
-            setResponseDreams(result);
+            const response = await getDreams(1, 10);
+            setResponseDreams(response.data);
         } catch (error) {
             console.error("에러: ", error);
             alert('gets 요청 실패');
@@ -32,7 +32,7 @@ const Board = () => {
         getDreamsAsync();
     }, [])
 
-    const datas = responseDreams?.data.data || [];
+    const datas = responseDreams?.data || [];
     const boards = datas.map((data) => (<BoardList contentData={data}></BoardList>))
 
     return (
