@@ -149,7 +149,7 @@ const SignUp = () => {
                     Swal.fire({
                         text: '회원가입이 완료되었다냥😽',
                         icon: 'success',
-                        consmButtonText: '확인'
+                        confirmButtonText: '확인'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             navigate('/login-home'); // 성공적으로 이동

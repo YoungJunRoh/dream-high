@@ -409,9 +409,9 @@
 }
 
 #result-sharing-link {
-    background-image: url('../assets/icon-link.svg');
+    background-image: url('../assets/icon-link.png');
     background-size: cover;
-    background-color: white;
+   
     /* 배경 이미지의 크기 조절 */
     width: 50px;
     height: 50px;
