@@ -54,6 +54,7 @@ const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
         }
     };
 
+    
 
 
     return (
