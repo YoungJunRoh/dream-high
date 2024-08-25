@@ -1,3 +1,4 @@
+import { Axios } from "axios";
 import { AxiosRequestConfig } from 'axios'
 import { useMember } from "../hooks/MemberManager";
 
