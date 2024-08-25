@@ -1,8 +1,19 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import '../styles/global.css';
 import { useMember } from '../hooks/MemberManager.tsx';
 import meatballs from '../assets/icon-meatballs-menu.png';
+
+interface dom {
+    bottom: number;
+    height: number;
+    left: number;
+    right: number;
+    top: number;
+    width: number;
+    x: number;
+    y: number;
+}
 
 // 미트볼 메뉴
 export const OptionTabButton = styled.div`
@@ -13,7 +24,6 @@ export const OptionTabButton = styled.div`
     position: relative;
     left: 12px;
     cursor: pointer;
-    
     `;
 
 // Modal Container
@@ -22,7 +32,6 @@ export const ModalContainer = styled.div`
   align-items: center;
   height: 100%;
   overflow: hidden;
-
 `;
 
 // 모달 뒷 배경
@@ -102,18 +111,31 @@ export const OptionTab: React.FC<Option> = ({ children }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false); // 메뉴탭 상태
     const [isHost, setIsHost] = useState<boolean>(false); // 로그인 상태
 
+    const modalContainerRef = useRef<HTMLDivElement | null>(null);
+
     const openModalHandler = () => {
         setIsOpen(!isOpen);
         if (!isOpen) {
-            // document.body.style.overflow = "hidden";
+            document.body.style.overflow = "hidden";
         } else {
-            // document.body.style.overflow = "unset";
+            document.body.style.overflow = "unset";
         }
     };
 
+    const rect: dom | undefined = modalContainerRef.current?.getBoundingClientRect();
+    console.log(rect?.bottom);
+
+    const Test = () => {
+        return (
+            <div>
+                // 불러온 좌표값으로 배치하기
+            </div>
+        );
+    }
+
     return (
         <>
-            <ModalContainer>
+            <ModalContainer ref={modalContainerRef}>
                 <OptionTabButton
                     onClick={openModalHandler}
                 />

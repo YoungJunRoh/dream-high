@@ -19,6 +19,7 @@ export const CommentForm = styled.div`
 export const ContentInfo = styled.div`
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     width: 100%;
     height: 2em;
 `;
@@ -45,13 +46,17 @@ const Comment = () => {
     return (
         <CommentForm>
             <ContentInfo>
-                <h5 className='font-extrabold'>유정균</h5>
-                <Date className='font-normal'>08/14 09:02</Date>
-                <OptionTab>
-                    <OptionContent>
-                        ddddadasdsadsad
-                    </OptionContent>
-                </OptionTab>
+                <div className='comment-name-space'>
+                    <h5 className='font-extrabold'>유정균</h5>
+                    <Date className='font-normal'>08/14 09:02</Date>
+                </div>
+                <div className='comment-option'>
+                    <OptionTab>
+                        <OptionContent>
+                            ddddadasdsadsad
+                        </OptionContent>
+                    </OptionTab>
+                </div>
             </ContentInfo>
             <Content className='font-bold'>
                 잘봤습니다.잘봤습니다.잘봤습니다.잘봤습니다.잘봤습니다.잘봤습니다.잘봤습니다.잘봤습니다.잘봤습니다.잘봤습니다.잘봤습니다.잘봤습니다.잘봤습니다.잘봤습니다.잘봤습니다.잘봤습니다.잘봤습니다.잘봤습니다.

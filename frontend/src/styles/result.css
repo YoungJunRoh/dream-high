@@ -9,6 +9,11 @@
     background-image: url("../assets/img-background-morning.png");
 }
 
+.share-buttons {
+    display: flex;
+    flex-direction: row;
+}
+
 .result-imgdown {
     height: 100%;
     width: 100%;
