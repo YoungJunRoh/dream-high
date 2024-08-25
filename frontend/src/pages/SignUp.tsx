@@ -142,7 +142,7 @@ const SignUp = () => {
         if (isAgreed) {
             try {
                 // 동의한 경우에만 api 요청
-                const response = await postMember(email, password, nickname);
+                const response = await postMember(email, password, nickname, verificationCode);
                 setPostResponse(response); // 응답을 상태에 설정
 
                 if (response?.status === 201) { // 여기서 response를 직접 확인

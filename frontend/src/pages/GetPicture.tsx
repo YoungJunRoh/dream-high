@@ -4,9 +4,6 @@ import '../styles/getpicture.css';
 import Button from '../components/Button.tsx';
 import { Link } from 'react-router-dom';
 
-
-
-
 function GetPicture() {
   return (
     <div className='background'>

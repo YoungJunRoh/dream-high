@@ -8,8 +8,6 @@ type ShareProps = {
     onClick?(parm?: any): void;
 }
 
-
-
 const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
     const shareUrl = `http://tdtest.kro.kr:3000/board/${boardId}`;
     
@@ -54,19 +52,15 @@ const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
         }
     };
 
-
-
     return (
         <div className="share-buttons">
             <div id="result-sharing-kakao" onClick={handleShareKakaoClick}>
-                카카오톡 공유
             </div>
-            <div id="result-sharing-twitter" onClick={handleShareTwitterClick}>
-                트위터 공유
+            <div id="result-sharing-x" onClick={handleShareTwitterClick}>
             </div>
-            <div id="result-sharing-instagram" onClick={handleShareInstagramClick}>
-                인스타그램 공유 (링크 복사)
+            <div id="result-sharing-insta" onClick={handleShareInstagramClick}>
             </div>
+            <div id='result-sharing-link'></div>
         </div>
     );
 }
