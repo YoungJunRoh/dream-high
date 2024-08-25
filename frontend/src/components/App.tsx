@@ -15,12 +15,13 @@ import MyCollection from '../pages/MyCollection.tsx';
 import GetPicture from '../pages/GetPicture.tsx';
 import Board from '../pages/Board.tsx';
 import BoardDetail from '../pages/BoardDetails.tsx';
-import { AuthProvider } from '../hooks/AuthProvider.tsx';
+import { MemberManager } from '../hooks/MemberManager.tsx';
 import { HeaderManager } from '../hooks/HeaderManager.tsx';
 import MemberModification from '../pages/MemberModification.tsx';
 import { ProfileProvider } from './ProfileContext.tsx'; // 경로를 맞춰주세요
 
 const App = () => {
+
   useEffect(() => {
     if (!window.Kakao.isInitialized()) {
       window.Kakao.init("4ddcb16f02ca7a2a6a5b750e9f72a46c");
@@ -28,7 +29,7 @@ const App = () => {
   }, []);
 
   return (
-    <AuthProvider>
+    <MemberManager>
       <ProfileProvider>
         <BrowserRouter>
           <div id='wrap'>
@@ -54,7 +55,7 @@ const App = () => {
           </div>
         </BrowserRouter>
       </ProfileProvider>
-    </AuthProvider>
+    </MemberManager>
   );
 }
 
