@@ -10,11 +10,22 @@ import OptionContent from '../components/OptionContent.tsx';
 import PostInfo from '../components/PostInfo.tsx';
 import Footer from '../components/Footer.tsx';
 import Comment from '../components/Comment.tsx';
+import { AxiosRequestConfig } from "axios";
+import { useMember } from '../hooks/MemberManager.tsx';
+
 
 const BoardDetails = () => {
     const params = useParams();
     const dreamId: number = parseInt(params.id as string);
     const [response, setResponse] = useState<GetApiResponse | null>(null);
+
+    const { authorization } = useMember();
+
+    const accessToken: AxiosRequestConfig = {
+        headers: {
+            Authorization: authorization,
+        },
+    };
 
     const postRoleHandler = () => {
         console.log("onclick");
@@ -28,7 +39,7 @@ const BoardDetails = () => {
 
     useEffect(() => {
         const getDreamAsync = async () => {
-            const response = await getDream(dreamId);
+            const response = await getDream(dreamId, accessToken);
             setResponse(response.data);
         };
 

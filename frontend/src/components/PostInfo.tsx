@@ -5,10 +5,10 @@ import commentImg from '../assets/icon-comment.png';
 import styled from 'styled-components';
 
 type PostInfoProps = {
-    likeOnClick(parm: any): void;
-    commentOnClick2(parm: any): void;
-    likeCount: number;
-    commentCount: number;
+    likeOnClick?(parm: any): void;
+    commentOnClick2?(parm: any): void;
+    likeCount?: number;
+    commentCount?: number;
 }
 
 export const PostInfoForm = styled.div`

@@ -430,6 +430,8 @@
     display: flex;
     flex-direction: row;
     margin-bottom: 10px;
+    align-items: center; /* 아이콘들을 수직 가운데 정렬 */
+    justify-content: center; /* 부모 요소 안에서 아이콘들을 수평 가운데 정렬 */
 }
 
 #result-sharing-kakao {
@@ -466,6 +468,10 @@
     /* 배경 이미지의 크기 조절 */
     width: 50px;
     height: 50px;
+}
+.share-buttons {
+    display: flex;
+    flex-direction: row;
 }
 
 @media all and (max-width:430px) {

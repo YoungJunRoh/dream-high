@@ -24,9 +24,8 @@ const Interpretation = () => {
     const buttonClickHandler = () => {
         const charCount = prompt.length; // 문자 수 계산
 
-        // 정규 표현식으로 자음과 모음 확인
-        const hasVowel = /[aeiou]/i.test(prompt); // 모음이 있는지 확인 (대소문자 구분 없음)
-        const hasConsonant = /[bcdfghjklmnpqrstvwxyz]/i.test(prompt); // 자음이 있는지 확인 (대소문자 구분 없음)
+      // 정규 표현식으로 한글 음절(자음+모음) 확인
+      const hasKoreanSyllable = /[가-힣]/.test(prompt);
 
         // 조건 확인
         if (charCount < 10) {
@@ -40,7 +39,7 @@ const Interpretation = () => {
                     confirmButton: 'swal-button', // 버튼에 사용자 정의 클래스 적용
                 },
             });
-        } else if (!hasVowel || !hasConsonant) {
+        } else if (!hasKoreanSyllable) {
             Swal.fire({
                 title: '입력 오류',
                 text: '룰루가 알아들을 수 있게 적어달라옹ㅇㅅㅇ',

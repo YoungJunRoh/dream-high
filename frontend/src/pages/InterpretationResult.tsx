@@ -9,6 +9,8 @@ import ResultSmallBox from '../components/SmallBox.tsx';
 import Footer from '../components/Footer.tsx';
 import { useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas'; // html2canvas 라이브러리 가져오기
+import Share from '../components/Share.tsx';
+
 
 interface LocationState {
     advice: string;
@@ -21,6 +23,11 @@ interface LocationState {
 const InterpretationResult = () => {
     const location = useLocation();
     const state = location.state as LocationState | null;
+
+    //
+    const boardId: number = 1;
+    const username: string = '아무개'
+    
 
     const interpertaionKeyword = state?.interpertaionKeyword as string;
     const advice = state?.advice as string;
@@ -61,13 +68,11 @@ const InterpretationResult = () => {
                 <div id='result-sharing'>
                     <p className='font-bold'>공유하기</p>
                     <div id="result-sharing-area">
-                        <div
-                            id='result-sharing-kakao'
-                            // onClick={handleShareKakaoClick}
-                        ></div>
-                        <div id='result-sharing-insta'></div>
-                        <div id='result-sharing-x'></div>
-                        <div id='result-sharing-link'></div>
+                    <Share
+                            boardId={boardId}
+                            username={username}
+                            content={dreamContent}
+                        />
                     </div>
                     <span className='font-normal result-font-size-18' onClick={handleCapture}>이미지로 저장하기</span>
                 </div>
