@@ -24,7 +24,7 @@ const App = () => {
 
   useEffect(() => {
     if (!window.Kakao.isInitialized()) {
-      window.Kakao.init(process.env.REACT_APP_KAKAO_APP_KEY);
+      window.Kakao.init("4ddcb16f02ca7a2a6a5b750e9f72a46c");
     }
   }, []);
 

@@ -27,7 +27,9 @@ const BoardContent: React.FC<DreamDatas> = ({ advice, interpertaionKeyword, summ
             <div className='result-cat'>
                 <ChatBalloon message={advice} />
             </div>
-            <ResultBox message={summary} />
+            <div id='marginbox'>
+            <ResultBox message={summary} mode='board' />
+            </div>
             <div className='bottom-button'>
                 {/* <Link to={'/dream-interpretation'}>
                     <Button
@@ -36,6 +38,7 @@ const BoardContent: React.FC<DreamDatas> = ({ advice, interpertaionKeyword, summ
                         draggable={true}>
                     </Button>
                 </Link> */}
+
                 <div id='result-sharing'>
                     <p className='font-bold'>공유하기</p>
                     <div id="result-sharing-area">
@@ -55,7 +58,7 @@ const BoardContent: React.FC<DreamDatas> = ({ advice, interpertaionKeyword, summ
                     
                 </div>
             </div>
-            <ResultSmallBox name='자세한 꿈해몽이다 냥냥🐾' />
+            <ResultSmallBox name='자세한 꿈해몽이다 냥냥🐾'  mode='resultbox' />
             <ResultBigBox mode='resultbox'>{interpertaionContent}</ResultBigBox>
         </div>
     );
