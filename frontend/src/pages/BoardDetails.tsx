@@ -5,20 +5,31 @@ import { GetApiResponse } from '../interfaces/dream.ts';
 import Swal from 'sweetalert2';
 import BoardContent from '../components/BoardContent.tsx';
 import '../styles/board.css';
+import { OptionTab } from '../components/OptionTab.tsx';
+import OptionContent from '../components/OptionContent.tsx';
+import PostInfo from '../components/PostInfo.tsx';
+import Footer from '../components/Footer.tsx';
+import Comment from '../components/Comment.tsx';
 
 const BoardDetails = () => {
     const params = useParams();
     const dreamId: number = parseInt(params.id as string);
     const [response, setResponse] = useState<GetApiResponse | null>(null);
 
+    const postRoleHandler = () => {
+        console.log("onclick");
+    }
+
+    const deleteHandler = () => {
+    }
+
+    const likeHandler = () => {
+    }
+
     useEffect(() => {
         const getDreamAsync = async () => {
-            try {
-                const response = await getDream(dreamId);
-                setResponse(response);
-            } catch (error) {
-                console.error('Failed to fetch dream data:', error);
-            }
+            const response = await getDream(dreamId);
+            setResponse(response.data);
         };
 
         getDreamAsync();
@@ -29,14 +40,14 @@ const BoardDetails = () => {
         return <div>Loading...</div>;
     }
 
-    if (response.data.status === 404) {
+    if (response.status === 404) {
         Swal.fire({
             text: '존재하지 않는 게시판입니다.'
         });
         return null; // 알림 후 아무것도 렌더링하지 않음
     }
 
-    const data = response.data.data;
+    const data = response.data;
     const interpretationResponse = data?.interpretationResponse;
 
     const name: string = '고양꿈꿨어';
@@ -44,15 +55,34 @@ const BoardDetails = () => {
     const viewCnt: number = data?.viewCount as number;
     const likeCnt: number = data?.likeCount as number;
     const advice: string = interpretationResponse?.advice as string;
-    const interpertaionKeyword = interpretationResponse?.keyword[0];
+    const interpertaionKeyword: object = interpretationResponse?.keyword as object;
     const summary: string = interpretationResponse?.summary as string;
     const dreamContent: string = data?.content as string;
     const interpertaionContent: string = interpretationResponse?.content as string;
 
-    const BoardDetail = () => (
+    return (
         <div>
             <div className='board-detail-title font-normal'>
-                <h2 className='font-extrabold'>{name} 님의 해몽 결과 🐾</h2>
+                <div id='board-title'>
+                    <h4 className='font-extrabold title-string'>{name} 님의 해몽 결과 🐾</h4>
+                    <OptionTab>
+                        <OptionContent
+                            onClick={postRoleHandler}
+                        >
+                            공개범위 설정
+                        </OptionContent>
+                        <OptionContent
+                            onClick={likeHandler}
+                        >
+                            좋아요
+                        </OptionContent>
+                        <OptionContent
+                            onClick={deleteHandler}
+                        >
+                            삭제
+                        </OptionContent>
+                    </OptionTab>
+                </div>
                 <p>생성일 : {createdAt}</p>
                 <p>조회수 : {viewCnt}</p>
             </div>
@@ -65,12 +95,9 @@ const BoardDetails = () => {
                 boardId={dreamId}
                 username={name}
             />
-        </div>
-    );
-
-    return (
-        <div>
-            <BoardDetail />
+            <PostInfo />
+            <Comment />
+            <Footer />
         </div>
     );
 };
