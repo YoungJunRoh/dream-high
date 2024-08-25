@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import ChatBalloon from '../components/ChatBalloon.tsx';
 import Button from '../components/Button.tsx';
 import '../styles/result.css';
@@ -8,6 +8,7 @@ import ResultBigBox from '../components/BigBox.tsx';
 import ResultSmallBox from '../components/SmallBox.tsx';
 import Footer from '../components/Footer.tsx';
 import { useLocation } from 'react-router-dom';
+import html2canvas from 'html2canvas'; // html2canvas 라이브러리 가져오기
 
 interface LocationState {
     advice: string;
@@ -27,12 +28,28 @@ const InterpretationResult = () => {
     const dreamContent = state?.dreamContent as string;
     const interpertaionContent = state?.interpertaionContent as string;
 
+    const captureRef = useRef<HTMLDivElement>(null);
+    const handleCapture = async () =>{
+        if(captureRef.current) {
+            const canvas = await html2canvas(captureRef.current);
+            const dataUrl = canvas.toDataURL("image/png");
+
+            const link = document.createElement('a');
+            link.href = dataUrl;
+            link.download = 'dream_interpretation_result.png';
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
+
     return (
-        <div className='background-morning'>
+        <div className='background-morning' ref={captureRef}>
             <div className='result-cat'>
                 <ChatBalloon message={advice} />
             </div>
-            <ResultBox message={summary} />
+            <ResultBox message={summary} mode='main'/>
             <div className='bottom-button'>
                 {/* <Link to={'/dream-interpretation'}>
                     <Button
@@ -52,7 +69,7 @@ const InterpretationResult = () => {
                         <div id='result-sharing-x'></div>
                         <div id='result-sharing-link'></div>
                     </div>
-                    <span className='font-normal result-font-size-18'>이미지로 저장하기</span>
+                    <span className='font-normal result-font-size-18' onClick={handleCapture}>이미지로 저장하기</span>
                 </div>
             </div>
             <ResultSmallBox name='자세한 꿈해몽이다 냥냥🐾' mode='resultbox' />

@@ -25,8 +25,8 @@ const Home = () => {
 
     const getDreamsAsync = async () => {
         try {
-            const result = await getDreams(1, 10);
-            setResponseDreams(result);
+            const response = await getDreams(1, 10);
+            setResponseDreams(response.data);
         } catch (error) {
             console.error("에러: ", error);
             alert('gets 요청 실패');
@@ -37,9 +37,9 @@ const Home = () => {
         getDreamsAsync();
     }, [])
     
-    const totalElements = responseDreams?.data.pageInfo.totalElements as number;
+    const totalElements = responseDreams?.pageInfo.totalElements as number;
   
-    const datas: any[] = responseDreams?.data.data || [];
+    const datas: any[] = responseDreams?.data || [];
     const boards = datas.map((data) => (<BoardList contentData={data}></BoardList>))
 
     const hotDreamMaker = () => {
@@ -47,7 +47,7 @@ const Home = () => {
             // totalElements가 10 이하인 경우에도 인덱스 범위 내에서 랜덤 선택
             const maxIndex = Math.min(totalElements, 10);
             const randomHotDream: number = Math.floor(Math.random() * maxIndex);
-            return responseDreams?.data.data[randomHotDream].content;
+            return responseDreams?.data[randomHotDream].content;
         }
         return "데이터가 없습니다."; // fallback 메시지 또는 null
     };
