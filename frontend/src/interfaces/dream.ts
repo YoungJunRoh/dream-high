@@ -34,7 +34,7 @@ interface Comments {
     nickName: string;
     dreamId: number;
     content: string;
-    modifiedAt: string;
+    createdAt: string;
 }
 
 // getdreams 에 대한 인터페이스
@@ -48,6 +48,7 @@ export interface DreamData { // boardList에서 필요함.
     modifiedAt: string | null;
     viewCount: number;
     likeCount: number;
+    nickName: string;
     dreamKeywords: DreamKeyword[];
     interpretationResponse: InterpretationResponse;
     comments: Comments[]; // 댓글이 있는 경우, 적절한 타입을 지정해 주세요

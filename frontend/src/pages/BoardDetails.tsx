@@ -94,7 +94,7 @@ const BoardDetails = () => {
     const data = response.data;
     const interpretationResponse = data?.interpretationResponse;
 
-    const name: string = '고양꿈꿨어';
+    const name: string = data.nickName;
     const createdAt: string = data?.createdAt as string;
     const viewCnt: number = data?.viewCount as number;
     const likeCnt: number = data?.likeCount as number;
@@ -105,9 +105,10 @@ const BoardDetails = () => {
     const interpertaionContent: string = interpretationResponse?.content as string;
 
     const commentList = data.comments.map((comment) => (
-        <Comment username={comment.nickName}
-            dateTime={comment.modifiedAt}
-            content={comment.content}
+        <Comment
+            username={comment.nickName}
+            dateTime={comment.createdAt as string}
+            content={comment.content as string}
         ></Comment>))
 
     return (
@@ -152,9 +153,9 @@ const BoardDetails = () => {
             />
             {commentList}
             <CommentInput
-                    dreamId={dreamId}
-                    accessToken={accessToken}
-                />
+                dreamId={dreamId}
+                accessToken={accessToken}
+            />
             <Footer />
         </div>
     );

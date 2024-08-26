@@ -25,13 +25,8 @@ const Home = () => {
 
     const [responseDreams, setResponseDreams] = useState<GetsApiResponse | null>(null);
     const getDreamsAsync = async () => {
-        try {
             const response = await getDreams(1, 10);
             setResponseDreams(response.data);
-        } catch (error) {
-            console.error("에러: ", error);
-            alert('gets 요청 실패');
-        }
     }
 
     useEffect(() => {

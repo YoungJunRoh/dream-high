@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/loading.css';
 import { postDream } from '../services/DreamService.ts';
+import { useMember } from '../hooks/MemberManager.tsx';
+import { AxiosRequestConfig } from 'axios';
 import MeteorEffect from '../components/MeteorEffect.tsx'; // MeteorEffect 컴포넌트 가져오기
+
 
 // 인터페이스 정의
 interface DreamKeyword {
@@ -52,30 +55,38 @@ const Loading = () => {
     const navigate = useNavigate();
 
     const [responseContent, setResponseContent] = useState<ApiResponse | null>(null);
+    const { authorization } = useMember();
+
+      // AxiosRequestConfig 타입 선언.
+  const accessToken: AxiosRequestConfig = {
+    headers: {
+      Authorization: authorization,
+    },
+  };
 
     const postAsync = async () => {
-        const response = await postDream(prompt);
-        setResponseContent(response.data);
+            const response = await postDream(prompt, accessToken);
+            setResponseContent(response.data);
     }
 
     useEffect(() => {
         postAsync();
     }, []);
 
-    useEffect(() => {
-        if (responseContent) {
-            const interpretationResponse = responseContent.data.interpretationResponse;
-            const advice = interpretationResponse.advice;
-            const interpertaionKeyword = interpretationResponse.keyword;
-            const summary = interpretationResponse.summary;
-            const dreamContent = responseContent.data.content;
-            const interpertaionContent = interpretationResponse.content;
+    if (responseContent) {
+        const interpretationResponse = responseContent.data.interpretationResponse;
+        const advice = interpretationResponse.advice;
+        const interpertaionKeyword = interpretationResponse.keyword;
+        const summary = interpretationResponse.summary;
+        const dreamContent = responseContent.data.content;
+        const interpertaionContent = interpretationResponse.content;
 
-            navigate('/interpretation-result', {
-                state: { advice, interpertaionKeyword, summary, dreamContent, interpertaionContent }
-            });
-        }
-    }, [responseContent, navigate]);
+        navigate('/interpretation-result', {
+            state: { advice, interpertaionKeyword, summary, dreamContent, interpertaionContent }
+        });
+    }else {
+        console.log("123123213213123123123");
+    }
 
     return (
         <div id='background'>

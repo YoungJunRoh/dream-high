@@ -59,13 +59,13 @@ const Button = styled.button`
     width: 30%;
 `;
 
-type Comment = {
+type CommentProps = {
     username: string;
     dateTime: string;
     content: string;
 }
 
-const Comment: React.FC<Comment> = ({ username, dateTime, content }) => {
+const Comment: React.FC<CommentProps> = ({ username, dateTime, content }) => {
     const { login, authorization } = useMember();
     const [edit, setEdit] = useState<boolean>(false);
     const [currentContent, setContent] = useState<string>('');
