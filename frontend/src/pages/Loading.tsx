@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ClockLoader } from 'react-spinners';
 import '../styles/loading.css';
 import { postDream } from '../services/DreamService.ts';
 import { useMember } from '../hooks/MemberManager.tsx';
 import { AxiosRequestConfig } from 'axios';
+import MeteorEffect from '../components/MeteorEffect.tsx'; // MeteorEffect 컴포넌트 가져오기
+
 
 // 인터페이스 정의
 interface DreamKeyword {
@@ -53,8 +54,6 @@ const Loading = () => {
     const prompt = state?.prompt || '기본값';
     const navigate = useNavigate();
 
-    console.log(prompt);
-
     const [responseContent, setResponseContent] = useState<ApiResponse | null>(null);
     const { authorization } = useMember();
 
@@ -90,14 +89,8 @@ const Loading = () => {
     }
 
     return (
-        <div className='background'>
-            <div className="stars"></div>
-            <ClockLoader className='clock'
-                color="#FEE500"
-                loading
-                size={100}
-                speedMultiplier={2}
-            />
+        <div id='background'>
+            <MeteorEffect count={50} direction="right" angle={30} /> {/* MeteorEffect 추가 */}
             <div className="loading-text">
                 <h2> 좀만 기다려달라 냥!🐾 </h2>
             </div>
