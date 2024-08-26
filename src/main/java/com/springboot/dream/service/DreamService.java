@@ -78,7 +78,9 @@ public class DreamService {
 
         String email = null;
         if (authentication != null) {
-            email = (String) authentication.getPrincipal();
+            email = authentication.getName();
+            Member member = memberService.findVerifiedMember(email);
+            dream.setMember(member);
         }
 
         Map<String, Object> chatResponse = responseChatGpt(dream.getContent());
@@ -102,14 +104,6 @@ public class DreamService {
         keyword.setName((String)chatResponse.get("interpretation_mood_keyword"));
         interpretation.setKeyword(keyword);
         dream.setInterpretation(interpretation);
-
-        if(email == null || email.isEmpty()){
-
-        }else{
-            Member findMember = memberService.findVerifiedMember(email);
-            dream.setMember(findMember);
-        }
-
 
         Dream saveDream = dreamRepository.save(dream);
 
