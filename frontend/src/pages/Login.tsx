@@ -57,7 +57,7 @@ const Login = () => {
         setRefresh(response.headers.refresh);
         setLogin(true);
         navigate('/');
-
+      
         // 예외 처리
         if (response.status === 401) {
             Swal.fire({
@@ -72,6 +72,7 @@ const Login = () => {
                 confirmButtonText: '확인'
             });
         }
+
     };
 
     return (
