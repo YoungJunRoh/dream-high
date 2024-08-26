@@ -12,6 +12,7 @@ const LOGOUT_URL: string = BASED_URL + '/auth/logout';
 const REGISTER_URL: string = BASED_URL + '/members';
 const EMAIL_URL: string = BASED_URL + '/api/email/send-verification';
 const VERIFY_EMAIL_URL: string = BASED_URL + '/api/email/verify'
+const GET_MEMBER_URL: string = BASED_URL + '/member-email';
 
 export const postLogin = async (username: string, password: string) => {
     const response = await login<LoginResponse>(LOGIN_URL, { username, password });
@@ -28,10 +29,10 @@ export const postMember = async (email: string, password: string, nickName: stri
     return response; // result에서 DreamData 반환
 }
 
-// export const getMember = async (): Promise<AxiosResponse> => {
-//     const response = await getData<AxiosResponse>(REGISTER_URL, { email, password, nickName, authCode });
-//     return response; // result에서 DreamData 반환
-// }
+export const getMember = async (accessToken: AxiosRequestConfig): Promise<AxiosResponse> => {
+    const response = await getData<AxiosResponse>(GET_MEMBER_URL, accessToken);
+    return response; // result에서 DreamData 반환
+}
 
 export const postEmail = async (email: string): Promise<AxiosResponse> => {
     const response = await postData<AxiosResponse>(EMAIL_URL, { email });
