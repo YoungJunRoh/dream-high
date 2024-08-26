@@ -57,7 +57,7 @@ const Login = () => {
         setRefresh(response.headers.refresh);
         setLogin(true);
         navigate('/');
-
+      
         // 예외 처리
         if (response.status === 401) {
             Swal.fire({
@@ -72,6 +72,7 @@ const Login = () => {
                 confirmButtonText: '확인'
             });
         }
+
     };
 
     return (
@@ -84,12 +85,12 @@ const Login = () => {
                         onChange={emailHandler}
                         onKeyDown={(e) => { handleKeyDown(e); handleEmailKeyDown(e); }}
                         placeholder='아이디를 입력하세요'
-                        m_height='15vw'
-                        m_width='85vw'
-                        m_fontSize='20px'
-                        w_height='56px'
-                        w_width='320px'
-                        w_fontSize='20px'
+                        $m_height='15vw'
+                        $m_width='85vw'
+                        $m_fontSize='20px'
+                        $w_height='56px'
+                        $w_width='320px'
+                        $w_fontSize='20px'
                         type='email'
                     ></Input>
                 </div>
@@ -99,12 +100,12 @@ const Login = () => {
                         onChange={passwordHandler}
                         onKeyDown={handleKeyDown}
                         placeholder='비밀번호를 입력하세요'
-                        m_height='15vw'
-                        m_width='85vw'
-                        m_fontSize='20px'
-                        w_height='56px'
-                        w_width='320px'
-                        w_fontSize='20px'
+                        $m_height='15vw'
+                        $m_width='85vw'
+                        $m_fontSize='20px'
+                        $w_height='56px'
+                        $w_width='320px'
+                        $w_fontSize='20px'
                         type='password'
                     ></Input>
                 </div>

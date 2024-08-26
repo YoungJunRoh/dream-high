@@ -48,19 +48,7 @@ public class DreamController {
     public ResponseEntity postDream(@Valid @RequestBody DreamDto.Post dreamPost,
                                     Authentication authentication){
 
-        String email = null;
-
-        if (authentication != null) {
-            email = (String) authentication.getPrincipal();
-
-            // 로그아웃 상태 확인: 토큰이 Redis에서 이미 삭제된 경우
-            boolean isLoggedOut = !authService.isTokenValid(email);
-            if (isLoggedOut) {
-                email = null;
-            }
-        }
-
-        Dream dream = dreamService.createDream(mapper.dreamPostToDream(dreamPost), email);
+        Dream dream = dreamService.createDream(mapper.dreamPostToDream(dreamPost), authentication);
 
         DreamDto.Response response = mapper.dreamToDreamResponseDto(dream);
 
@@ -70,41 +58,23 @@ public class DreamController {
 
     @GetMapping("/{dream-id}")
     public ResponseEntity getDream(@PathVariable("dream-id") @Positive long dreamId,
-                                   Authentication authentication){
-        String email = null;
-        if (authentication != null) {
-            email = (String) authentication.getPrincipal();
-            boolean isLoggedOut = !authService.isTokenValid(email);
-            if(isLoggedOut){
-                email = null;
-                Dream dream = dreamService.findDream(dreamId);
-                return new ResponseEntity(new SingleResponseDto<>(mapper.dreamToDreamResponseDto(dream)), HttpStatus.OK);
-            }
-            Dream dream = dreamService.findDream(dreamId, email);
-            return new ResponseEntity(new SingleResponseDto<>(mapper.dreamToDreamResponseDto(dream)), HttpStatus.OK);
-        }else {
-            Dream dream = dreamService.findDream(dreamId);
-            return new ResponseEntity(new SingleResponseDto<>(mapper.dreamToDreamResponseDto(dream)), HttpStatus.OK);
-        }
+                                   @RequestHeader Map<String, String> headers){
+
+        String authorizationHeader = headers.get("authorization");
+        Dream dream = dreamService.findDreamWithAuthCheck(dreamId, authorizationHeader);
+        return new ResponseEntity(new SingleResponseDto<>(mapper.dreamToDreamResponseDto(dream)), HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity getDreams(@RequestParam(required = false) String dreamKeyword,
                                     @Positive @RequestParam int page,
                                     @Positive @RequestParam int size){
-        if(dreamKeyword == null || dreamKeyword.isEmpty()){
-            Page<Dream> pageDreams = dreamService.findAllDreams(page - 1, size);
+
+            Page<Dream> pageDreams = dreamService.findDreamsVerify(dreamKeyword, page - 1, size);
             List<Dream> dreamList = pageDreams.getContent();
             return new ResponseEntity<>(
                     new MultiResponseDto<>(mapper.dreamsToDreamResponseDtos(dreamList), pageDreams),
                     HttpStatus.OK);
-        }else{
-            Page<Dream> pageDreams = dreamService.findDreams(dreamKeyword, page - 1, size);
-            List<Dream> dreamList = pageDreams.getContent();
-            return new ResponseEntity<>(
-                    new MultiResponseDto<>(mapper.dreamsToDreamResponseDtos(dreamList), pageDreams),
-                    HttpStatus.OK);
-        }
     }
     @PatchMapping("/{dream-id}")
     public ResponseEntity patchDream(@PathVariable("dream-id") @Positive long dreamId,
@@ -112,7 +82,6 @@ public class DreamController {
                                      Authentication authentication) {
         dreamPatchDto.setDreamId(dreamId);
         String email = authentication.getName();
-
 
         Dream dream =
                 dreamService.updateDream(mapper.dreamPatchDtoToDream(dreamPatchDto), email);
@@ -124,17 +93,8 @@ public class DreamController {
     @DeleteMapping("/{dream-id}")
     public ResponseEntity deleteDream(@PathVariable("dream-id") @Positive long dreamId,
                                       Authentication authentication){
-        String email = null;
+        String email = authentication.getName();
 
-        if (authentication == null || !authentication.isAuthenticated()) {
-            throw new BusinessLogicException(ExceptionCode.NOT_YOUR_DREAM);
-        }
-
-        email = (String) authentication.getPrincipal();
-        boolean isLoggedOut = !authService.isTokenValid(email);
-        if (isLoggedOut) {
-            throw new BusinessLogicException(ExceptionCode.NOT_YOUR_DREAM);
-        }
         dreamService.deleteDream(dreamId, email);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

@@ -61,10 +61,32 @@ public class MemberService {
         return savedMember;
     }
 
+    public Member updateMember(Member member, String email) {
+        // TODO should business logic
+        //throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
+        Member findMember = findVerifiedMember(email);
+
+//    if (member.getName() != null){
+//        findMember.setName(member.getName());
+//    }
+//    if (member.getPhone() != null){
+//        findMember.setPhone(member.getPhone());
+//    }
+        Optional.ofNullable(member.getNickName())
+                .ifPresent(name -> findMember.setNickName(name));
+
+
+        Optional.ofNullable(member.getMemberStatus())
+                .ifPresent(memberStatus -> findMember.setMemberStatus(memberStatus));
+
+        findMember.setModifiedAt(LocalDateTime.now());
+        return memberRepository.save(findMember);
+    }
+
     public Member updateMember(Member member) {
         // TODO should business logic
         //throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
-        Member findMember = findVerifiedMember(member.getMemberId());
+        Member findMember = findMember(member.getMemberId());
 
 //    if (member.getName() != null){
 //        findMember.setName(member.getName());
@@ -116,7 +138,8 @@ public class MemberService {
     public Member findMember(long memberId, String email) {
         // TODO should business logic
         //throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
-        return findVerifiedMember(memberId);
+        findVerifiedMember(memberId);
+        return findVerifiedMember(email);
     }
 
 

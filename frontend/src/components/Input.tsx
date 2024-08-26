@@ -12,12 +12,12 @@ type InputProps = {
     deleteButtonOption?: XButton;
     placeholder?: string;
     children?: ReactNode;
-    m_height: string;
-    m_width: string;
-    m_fontSize: string;
-    w_height: string;
-    w_width: string;
-    w_fontSize: string;
+    $m_height: string;
+    $m_width: string; // DOM에 전달되지 않아야 할 prop가 포함되어 생긴 경고를 해결하기 위한 코드
+    $m_fontSize: string;
+    $w_height: string;
+    $w_width: string;
+    $w_fontSize: string;
     type?: string;
 }
 
@@ -36,22 +36,22 @@ const DeleteContent = styled.h4<XButton>`
 `;
 
 const InputForm = styled.input<InputProps>`
-height: ${(props) => props.w_height};
-width: ${(props) => props.w_width};
+height: ${(props) => props.$w_height};
+width: ${(props) => props.$w_width};
 border: 5px solid black;
 padding: 10px;
-font-size: ${(props) => props.w_fontSize};
+font-size: ${(props) => props.$w_fontSize};
 margin-bottom: 5px;
 resize: none;
 position: relative;
 type: ${(props) => props.type};
 
 @media all and (max-width:430px) {
-height: ${(props) => props.m_height};
-width: ${(props) => props.m_width};
+height: ${(props) => props.$m_height};
+width: ${(props) => props.$m_width};
 border: 5px solid black;
 padding: 10px;
-font-size: ${(props) => props.m_fontSize};
+font-size: ${(props) => props.$m_fontSize};
 margin-bottom: 5px;
 resize: none;
 position: relative;
@@ -59,7 +59,7 @@ type: ${(props) => props.type};
 }
 `;
 
-const TextArea: React.FC<InputProps> = ({ onChange, onKeyDown, type, placeholder, children, m_height, m_width, m_fontSize, w_height, w_width, w_fontSize, deleteButton, deleteButtonOption }) => {
+const TextArea: React.FC<InputProps> = ({ onChange, onKeyDown, type, placeholder, children, $m_height, $m_width, $m_fontSize, $w_height, $w_width, $w_fontSize, deleteButton, deleteButtonOption }) => {
     const deleteRef = useRef<HTMLInputElement>(null);
     useKeyboardAvoider();
     return (
@@ -69,12 +69,12 @@ const TextArea: React.FC<InputProps> = ({ onChange, onKeyDown, type, placeholder
                 placeholder={placeholder}
                 onChange={onChange}
                 ref={deleteRef}
-                m_height={m_height}
-                m_width={m_width}
-                m_fontSize={m_fontSize}
-                w_height={w_height}
-                w_width={w_width}
-                w_fontSize={w_fontSize}
+                $m_height={$m_height}
+                $m_width={$m_width}
+                $m_fontSize={$m_fontSize}
+                $w_height={$w_height}
+                $w_width={$w_width}
+                $w_fontSize={$w_fontSize}
                 onKeyDown={onKeyDown}
                 type={type}
                 deleteButtonOption={deleteButtonOption}

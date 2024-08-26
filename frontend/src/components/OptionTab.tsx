@@ -85,11 +85,6 @@ export const OptionTab: React.FC<Option> = ({ children }) => {
 
     const openModalHandler = () => {
         setIsOpen(!isOpen);
-        if (!isOpen) {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "unset";
-        }
     };
 
     const Test = () => {

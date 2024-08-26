@@ -1,11 +1,11 @@
 import { postData, getData, patchData, deleteData } from "./index.ts";
-import { GetsApiResponse, PostApiResponse, GetApiResponse } from '../interfaces/dream.ts';
+import { GetsApiResponse, PostApiResponse, GetApiResponse, CommentsResponse } from '../interfaces/dream.ts';
 import { AxiosRequestConfig, AxiosResponse } from "axios";
 
-
+const BASED_URL = process.env.REACT_APP_BASED_URL;
 const POST_DREAM_URL = process.env.REACT_APP_BASED_URL + '/dreams'
 
-export const postDream = async (prompt: string, accessToken?:AxiosRequestConfig) => {
+export const postDream = async (prompt: string, accessToken?: AxiosRequestConfig) => {
     const response = await postData<PostApiResponse>(POST_DREAM_URL, prompt, accessToken);
     return response; // result에서 DreamData 반환
 };
@@ -22,9 +22,21 @@ export const postComment = async (dreamId: number, content: string, accessToken:
     return response; // result에서 DreamData 반환
 };
 
+export const updateComment = async (commentId: number, content: string, accessToken: AxiosRequestConfig) => {
+    const url = BASED_URL + '/' + 'comments/' + commentId;
+    const response = await patchData<AxiosResponse>(url, { commentId, content }, accessToken);
+    return response; // result에서 DreamData 반환
+};
+
+export const deleteComment = async (commentId: number, accessToken: AxiosRequestConfig) => {
+    const url = BASED_URL + '/' + 'comments/' + commentId;
+    const response = await deleteData<AxiosResponse>(url, accessToken);
+    return response; // result에서 DreamData 반환
+};
+
 
 export const getDream = async (pathVariable: number, accessToken?: AxiosRequestConfig) => {
-    const response = await getData<GetApiResponse>(POST_DREAM_URL + '/' + pathVariable, accessToken );
+    const response = await getData<GetApiResponse>(POST_DREAM_URL + '/' + pathVariable, accessToken);
     return response;
 }
 
@@ -36,6 +48,13 @@ export const getDreams = async (page: number, size: number, dreamKeyword?: strin
     return response;
 }
 
+export const getComments = async (dreamId: number, page: number, size: number) => {
+    const url = POST_DREAM_URL + '/' + dreamId + '/' + 'comments?page=' + page + '&' + 'size=' + size;
+
+    const response = await getData<CommentsResponse>(url);
+    return response;
+}
+
 export const updateDream = async (dreamId: number, secret: string, accessToken: AxiosRequestConfig) => {
     const url = POST_DREAM_URL + '/' + dreamId;
     const response = await patchData<GetApiResponse>(url, { dreamId, secret }, accessToken);
@@ -44,6 +63,6 @@ export const updateDream = async (dreamId: number, secret: string, accessToken: 
 
 export const deleteDream = async (dreamId: number, accessToken: AxiosRequestConfig) => {
     const url = POST_DREAM_URL + '/' + dreamId;
-    const response = await patchData<AxiosResponse>(url, accessToken);
+    const response = await deleteData<AxiosResponse>(url, accessToken);
     return response;
 }

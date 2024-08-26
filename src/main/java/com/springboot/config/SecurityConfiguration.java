@@ -73,6 +73,8 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.PATCH, "/dreams/**").hasRole("USER")
                         .antMatchers(HttpMethod.DELETE, "/dreams/**").hasRole("USER")
                         .antMatchers(HttpMethod.POST, "/auth/logout").hasAnyRole("USER", "ADMIN")
+                        .antMatchers(HttpMethod.PATCH, "/dreams/**").hasRole("USER")
+                        .antMatchers(HttpMethod.DELETE, "/dreams/**").hasRole("USER")
 
                         .anyRequest().permitAll()
                 ).oauth2Login(withDefaults());
@@ -88,7 +90,7 @@ public class SecurityConfiguration {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
-        configuration.addAllowedOrigin("https://dream-high.s3.ap-northeast-2.amazonaws.com");
+        configuration.addAllowedOrigin("http://dream-high.s3-website.ap-northeast-2.amazonaws.com");
         configuration.setExposedHeaders(Arrays.asList("Authorization", "Refresh"));
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
