@@ -25,7 +25,7 @@ export const postComment = async (dreamId: number, content: string, accessToken:
 
 
 export const getDream = async (pathVariable: number, accessToken?: AxiosRequestConfig) => {
-    const response = await getData<GetApiResponse>(POSTDREAM_URL + '/' + pathVariable, accessToken );
+    const response = await getData<GetApiResponse>(POST_DREAM_URL + '/' + pathVariable, accessToken );
     return response;
 }
 
