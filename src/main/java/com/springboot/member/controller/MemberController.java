@@ -70,13 +70,17 @@ public class MemberController {
     @PatchMapping("/{member-id}")
     public ResponseEntity patchMember(
             @PathVariable("member-id") @Positive long memberId,
-            @Valid @RequestBody MemberDto.Patch requestBody){
+            @Valid @RequestBody MemberDto.Patch requestBody,
+            Authentication authentication){
         requestBody.setMemberId(memberId);
+        String email = authentication.getName();
 
-        Member member = memberService.updateMember(mapper.memberPatchToMember(requestBody));
+        Member member = memberService.updateMember(mapper.memberPatchToMember(requestBody),email);
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.memberToMemberResponse(member)), HttpStatus.OK);
     }
+
+
     //닉네임 중복확인
 
     @GetMapping("/check-nickName")
@@ -117,8 +121,10 @@ public class MemberController {
 
     @PatchMapping("/{member-id}/profile")
     public ResponseEntity setProfile(@PathVariable("member-id") @Positive long memberId,
-                                     @RequestBody MemberDto.PatchProfile requestBody) {
-        Member member = memberService.findMember(memberId);
+                                     @RequestBody MemberDto.PatchProfile requestBody,
+                                     Authentication authentication) {
+        String email = authentication.getName();
+        Member member = memberService.findMember(memberId, email);
         member.setProfileUrl(requestBody.getProfileUrl());
 
         return new ResponseEntity(HttpStatus.OK);
@@ -129,18 +135,8 @@ public class MemberController {
     public ResponseEntity getMember(
             @PathVariable("member-id") @Positive long memberId, Authentication authentication) {
 
-        String email = null;
-
-        if (authentication != null) {
-            email = (String) authentication.getPrincipal();
-
-            // 로그아웃 상태 확인: 토큰이 Redis에서 이미 삭제된 경우
-            boolean isLoggedOut = !authService.isTokenValid(email);
-            if (isLoggedOut) {
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            }
-        }
-        Member member = memberService.findMember(memberId);
+        String email = authentication.getName();
+        Member member = memberService.findMember(memberId, email);
 
         if (!member.getEmail().equals(email)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN); // 이메일 불일치 시 권한 없음 상태 반환
@@ -154,17 +150,7 @@ public class MemberController {
     @GetMapping("/member-email")
     public ResponseEntity getMemberEmail(Authentication authentication) {
 
-        String email = null;
-
-        if (authentication != null) {
-            email = (String) authentication.getPrincipal();
-
-            // 로그아웃 상태 확인: 토큰이 Redis에서 이미 삭제된 경우
-            boolean isLoggedOut = !authService.isTokenValid(email);
-            if (isLoggedOut) {
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            }
-        }
+        String email = authentication.getName();
 
         Member member = memberService.findVerifiedMember(email);
         if (member == null) {
