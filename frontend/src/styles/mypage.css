@@ -41,38 +41,6 @@
     text-decoration: none;
 }
 
-#mypage-backgound-night {
-    height: 100%;
-    background-image: url("../assets/img-background-night.png");
-    background-size: 100%;
-    background-color: #340C62;
-    background-repeat: no-repeat;
-}
-
-#mypage-container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    background-size: 100%;
-    background-color: rgba(219, 168, 208, 0.8);
-    background-repeat: no-repeat;
-    margin: 10px;
-    color: white;
-    border-radius: 5%;
-}
-
-#mypage-profile-container {
-    display: flex;
-    flex-direction: column;
-    height: 300px;
-    width: 330px;
-    background-color: rgba(140, 68, 124, 0.8);
-    background-repeat: no-repeat;
-    margin: 10px;
-    color: white;
-    border-radius: 5%;
-}
-
 #mypage-profile {
     display: flex;
     flex-direction: row;

@@ -13,7 +13,7 @@ export interface LoginResponse {
     headers: Headers;
 }
 
-export interface memberApiResponse {
+export interface Data {
     memberId: number;
     email: string;
     nickName: string;
@@ -23,9 +23,12 @@ export interface memberApiResponse {
     memberStatus: string;
 }
 
-interface Dreams{
+export interface memberApiResponse {
+    data: Data;
+}
+
+export interface Dreams {
     dreamId: number;
     content: string;
-    viewCount:number;
-
+    createdAt: string;
 }

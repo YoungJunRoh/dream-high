@@ -50,8 +50,11 @@ type LocationState = {
 
 const Loading = () => {
     const location = useLocation();
+
     const state = location.state as LocationState | null;
+    
     const prompt = state?.prompt || '기본값';
+
     const navigate = useNavigate();
 
     const [responseContent, setResponseContent] = useState<ApiResponse | null>(null);
