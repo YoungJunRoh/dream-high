@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import '../styles/global.css';
 import styled from 'styled-components';
-import { OptionTab } from './OptionTab';
-import OptionContent from './OptionTabContent';
-import { useMember } from '../hooks/MemberManager';
+import { OptionTab } from './OptionTab.tsx';
+import OptionContent from './OptionTabContent.tsx';
+import { useMember } from '../hooks/MemberManager.tsx';
 import Input from './Input.tsx';
 
 

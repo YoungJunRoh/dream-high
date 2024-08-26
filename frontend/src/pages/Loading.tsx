@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ClockLoader } from 'react-spinners';
 import '../styles/loading.css';
 import { postDream } from '../services/DreamService.ts';
+import MeteorEffect from '../components/MeteorEffect.tsx'; // MeteorEffect 컴포넌트 가져오기
 
 // 인터페이스 정의
 interface DreamKeyword {
@@ -51,45 +51,35 @@ const Loading = () => {
     const prompt = state?.prompt || '기본값';
     const navigate = useNavigate();
 
-    console.log(prompt);
-
     const [responseContent, setResponseContent] = useState<ApiResponse | null>(null);
 
     const postAsync = async () => {
-            const response = await postDream(prompt);
-            setResponseContent(response.data);
+        const response = await postDream(prompt);
+        setResponseContent(response.data);
     }
 
     useEffect(() => {
         postAsync();
     }, []);
 
-    if (responseContent) {
-        console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
+    useEffect(() => {
+        if (responseContent) {
+            const interpretationResponse = responseContent.data.interpretationResponse;
+            const advice = interpretationResponse.advice;
+            const interpertaionKeyword = interpretationResponse.keyword;
+            const summary = interpretationResponse.summary;
+            const dreamContent = responseContent.data.content;
+            const interpertaionContent = interpretationResponse.content;
 
-        const interpretationResponse = responseContent.data.interpretationResponse;
-        const advice = interpretationResponse.advice;
-        const interpertaionKeyword = interpretationResponse.keyword;
-        const summary = interpretationResponse.summary;
-        const dreamContent = responseContent.data.content;
-        const interpertaionContent = interpretationResponse.content;
-
-        navigate('/interpretation-result', {
-            state: { advice, interpertaionKeyword, summary, dreamContent, interpertaionContent }
-        });
-    }else {
-        console.log("123123213213123123123");
-    }
+            navigate('/interpretation-result', {
+                state: { advice, interpertaionKeyword, summary, dreamContent, interpertaionContent }
+            });
+        }
+    }, [responseContent, navigate]);
 
     return (
-        <div className='background'>
-            <div className="stars"></div>
-            <ClockLoader className='clock'
-                color="#FEE500"
-                loading
-                size={100}
-                speedMultiplier={2}
-            />
+        <div id='background'>
+            <MeteorEffect count={50} direction="right" angle={30} /> {/* MeteorEffect 추가 */}
             <div className="loading-text">
                 <h2> 좀만 기다려달라 냥!🐾 </h2>
             </div>

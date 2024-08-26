@@ -11,7 +11,6 @@ import OptionContent from '../components/OptionTabContent.tsx';
 import PostInfo from '../components/PostInfo.tsx';
 import Footer from '../components/Footer.tsx';
 import Comment from '../components/Comment.tsx';
-import { useMember } from '../hooks/MemberManager.tsx';
 import CommentInput from '../components/CommentInput.tsx'
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
