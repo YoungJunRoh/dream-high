@@ -3,6 +3,8 @@ package com.springboot.dream.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.springboot.auth.jwt.JwtTokenizer;
+import com.springboot.auth.service.AuthService;
 import com.springboot.dream.dto.OpenAiRequest;
 import com.springboot.dream.dto.OpenAiResponse;
 import com.springboot.dream.entity.Dream;
@@ -16,6 +18,10 @@ import com.springboot.interpretation.entity.Interpretation;
 import com.springboot.interpretation.entity.Interpretation_Mood_Keyword;
 import com.springboot.member.entity.Member;
 import com.springboot.member.service.MemberService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -25,6 +31,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -54,14 +61,25 @@ public class DreamService {
     private final DreamRepository dreamRepository;
     private final MemberService memberService;
     private final ViewRepository viewRepository;
+    private final JwtTokenizer jwtTokenizer;
 
-    public DreamService(DreamRepository dreamRepository, MemberService memberService, ViewRepository viewRepository) {
+    @Getter
+    @Value("${jwt.key}")
+    private String secretKey;
+
+    public DreamService(DreamRepository dreamRepository, MemberService memberService, ViewRepository viewRepository, JwtTokenizer jwtTokenizer) {
         this.dreamRepository = dreamRepository;
         this.memberService = memberService;
         this.viewRepository = viewRepository;
+        this.jwtTokenizer = jwtTokenizer;
     }
 
-    public Dream createDream(Dream dream, String email){
+    public Dream createDream(Dream dream, Authentication authentication){
+
+        String email = null;
+        if (authentication != null) {
+            email = (String) authentication.getPrincipal();
+        }
 
         Map<String, Object> chatResponse = responseChatGpt(dream.getContent());
 
@@ -96,39 +114,11 @@ public class DreamService {
         Dream saveDream = dreamRepository.save(dream);
 
         return saveDream;
-//        String systemPrompt = "너는 꿈 해몽가야. 그리고 고양이 냥체를 해줘. 응답을 줄 때는 summary, advice, interpretation_mood_keyword의 json으로 주는데 json이라고 표시는 하지마. UTF-8 인코딩을 지켜줘. 해몽 내용 3줄은 summary에 1줄 조언은 advice에 해몽 분위기 키워드는 1개를 interpretation_mood_keyword에 담아야 해";
-//
-//        OpenAiRequest request = new OpenAiRequest("gpt-4o", systemPrompt, dreamContent);
-//        OpenAiResponse response = template.postForObject(apiURL, request, OpenAiResponse.class);
-//
-//        if (response != null && response.getChoices() != null && !response.getChoices().isEmpty()) {
-//            String content = response.getChoices().get(0).getMessage().getContent();
-//            Map<String, String> responseMap = parseResponse(content);
-//
-//            String summary = responseMap.get("summary");
-//            String advice = responseMap.get("advice");
-//
-//            Interpretation interpretation = new Interpretation();
-//            Interpretation_Mood_Keyword keyword = new Interpretation_Mood_Keyword();
-//
-//            keyword.setInterpretation(interpretation);
-//            keyword.setName(responseMap.get("interpretation_mood_keyword"));
-//
-//            interpretation.setDream(dream);
-//            interpretation.setAdvice(advice);
-//            interpretation.setSummary(summary);
-//            interpretation.setKeyword(keyword);
-//
-//            dream.setInterpretation(interpretation);
-//            Dream saveDream = dreamRepository.save(dream);
-//            return saveDream;
-//        }
-//        else{
-//            return dream;
-//        }
     }
-    public Dream updateDream(Dream dream,String email){
+    public Dream updateDream(Dream dream, String email){
         Dream findDream = findVerifiedDream(dream.getDreamId());
+
+        memberService.findVerifiedMember(email);
 
         if(!findDream.getMember().getEmail().equals(email)){
             throw new BusinessLogicException(ExceptionCode.NOT_YOUR_DREAM);
@@ -152,34 +142,24 @@ public class DreamService {
             return findDream;
         }
     }
+
+    public Dream findDreamWithAuthCheck(long dreamId, String authorizationHeader) {
+        String email = null;
+
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
+            String token = authorizationHeader.substring(7);
+            Jws<Claims> claims = jwtTokenizer.getClaims(token, jwtTokenizer.encodeBase64SecretKey(secretKey));
+            email = (String) claims.getBody().get("username");
+            return findDream(dreamId, email);
+        }else{
+            return findDream(dreamId);
+        }
+    }
+
     public Dream findDream(long dreamId, String email) {
         Dream findDream = findVerifiedDream(dreamId);
         Member findMember = memberService.findVerifiedMember(email);
         Optional<View> optionalView = viewRepository.findByDreamAndMember(findDream, findMember);
-//        if(findDream.getDreamSecret().equals(Dream.DreamSecret.DREAM_PRIVATE)){
-//            if(email.equals(findDream.getMember().getEmail())) {
-//                if(optionalView.isEmpty()){
-//                    View view = createView(dreamId,email);
-//                    findDream.addView(view);
-//                    findDream.setViewCount(findDream.getViews().size());
-//                }else{
-//                    findDream.setViewCount(findDream.getViews().size());
-//                }
-//                return findDream;
-//            }else{
-//                throw new BusinessLogicException(ExceptionCode.DREAM_IS_PRIVATE);
-//            }
-//        }else if(findDream.getDreamStatus() == Dream.DreamStatus.DREAM_DEACTIVE){
-//            throw new BusinessLogicException(ExceptionCode.DREAM_NOT_FOUND);
-//        }else{
-//            if(optionalView.isEmpty()){
-//                View view = createView(dreamId, email);
-//                findDream.addView(view);
-//                findDream.setViewCount(findDream.getViews().size());
-//            }else{
-//                findDream.setViewCount(findDream.getViews().size());
-//            }
-//        }
         if(findDream.getDreamSecret().equals(Dream.DreamSecret.DREAM_PRIVATE)) {
             if(!email.equals(findDream.getMember().getEmail())) {
                 throw new BusinessLogicException(ExceptionCode.DREAM_IS_PRIVATE);
@@ -207,6 +187,13 @@ public class DreamService {
         return findOrder;
     }
 
+    public Page<Dream> findDreamsVerify(String dreamKeyword, int page, int size){
+        if(dreamKeyword == null || dreamKeyword.isEmpty()) {
+            return findAllDreams(page, size);
+        }else{
+            return findDreams(dreamKeyword,page,size);
+        }
+    }
 
     public Page<Dream> findDreams(String dreamKeyword, int page, int size) {
         return dreamRepository.findByDreamStatusAndDreamKeywords_NameContaining(Dream.DreamStatus.DREAM_ACTIVE, dreamKeyword, PageRequest.of(page, size, Sort.by("dreamId").descending()));

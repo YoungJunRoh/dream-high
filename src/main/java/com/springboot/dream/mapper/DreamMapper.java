@@ -66,6 +66,7 @@ public interface DreamMapper {
         response.setCommentId(comment.getCommentId());
         response.setDreamId(comment.getDream().getDreamId());
         response.setContent(comment.getContent());
+        response.setCreatedAt(comment.getCreatedAt());
         response.setModifiedAt(comment.getModifiedAt());
         response.setMemberId(comment.getMember().getMemberId());
         response.setNickName(comment.getMember().getNickName());
