@@ -11,12 +11,12 @@ const SearchBar = () => {
         <div id='searchbar' className='font-normal'>
             <Input
                 placeholder='검색어를 입력하라냥'
-                m_height = '50px'
-                m_width = '70vw'
-                m_fontSize = '20px'
-                w_height = '50px'
-                w_width = '270px'
-                w_fontSize = '20px'
+                $m_height = '50px'
+                $m_width = '70vw'
+                $m_fontSize = '20px'
+                $w_height = '50px'
+                $w_width = '270px'
+                $w_fontSize = '20px'
                 deleteButton={true}
                 deleteButtonOption={option}
             />

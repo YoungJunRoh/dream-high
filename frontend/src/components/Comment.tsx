@@ -1,121 +1,94 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { CommentsResponse } from '../interfaces/dream.ts';
+import { getComments } from '../services/DreamService.ts';
+import { useMember } from "../hooks/MemberManager.tsx";
+import CommentForm from "./CommentForm.tsx";
+import { AxiosRequestConfig } from "axios";
+import CommentInput from "./CommentInput.tsx";
+import styled from "styled-components";
 import '../styles/global.css';
-import styled from 'styled-components';
-import { OptionTab } from './OptionTab';
-import OptionContent from './OptionTabContent';
-import { useMember } from '../hooks/MemberManager';
+import useReload from "../hooks/useReload .tsx";
 
-
-
-export const CommentForm = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    background-color: #E2E2E2;
-    margin-top: 2px;
-    margin-bottom: 2px;
-    padding: 4px;
-    padding-top: 6px;
-`;
-
-export const ContentInfo = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-    height: 2em;
-`;
-
-export const Content = styled.div`
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    height: 100%;
-    padding-left: 20px;
-    color: black;
-    grid-template-columns: minmax(100px, max-content) 1fr;
-`;
-
-export const Date = styled.span`
-    margin-left: 10px;
-    font-size: 15px;
-    color: #4d4d4d;
-    position: relative;
-    top: 2px;
-`;
-
-const EditContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-`;
-
-const Input = styled.input`
-    width: 70%;
-`;
-
-const Button = styled.button`
-    width: 30%;
-`;
-
-type CommentProps = {
-    username: string;
-    dateTime: string;
-    content: string;
+type CommentProp = {
+    dreamId: number
 }
 
-const Comment: React.FC<CommentProps> = ({ username, dateTime, content }) => {
-    const { login, authorization } = useMember();
-    const [edit, setEdit] = useState<boolean>(false);
-    const [currentContent, setContent] = useState<string>('');
+const PageInfoContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 40px;
+    width: 100%;
+`;
 
-    useEffect(()=>{
-        setContent(content);
-    }, [])
-    const setEditHandler = () => {
-        setEdit(true);
+const PageNumberArea = styled.h3`
+    margin-left: 20px;
+    margin-right: 20px;
+`;
+
+const Comment: React.FC<CommentProp> = ({ dreamId }) => {
+    const { authorization } = useMember();
+    const accessToken: AxiosRequestConfig = {
+        headers: {
+            Authorization: authorization,
+        },
+    };
+
+    const [response, setResponse] = useState<CommentsResponse | null>(null);
+    const [page, setPage] = useState<number>(1);
+    const getCommentsAsync = async () => {
+        setResponse((await getComments(dreamId, 1, 10)).data);
     }
 
-    const updateComment = () => {
-
+    const currentPage: number = response?.pageInfo.totalPages as number;
+    
+    const pageUp = async () => {
+        console.log(currentPage);
+        if (page <= currentPage) {
+            setPage(page + 1);
+        }
+        console.log('up ' + page);
+        setResponse((await getComments(dreamId, page, 10)).data);
     }
+
+    const pageDown = async () => {
+        if (page > 1) {
+            setPage(page - 1);
+        }
+        console.log('down ' + page);
+        setResponse((await getComments(dreamId, page, 10)).data);
+    }
+
+    const PageInfo = () => {
+        return (
+            <PageInfoContainer>
+                <h3 onClick={pageDown}>◀</h3>
+                <PageNumberArea> {page} </PageNumberArea>
+                <h3 onClick={pageUp}>▶</h3>
+            </PageInfoContainer>
+        );
+    }
+
+
+    useEffect(() => {
+        getCommentsAsync();
+    }, []);
 
     return (
-        <CommentForm>
-            <ContentInfo>
-                <div className='comment-name-space'>
-                    <h5 className='font-extrabold'>{username}</h5>
-                    <Date className='font-normal'>{dateTime}</Date>
-                </div>
-                <div className='comment-option'>
-                    {login && <OptionTab>
-                        <OptionContent
-                            onClick={setEditHandler}
-                        >
-                            수정
-                        </OptionContent>
-                        <OptionContent>
-                            삭제
-                        </OptionContent>
-                    </OptionTab>}
-                </div>
-            </ContentInfo>
-            {edit ?
-                <EditContainer>
-                    <Input
-                        value={currentContent}
-                        // onChange={setContent(currentContent)}
-                        ></Input>
-                    <Button onClick={updateComment}>수정완료</Button>
-                </EditContainer>
-                :
-                <Content className='font-normal'>
-                    {content}
-                </Content>}
-
-        </CommentForm>
+        <React.Fragment>
+            {response?.data.map((data) => (
+                <CommentForm
+                    username={data.nickName as string}
+                    dateTime={data.createdAt as string}
+                    content={data.content as string}
+                ></CommentForm>))}
+            <CommentInput
+                dreamId={dreamId}
+                accessToken={accessToken}
+            />
+            <PageInfo/>
+        </React.Fragment>
     );
-}
+};
 
 export default Comment;

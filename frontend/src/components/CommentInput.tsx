@@ -39,12 +39,12 @@ const CommentInput: React.FC<Comment> = ({dreamId, accessToken}) => {
     return (
         <Container>
             <Input
-                m_height='50px'
-                m_width='100%'
-                m_fontSize='18px'
-                w_height='50px'
-                w_width='100%'
-                w_fontSize='18px'
+                $m_height='50px'
+                $m_width='100%'
+                $m_fontSize='18px'
+                $w_height='50px'
+                $w_width='100%'
+                $w_fontSize='18px'
                 onChange={onChangeHandler}
             >
             </Input >
