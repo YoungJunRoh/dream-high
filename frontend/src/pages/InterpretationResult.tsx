@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ChatBalloon from '../components/ChatBalloon.tsx';
 import Button from '../components/Button.tsx';
 import '../styles/result.css';
@@ -20,6 +21,7 @@ interface LocationState {
 
 const InterpretationResult = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const state = location.state as LocationState | null;
 
     const interpertaionKeyword = state?.interpertaionKeyword as string;
@@ -43,6 +45,9 @@ const InterpretationResult = () => {
             document.body.removeChild(link);
         }
     }
+    const goToTarotPage = () => {
+        navigate('/tarot'); // 타로 페이지로 이동
+    };
 
     return (
         <div className='background-morning' ref={captureRef}>
@@ -77,7 +82,8 @@ const InterpretationResult = () => {
             <Button
                 name='타로도 보러갈래냥?🐾'
                 mode='gotarot'
-                draggable={true}>
+                draggable={true}
+                onClick={goToTarotPage}>
             </Button>
             <Footer></Footer>
         </div>

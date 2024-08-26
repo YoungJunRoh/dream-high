@@ -8,6 +8,8 @@ import com.springboot.dream.entity.Dream;
 import com.springboot.dream.mapper.DreamMapper;
 import com.springboot.dream.service.DreamService;
 
+import com.springboot.exception.BusinessLogicException;
+import com.springboot.exception.ExceptionCode;
 import com.springboot.response.MultiResponseDto;
 import com.springboot.response.SingleResponseDto;
 import lombok.extern.slf4j.Slf4j;
@@ -66,28 +68,6 @@ public class DreamController {
         return new ResponseEntity<>(new SingleResponseDto<>(response) , HttpStatus.OK);
     }
 
-    @PatchMapping("/{dream-id}")
-    public ResponseEntity patchDream(@PathVariable("dream-id") @Positive long dreamId,
-                                     @Valid @RequestBody DreamDto.Patch dreamPatchDto,
-                                     Authentication authentication) {
-        dreamPatchDto.setDreamId(dreamId);
-        String email = null;
-        if(authentication != null){
-            email = (String) authentication.getPrincipal();
-            boolean isLoggedOut = !authService.isTokenValid(email);
-            if(isLoggedOut){
-                email = null;
-            }
-        }
-
-        Dream dream =
-                dreamService.updateDream(mapper.dreamPatchDtoToDream(dreamPatchDto), email);
-
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.dreamToDreamResponseDto(dream))
-                , HttpStatus.OK);
-    }
-
     @GetMapping("/{dream-id}")
     public ResponseEntity getDream(@PathVariable("dream-id") @Positive long dreamId,
                                    Authentication authentication){
@@ -126,20 +106,40 @@ public class DreamController {
                     HttpStatus.OK);
         }
     }
+    @PatchMapping("/{dream-id}")
+    public ResponseEntity patchDream(@PathVariable("dream-id") @Positive long dreamId,
+                                     @Valid @RequestBody DreamDto.Patch dreamPatchDto,
+                                     Authentication authentication) {
+        dreamPatchDto.setDreamId(dreamId);
+        String email = null;
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new BusinessLogicException(ExceptionCode.NOT_YOUR_DREAM);
+        }
+            boolean isLoggedOut = !authService.isTokenValid(email);
+        if (isLoggedOut) {
+            throw new BusinessLogicException(ExceptionCode.NOT_YOUR_DREAM);
+        }
 
+        Dream dream =
+                dreamService.updateDream(mapper.dreamPatchDtoToDream(dreamPatchDto), email);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(mapper.dreamToDreamResponseDto(dream))
+                , HttpStatus.OK);
+    }
     @DeleteMapping("/{dream-id}")
     public ResponseEntity deleteDream(@PathVariable("dream-id") @Positive long dreamId,
                                       Authentication authentication){
         String email = null;
 
-        if (authentication != null) {
-            email = (String) authentication.getPrincipal();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new BusinessLogicException(ExceptionCode.NOT_YOUR_DREAM);
+        }
 
-            // 로그아웃 상태 확인: 토큰이 Redis에서 이미 삭제된 경우
-            boolean isLoggedOut = !authService.isTokenValid(email);
-            if (isLoggedOut) {
-                email = null;
-            }
+        email = (String) authentication.getPrincipal();
+        boolean isLoggedOut = !authService.isTokenValid(email);
+        if (isLoggedOut) {
+            throw new BusinessLogicException(ExceptionCode.NOT_YOUR_DREAM);
         }
         dreamService.deleteDream(dreamId, email);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

@@ -18,8 +18,9 @@ import BoardDetail from '../pages/BoardDetails.tsx';
 import { MemberManager } from '../hooks/MemberManager.tsx';
 import { HeaderManager } from '../hooks/HeaderManager.tsx';
 import MemberModification from '../pages/MemberModification.tsx';
-import { ProfileProvider } from './ProfileContext.tsx'; // 경로를 맞춰주세요
-
+import { ProfileProvider } from './ProfileContext.tsx'; 
+import TarotResult from '../components/TarotResult.tsx';
+import TarotPage from '../pages/Tarot.tsx'; 
 const App = () => {
 
   useEffect(() => {
@@ -50,6 +51,8 @@ const App = () => {
                 <Route path='/memberModification' element={<MemberModification />} />
                 <Route path='/board' element={<Board />} />
                 <Route path='/board/:id' element={<BoardDetail />} />
+                <Route path='/tarot' element={<TarotPage />} /> 
+                <Route path="/tarot-result" element={<TarotResult />} />
               </Routes>
             </HeaderManager>
           </div>
