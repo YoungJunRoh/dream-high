@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ClockLoader } from 'react-spinners';
 import '../styles/loading.css';
 import { postDream } from '../services/DreamService.ts';
+import { useMember } from '../hooks/MemberManager.tsx';
+import { AxiosRequestConfig } from 'axios';
 
 // 인터페이스 정의
 interface DreamKeyword {
@@ -54,9 +56,16 @@ const Loading = () => {
     console.log(prompt);
 
     const [responseContent, setResponseContent] = useState<ApiResponse | null>(null);
+    const { authorization } =useMember();
+
+    const accessToken: AxiosRequestConfig ={
+        headers:{
+            Authorization:authorization,
+        }
+    }
 
     const postAsync = async () => {
-            const response = await postDream(prompt);
+            const response = await postDream(prompt,accessToken);
             setResponseContent(response.data);
     }
 
