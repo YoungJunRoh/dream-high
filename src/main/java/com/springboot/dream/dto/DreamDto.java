@@ -57,6 +57,8 @@ public class DreamDto {
 
         private long memberId;
 
+        private String nickName;
+
         private String content;
         private Dream.DreamStatus dreamStatus;
         private Dream.DreamSecret dreamSecret;

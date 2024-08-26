@@ -20,8 +20,23 @@ interface DreamDatas {
 }
 
 const BoardContent: React.FC<DreamDatas> = ({ advice, interpertaionKeyword, summary, dreamContent, interpertaionContent, boardId, username }) => {
-    const cardRef = useRef<HTMLLIElement>(null);
-
+    const handleSaveImageClick = () => {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        if (context) {
+            canvas.width = 800;  // 원하는 이미지 크기로 설정
+            canvas.height = 600;
+            context.fillStyle = "#FFFFFF";  // 배경색 설정
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            context.fillStyle = "#000000";  // 텍스트 색상 설정
+            context.font = "30px Arial";
+            context.fillText("저장할 이미지의 텍스트", 50, 300);
+            const link = document.createElement('a');
+            link.download = 'saved-image.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+    }
     return (
         <div className='background-morning'>
             <div className='result-cat'>
@@ -47,18 +62,14 @@ const BoardContent: React.FC<DreamDatas> = ({ advice, interpertaionKeyword, summ
                             username={username}
                             content={dreamContent}
                         />
+                   </div>
+                    <div className='result-imgdown'>
+                        <Button name="이미지로 저장하기" mode="save-image" onClick={handleSaveImageClick}>
+                        </Button>
                     </div>
-                    <div
-                    className='result-imgdown'>
-                    <span
-                        className='font-normal result-font-size-18'
-                    >
-                        이미지로 저장하기</span>
-                    </div>
-                    
                 </div>
             </div>
-            <ResultSmallBox name='자세한 꿈해몽이다 냥냥🐾'  mode='resultbox' />
+            <ResultSmallBox name='자세한 꿈해몽이다 냥냥🐾' mode='resultbox' />
             <ResultBigBox mode='resultbox'>{interpertaionContent}</ResultBigBox>
         </div>
     );

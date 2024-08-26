@@ -50,6 +50,9 @@ public interface DreamMapper {
         response.setInterpretationResponse(interpretationToResponseDto(dream.getInterpretation()));
         if(!(dream.getMember() == null)){
             response.setMemberId(dream.getMember().getMemberId());
+            response.setNickName(dream.getMember().getNickName());
+        }else{
+            response.setNickName("anonymity");
         }
 
         return response;
