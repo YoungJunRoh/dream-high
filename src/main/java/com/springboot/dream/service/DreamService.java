@@ -129,7 +129,7 @@ public class DreamService {
     }
     public Dream updateDream(Dream dream,String email){
         Dream findDream = findVerifiedDream(dream.getDreamId());
-
+        //이메일 검중로직
         if(!findDream.getMember().getEmail().equals(email)){
             throw new BusinessLogicException(ExceptionCode.NOT_YOUR_DREAM);
         }

@@ -39,21 +39,25 @@ public class TarotService {
     public TarotDto.Response playTarot(TarotCategory category) {
         // 카테고리랑 랜덤카드 3개 뽑아서 GPT에 건네줌 > 결과 리턴
         //랜덤 숫자 만들어서 그걸로 findById()에 넣어서 카드 3개 출력
-
-        // 랜덤으로 타로 카드 3장 뽑기
+// 랜덤으로 타로 카드 3장 뽑기
         Tarot firstCard = drawRandomTarotCard();
         Tarot secondCard = drawRandomTarotCard();
         Tarot thirdCard = drawRandomTarotCard();
 
-        // 카드의 의미를 GPT에 전달하여 해석을 받음
+        // 카드 이름과 의미를 결합하여 문자열로 구성
+        String firstCardDescription = firstCard.getName() + " - " + firstCard.getMeaning();
+        String secondCardDescription = secondCard.getName() + " - " + secondCard.getMeaning();
+        String thirdCardDescription = thirdCard.getName() + " - " + thirdCard.getMeaning();
+
+        // 카드의 이름과 의미를 GPT에 전달하여 해석을 받음
         Map<String, Object> chatResponse = responseChatGpt(category.getCategoryName());
 
         // 응답 데이터를 Response DTO에 담아 반환
         TarotDto.Response response = new TarotDto.Response();
         response.setCategory(category.getCategoryName());
-        response.setFirstCardMeaning(firstCard.getMeaning());
-        response.setSecondCardMeaning(secondCard.getMeaning());
-        response.setThirdCardMeaning(thirdCard.getMeaning());
+        response.setFirstCard(firstCardDescription);
+        response.setSecondCard(secondCardDescription);
+        response.setThirdCard(thirdCardDescription);
         response.setResult((String) chatResponse.get("result"));
 
         return response;

@@ -111,14 +111,8 @@ public class DreamController {
                                      @Valid @RequestBody DreamDto.Patch dreamPatchDto,
                                      Authentication authentication) {
         dreamPatchDto.setDreamId(dreamId);
-        String email = null;
-        if (authentication == null || !authentication.isAuthenticated()) {
-            throw new BusinessLogicException(ExceptionCode.NOT_YOUR_DREAM);
-        }
-            boolean isLoggedOut = !authService.isTokenValid(email);
-        if (isLoggedOut) {
-            throw new BusinessLogicException(ExceptionCode.NOT_YOUR_DREAM);
-        }
+        String email = authentication.getName();
+
 
         Dream dream =
                 dreamService.updateDream(mapper.dreamPatchDtoToDream(dreamPatchDto), email);
