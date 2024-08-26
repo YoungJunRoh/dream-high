@@ -425,6 +425,10 @@
     width: 50px;
     height: 50px;
 }
+.share-buttons {
+    display: flex;
+    flex-direction: row;
+}
 
 /* 이미지 저장하기 버튼 스타일 */
 .result-imgdown {

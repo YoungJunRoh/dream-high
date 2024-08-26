@@ -19,8 +19,10 @@ const Interpretation = () => {
     };
     const buttonClickHandler = () => {
         const charCount = prompt.length; // 문자 수 계산
+
       // 정규 표현식으로 한글 음절(자음+모음) 확인
       const hasKoreanSyllable = /[가-힣]/.test(prompt);
+
         // 조건 확인
         if (charCount < 10) {
             Swal.fire({

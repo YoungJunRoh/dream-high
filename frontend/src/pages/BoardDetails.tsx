@@ -11,6 +11,7 @@ import OptionContent from '../components/OptionTabContent.tsx';
 import PostInfo from '../components/PostInfo.tsx';
 import Footer from '../components/Footer.tsx';
 import Comment from '../components/Comment.tsx';
+import { useMember } from '../hooks/MemberManager.tsx';
 import CommentInput from '../components/CommentInput.tsx'
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
@@ -23,11 +24,13 @@ const BoardDetails = () => {
     const { authorization, login } = useMember();
     let currentSecret: string | undefined = response?.data.dreamSecret;
 
+
     const accessToken: AxiosRequestConfig = {
         headers: {
             Authorization: authorization,
         },
     };
+
 
     const postRoleHandler = async () => {
         currentSecret === 'DREAM_PUBLIC' ? currentSecret = 'DREAM_PRIVATE' : currentSecret = 'DREAM_PUBLIC'; // 다른 경우 'DREAM_PRIVATE'
@@ -59,7 +62,7 @@ const BoardDetails = () => {
 
     useEffect(() => {
         const getDreamAsync = async () => {
-            const response = await getDream(dreamId);
+            const response = await getDream(dreamId, accessToken);
             setResponse(response.data);
         };
 

@@ -3,6 +3,7 @@ import { GetsApiResponse, PostApiResponse, GetApiResponse } from '../interfaces/
 import { BASED_URL } from '../constants/ApiUrl.ts';
 import { AxiosRequestConfig, AxiosResponse } from "axios";
 
+
 const POST_DREAM_URL = BASED_URL + '/dreams'
 
 export const postDream = async (prompt: string) => {
@@ -22,8 +23,9 @@ export const postComment = async (dreamId: number, content: string, accessToken:
     return response; // result에서 DreamData 반환
 };
 
-export const getDream = async (pathVariable: number) => {
-    const response = await getData<GetApiResponse>(POST_DREAM_URL + '/' + pathVariable);
+
+export const getDream = async (pathVariable: number, accessToken?: AxiosRequestConfig) => {
+    const response = await getData<GetApiResponse>(POSTDREAM_URL + '/' + pathVariable, accessToken );
     return response;
 }
 
