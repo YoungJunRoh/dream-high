@@ -24,7 +24,7 @@ interface InterpretationResponse {
 interface PageInfo {
     page: number;
     size: number;
-    totalPage: number;
+    totalPages: number;
     totalElements: number;
 }
 
@@ -35,6 +35,11 @@ interface Comments {
     dreamId: number;
     content: string;
     createdAt: string;
+}
+
+export interface CommentsResponse {
+    data: Comments[];
+    pageInfo: PageInfo;
 }
 
 // getdreams 에 대한 인터페이스
