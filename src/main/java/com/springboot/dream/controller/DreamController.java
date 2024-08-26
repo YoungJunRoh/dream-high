@@ -60,7 +60,7 @@ public class DreamController {
     public ResponseEntity getDream(@PathVariable("dream-id") @Positive long dreamId,
                                    @RequestHeader Map<String, String> headers){
 
-        String authorizationHeader = headers.get("Authorization");
+        String authorizationHeader = headers.get("authorization");
         Dream dream = dreamService.findDreamWithAuthCheck(dreamId, authorizationHeader);
         return new ResponseEntity(new SingleResponseDto<>(mapper.dreamToDreamResponseDto(dream)), HttpStatus.OK);
     }
