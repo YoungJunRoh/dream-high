@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
 import '../styles/board.css';
 import '../styles/global.css';
-import TextArea from './TextArea.tsx';
+import Input from './Input.tsx';
+import { XButton } from '../interfaces/input.ts';
 
 const SearchBar = () => {
+    const option: XButton = {right:'15px', top:'12px'};
+
     return (
         <div id='searchbar' className='font-normal'>
-            <TextArea
+            <Input
                 placeholder='검색어를 입력하라냥'
                 m_height = '50px'
                 m_width = '70vw'
@@ -14,6 +17,8 @@ const SearchBar = () => {
                 w_height = '50px'
                 w_width = '270px'
                 w_fontSize = '20px'
+                deleteButton={true}
+                deleteButtonOption={option}
             />
         </div>
     );

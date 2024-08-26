@@ -26,8 +26,6 @@ font-size: ${(props) => props.w_fontSize};
 margin-bottom: 5px;
 resize: none;
 position: relative;
-white-space: nowrap; /* 자동 줄내림 막기 */
-overflow: hidden; /* 스크롤 막기 */
 
 @media all and (max-width:430px) {
 height: ${(props) => props.m_height};

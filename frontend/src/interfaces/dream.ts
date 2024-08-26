@@ -28,6 +28,15 @@ interface PageInfo {
     totalElements: number;
 }
 
+interface Comments {
+    commentId: number;
+    memberId: number;
+    nickName: string;
+    dreamId: number;
+    content: string;
+    modifiedAt: string;
+}
+
 // getdreams 에 대한 인터페이스
 export interface DreamData { // boardList에서 필요함.
     dreamId: number;
@@ -41,7 +50,7 @@ export interface DreamData { // boardList에서 필요함.
     likeCount: number;
     dreamKeywords: DreamKeyword[];
     interpretationResponse: InterpretationResponse;
-    comments: any[]; // 댓글이 있는 경우, 적절한 타입을 지정해 주세요
+    comments: Comments[]; // 댓글이 있는 경우, 적절한 타입을 지정해 주세요
 }
 
 interface Data {

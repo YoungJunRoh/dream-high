@@ -1,6 +1,5 @@
 package com.springboot.like.controller;
 
-
 import com.springboot.like.dto.LikePostDto;
 import com.springboot.like.entity.Like;
 import com.springboot.like.mapper.LikeMapper;
@@ -28,9 +27,24 @@ public class LikeController {
         this.mapper = mapper;
     }
 
+    // @PostMapping("/dreams/{dream-id}/likes")
+    // public ResponseEntity postLike(@Valid @PathVariable("dream-id") long dreamId,
+    // Authentication authentication){
+    // LikePostDto likePostDto = new LikePostDto();
+    // likePostDto.setDreamId(dreamId);
+    // if (authentication == null) {
+    // return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    // }
+    // String email = authentication.getName();
+    // Like like = likeService.createLike(mapper.likePostDtoToLike(likePostDto),
+    // email);
+
+    // URI location = UriCreator.createUri(LIKES_DEFAULT_URL, like.getLikeId());
+    // return ResponseEntity.created(location).build();
+    // }
     @PostMapping("/dreams/{dream-id}/likes")
     public ResponseEntity postLike(@Valid @PathVariable("dream-id") long dreamId,
-                                   Authentication authentication){
+            Authentication authentication) {
         LikePostDto likePostDto = new LikePostDto();
         likePostDto.setDreamId(dreamId);
 
