@@ -278,8 +278,9 @@ public class DreamService {
             String responseContent = response.getChoices().get(0).getMessage().getContent();
             Map<String, Object> responseMap = parseResponse(responseContent);
             return responseMap;
+        }else{
+            throw new BusinessLogicException(ExceptionCode.NOT_CONTENT);
         }
-        return null;
     }
 
 }

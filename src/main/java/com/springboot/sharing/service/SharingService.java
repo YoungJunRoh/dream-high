@@ -65,7 +65,6 @@ public class SharingService {
 
             member.addMemberRewardPicture(memberRewardPicture);
             rewardPicture.addMemberRewardPicture(memberRewardPicture);
-
         }
         return saveSharing;
     }
