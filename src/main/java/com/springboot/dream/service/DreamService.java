@@ -111,9 +111,7 @@ public class DreamService {
     }
     public Dream updateDream(Dream dream, String email){
         Dream findDream = findVerifiedDream(dream.getDreamId());
-
         memberService.findVerifiedMember(email);
-
         if(!findDream.getMember().getEmail().equals(email)){
             throw new BusinessLogicException(ExceptionCode.NOT_YOUR_DREAM);
         }

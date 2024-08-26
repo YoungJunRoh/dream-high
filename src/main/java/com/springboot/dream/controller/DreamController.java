@@ -82,6 +82,7 @@ public class DreamController {
                                      Authentication authentication) {
         dreamPatchDto.setDreamId(dreamId);
         String email = authentication.getName();
+
         Dream dream =
                 dreamService.updateDream(mapper.dreamPatchDtoToDream(dreamPatchDto), email);
 
