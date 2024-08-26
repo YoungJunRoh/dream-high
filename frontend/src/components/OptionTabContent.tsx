@@ -17,7 +17,7 @@ export const OptionContentForm = styled.div<OptionContentFormProps>`
     justify-content: center;
     padding-left: 20px;
     width: 100%;
-    height: 45px;
+    height: 70px;
     background-color: ${(props) => (props.isClicked ? '#C1C1C1' : 'white')};
     user-select: none;
     cursor: pointer;
