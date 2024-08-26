@@ -9,18 +9,14 @@ import useKeyboardAvoider from '../hooks/useKeyboardAvoider.tsx';
 import TextArea from '../components/TextArea.tsx';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'; // SweetAlert2 가져오기
-
-
 const Interpretation = () => {
     useKeyboardAvoider();
     const [prompt, setPrompt] = useState<string>('');
     const navigate = useNavigate();
-
     const promptHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setPrompt(e.target.value);
         console.log(e.target.value); // 현재 입력된 값 출력
     };
-
     const buttonClickHandler = () => {
         const charCount = prompt.length; // 문자 수 계산
 
@@ -33,7 +29,7 @@ const Interpretation = () => {
                 title: '입력 오류',
                 text: '10자 이상으로 입력해달라옹ㅇㅅㅇ',
                 icon: 'warning',
-                confirmButtonText: '자세히 적기🐾',
+                confirmButtonText: '자세히 적기:발:',
                 customClass: {
                     title: 'swal-title', // 제목에 사용자 정의 클래스 적용
                     confirmButton: 'swal-button', // 버튼에 사용자 정의 클래스 적용
@@ -44,7 +40,7 @@ const Interpretation = () => {
                 title: '입력 오류',
                 text: '룰루가 알아들을 수 있게 적어달라옹ㅇㅅㅇ',
                 icon: 'warning',
-                confirmButtonText: '다시적기🐾',
+                confirmButtonText: '다시적기:발:',
                 customClass: {
                     title: 'swal-title', // 제목에 사용자 정의 클래스 적용
                     confirmButton: 'swal-button', // 버튼에 사용자 정의 클래스 적용
@@ -54,7 +50,6 @@ const Interpretation = () => {
             navigate('/loading', { state: { prompt } }); // 조건을 만족하면 페이지 이동
         }
     };
-
     return (
         <div className='background-night'>
             <div className='interpretation-background-cat'>
@@ -77,5 +72,4 @@ const Interpretation = () => {
         </div>
     );
 };
-
 export default Interpretation;

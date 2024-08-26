@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/global.css';
 import '../styles/home.css';
@@ -13,16 +13,17 @@ import { getDreams } from '../services/DreamService.ts';
 import { GetsApiResponse } from '../interfaces/dream.ts';
 import HotDream from '../components/HotDream.tsx';
 import { useHeaderMode } from '../hooks/HeaderManager.tsx';
+import useReload from '../hooks/useReload .tsx';
 
 const Home = () => {
     const { headerMode, setHeaderMode } = useHeaderMode();
+    useReload();
 
     useEffect(() => {
         setHeaderMode('main');
     }, [])
 
     const [responseDreams, setResponseDreams] = useState<GetsApiResponse | null>(null);
-
     const getDreamsAsync = async () => {
         try {
             const response = await getDreams(1, 10);
@@ -36,9 +37,9 @@ const Home = () => {
     useEffect(() => {
         getDreamsAsync();
     }, [])
-    
+
     const totalElements = responseDreams?.pageInfo.totalElements as number;
-  
+
     const datas: any[] = responseDreams?.data || [];
     const boards = datas.map((data) => (<BoardList contentData={data}></BoardList>))
 

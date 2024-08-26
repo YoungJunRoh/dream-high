@@ -128,7 +128,6 @@ public class MemberController {
     @GetMapping("/{member-id}")
     public ResponseEntity getMember(
             @PathVariable("member-id") @Positive long memberId, Authentication authentication) {
-        Member member = memberService.findMember(memberId);
 
         String email = null;
 
@@ -140,6 +139,36 @@ public class MemberController {
             if (isLoggedOut) {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
+        }
+        Member member = memberService.findMember(memberId);
+
+        if (!member.getEmail().equals(email)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN); // 이메일 불일치 시 권한 없음 상태 반환
+        }
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(mapper.memberToMemberResponseMyPage(member)), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/member-email")
+    public ResponseEntity getMemberEmail(Authentication authentication) {
+
+        String email = null;
+
+        if (authentication != null) {
+            email = (String) authentication.getPrincipal();
+
+            // 로그아웃 상태 확인: 토큰이 Redis에서 이미 삭제된 경우
+            boolean isLoggedOut = !authService.isTokenValid(email);
+            if (isLoggedOut) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+        }
+
+        Member member = memberService.findVerifiedMember(email);
+        if (member == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 회원을 찾을 수 없을 때
         }
 
         return new ResponseEntity<>(

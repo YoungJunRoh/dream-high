@@ -32,7 +32,7 @@ const Board = () => {
         getDreamsAsync();
     }, [])
 
-    const datas = responseDreams?.data || [];
+    const datas:[] = responseDreams?.data as [];
     const boards = datas.map((data) => (<BoardList contentData={data}></BoardList>))
 
     return (

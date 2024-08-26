@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import styled from 'styled-components';
 import '../styles/global.css';
 import { useMember } from '../hooks/MemberManager.tsx';
@@ -11,9 +11,8 @@ export const OptionTabButton = styled.div`
     background-image: url(${meatballs});
     background-repeat: no-repeat;
     position: relative;
-    left: 12px;
+    margin-left: 20px;
     cursor: pointer;
-    
     `;
 
 // Modal Container
@@ -22,7 +21,6 @@ export const ModalContainer = styled.div`
   align-items: center;
   height: 100%;
   overflow: hidden;
-
 `;
 
 // 모달 뒷 배경
@@ -34,7 +32,7 @@ export const ModalBackdrop = styled.div`
   left: 50%;
   transform: translate(-50%, 0);
   z-index: 9999;
-  background: rgba(255, 255, 255, 0);
+  background: rgba(0, 0, 0, 0.7);
   overflow: hidden;
 
   @media all and (max-width:430px) {
@@ -45,7 +43,7 @@ export const ModalBackdrop = styled.div`
   left: 50%;
   transform: translate(-50%, 0);
   z-index: 9999;
-  background: rgba(255, 255, 255, 0);
+  background: rgba(0, 0, 0, 0.7);
 }
 `;
 
@@ -56,9 +54,7 @@ export const ModalView = styled.div.attrs(() => ({
 }))`
   // TODO : Modal창 CSS를 구현합니다.
   // top: 472px;
-  top: 6.5%;
-  float: right;
-  width: 140px;
+  width: 100%;
   height: max-content;
   background-color: white;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
@@ -67,24 +63,9 @@ export const ModalView = styled.div.attrs(() => ({
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;
+  position: absolute;
+  bottom: 0;
   overflow: hidden;
-
-  @media all and (max-width:430px) {
-    // TODO : Modal창 CSS를 구현합니다.
-    top: 7.6%;
-    float: right;
-    width: 140px;
-    height: max-content;
-    background-color: white;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
 `;
 
 export const OptionContainer = styled.div`
@@ -105,11 +86,19 @@ export const OptionTab: React.FC<Option> = ({ children }) => {
     const openModalHandler = () => {
         setIsOpen(!isOpen);
         if (!isOpen) {
-            // document.body.style.overflow = "hidden";
+            document.body.style.overflow = "hidden";
         } else {
-            // document.body.style.overflow = "unset";
+            document.body.style.overflow = "unset";
         }
     };
+
+    const Test = () => {
+        return (
+            <div>
+                // 불러온 좌표값으로 배치하기
+            </div>
+        );
+    }
 
     return (
         <>

@@ -131,7 +131,15 @@ p {
     width: 100%;
     position: relative;
     z-index: 1;
+}
 
+.comment-name-space {
+    display: flex;
+    flex-direction: row;
+}
+
+.comment-option {
+    margin-right: 20px;
 }
 
 @media all and (max-width:430px) {
@@ -212,4 +220,5 @@ p {
     .order-left {
         justify-content: left;
     }
+
 }

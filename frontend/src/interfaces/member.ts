@@ -10,3 +10,4 @@ interface Headers {
 export interface LoginResponse {
     headers: Headers;
 }
+
