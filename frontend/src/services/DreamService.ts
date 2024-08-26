@@ -34,6 +34,7 @@ export const deleteComment = async (commentId: number, accessToken: AxiosRequest
     return response; // result에서 DreamData 반환
 };
 
+
 export const getDream = async (pathVariable: number, accessToken?: AxiosRequestConfig) => {
     const response = await getData<GetApiResponse>(POST_DREAM_URL + '/' + pathVariable, accessToken);
     return response;

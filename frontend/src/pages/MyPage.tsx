@@ -1,33 +1,95 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/global.css';
 import '../styles/mypage.css'; // 마이페이지 스타일
 import LongPress from '../components/LongPress.tsx';
 import { useProfile } from '../components/ProfileContext.tsx'; // 프로필 컨텍스트
-import { memberApiResponse } from '../interfaces/member.ts'; // 사용자 응답 타입
 import { getMember } from '../services/MemberService.ts'; // 사용자 정보 API
 import { useMember } from '../hooks/MemberManager.tsx'; // 회원 정보를 관리하는 훅
 import Stamp from '../components/Stamp.tsx'; // Stamp 컴포넌트
 import Footer from '../components/Footer.tsx'; // Footer 컴포넌트
+import { memberApiResponse } from '../interfaces/member.ts';
+import styled from 'styled-components';
+import background from '../assets/img-background-night.png';
+import defaultProfile from '../assets/img-non-login.png';
+import setting from '../assets/icon-setting.png';
+import { NavItem } from 'react-bootstrap';
+import BoardIndex from '../components/BoardIndex.tsx';
+import BoardList from '../components/BoardList.tsx';
+
+type PictureList = {
+    pictureDate: memberApiResponse;
+}
+
+const MyPageContainer = styled.div`
+    width: 100%;
+    height: 100%;
+    background-image: url(${background});
+    background-size: 100%;
+    background-color: #340C62;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    color: black;
+    align-items: center;
+`;
+
+const ContentArea = styled.div`
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 90%;
+    background-color: rgba(140, 68, 124, 0.8);
+    background-repeat: no-repeat;
+    margin: 10px;
+    color: white;
+    border-radius: 10px;
+`;
+
+const ContentArea_col = styled.div`
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 90%;
+    background-color: rgba(140, 68, 124, 0.8);
+    background-repeat: no-repeat;
+    margin: 10px;
+    color: white;
+    border-radius: 10px;
+`;
+
+const Title = styled.h5`
+    padding-left: 10px;
+    padding-top: 10px;
+`;
+
+const ProfileImgArea = styled.div`
+    padding: 20px;
+`;
+
+const UserInfo = styled.div`
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 25px;
+`;
 
 const MyPage = () => {
     const { profileImage } = useProfile(); // 프로필 이미지 가져오기
     const { authorization } = useMember(); // 인증 정보 가져오기
     const [responseMember, setResponseMember] = useState<memberApiResponse | null>(null); // 사용자 정보 상태
     const [stampCount, setStampCount] = useState<number>(0); // 스탬프 개수 상태
-
+    const navigation = useNavigate();
     const accessToken = {
         headers: {
             Authorization: authorization, // 인증 헤더 설정
         },
     };
-    
+
     // 사용자 정보를 가져오는 비동기 함수
     const getMemberAsync = async () => {
-
         const response = await getMember(accessToken); // API 호출
         setResponseMember(response.data); // 사용자 정보 상태 업데이트
-        alert('회원 정보를 가져오는 데 실패했습니다.');
     }
 
     // 컴포넌트가 마운트될 때 사용자 정보 가져오기
@@ -39,46 +101,46 @@ const MyPage = () => {
     const addStamp = () => {
         setStampCount((prevCount) => prevCount + 1); // 스탬프 개수 증가
     };
+    // 서연
+    const changeProfileImg = () => {
+        // TODO: 프로파일 이미지 변경하는 링크로 이동
+        // navigation 사용, 스테이트 넘기기
+    }
+
 
     return (
-        <div id='mypage-background'>
-            <div id='mypage-container'>
-                <div id='mypage-profile-container' className='font-extrabold'>
-                    <div id='mypage-profile' className='font-extrabold'>
-                        {profileImage ? (
-                            <LongPress>
-                                <img
-                                    src={profileImage}
-                                    alt="Profile"
-                                    style={{ width: '100px', height: '100px', borderRadius: '50%' }} // 이미지 스타일
-                                />
-                            </LongPress>
-                        ) : (
-                            <p>프로필 이미지가 없습니다.</p> // 이미지가 없는 경우 메시지
-                        )}
-                        <p id='nickname'>{responseMember?.nickName}</p> {/* 사용자 닉네임 */}
-                    </div>
-                    <Link to={'/memberModification'}>
-                        <div id='button'>
-                            수정하러가기🐾
-                        </div>
-                    </Link>
-                </div>
-
-                {/* Stamp 컴포넌트 사용 */}
-                <div id='mypage-stamp-container' className='font-extrabold'>
-                    <Stamp count={stampCount} /> {/* 현재 스탬프 개수를 전달 */}
-                </div>
-
-                <div id='mypage-recently-post-container'>
+        <MyPageContainer>
+            <ContentArea className='font-extrabold'>
+                <ProfileImgArea>
+                    <img
+                        src={defaultProfile}
+                        width='150px'
+                        onClick={changeProfileImg}  // 서연
+                    ></img>
+                </ProfileImgArea>
+                <UserInfo className='font-bold'>
+                    <h4>닉네임</h4>
+                    <p className='font-normal'>{responseMember?.data.nickName}</p> {/* 사용자 닉네임 */}
+                    <Link to='/member-modification'>회원정보 수정</Link>
+                </UserInfo>
+            </ContentArea>
+            <Link to={'/memberModification'}>
+            </Link>
+            <ContentArea_col>
+                <Title
+                    className='font-bold'
+                >스탬프</Title>
+                <Stamp count={stampCount} /> {/* 현재 스탬프 개수를 전달 */}
+            </ContentArea_col>
+            <ContentArea_col>
+                <Title>
                     나의 꿈해몽🐾
-                </div>
+                </Title>
+                <BoardIndex/>
+                {responseMember?.data.dreams.map((data) => (<BoardList contentData={data}></BoardList>))}
+            </ContentArea_col>
 
-           
-
-                <Footer /> {/* Footer 컴포넌트 */}
-            </div>
-        </div>
+        </MyPageContainer>
     );
 };
 

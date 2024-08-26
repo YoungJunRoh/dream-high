@@ -89,6 +89,6 @@ public class DreamDto {
     public static class ResponseThree {
         private long dreamId;
         private String content;
-        private Integer viewCount;
+        private LocalDateTime createdAt;
     }
 }

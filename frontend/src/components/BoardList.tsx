@@ -3,9 +3,10 @@ import '../styles/board.css';
 import '../styles/global.css';
 import { DreamData } from '../interfaces/dream.ts';
 import { Link } from 'react-router-dom';
+import { Dreams } from '../interfaces/member.ts';
 
-type BoardList = {
-    contentData: DreamData;
+type BoardListProps = {
+    contentData: DreamData | Dreams;
 }
 
 const formatDate = (date: Date): string => {
@@ -29,7 +30,7 @@ const formatDate = (date: Date): string => {
     }
 };
 
-const BoardList: React.FC<BoardList> = ({ contentData }) => {  // 수정
+const BoardList: React.FC<BoardListProps> = ({ contentData }) => {  // 수정
     const number: number = contentData.dreamId;
     const content: string = contentData.content;
     const createdAt: Date = new Date(contentData.createdAt);

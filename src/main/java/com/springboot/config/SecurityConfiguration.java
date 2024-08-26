@@ -70,9 +70,12 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.POST, "/dreams/**/comments").hasRole("USER")
                         .antMatchers(HttpMethod.PATCH, "/comments/**").hasRole("USER")
                         .antMatchers(HttpMethod.DELETE, "/dreams/**/comments/**").hasRole("USER")
+                        .antMatchers(HttpMethod.PATCH, "/dreams/**").hasRole("USER")
+                        .antMatchers(HttpMethod.DELETE, "/dreams/**").hasRole("USER")
                         .antMatchers(HttpMethod.POST, "/auth/logout").hasAnyRole("USER", "ADMIN")
                         .antMatchers(HttpMethod.PATCH, "/dreams/**").hasRole("USER")
                         .antMatchers(HttpMethod.DELETE, "/dreams/**").hasRole("USER")
+
                         .anyRequest().permitAll()
                 ).oauth2Login(withDefaults());
         return http.build();
