@@ -186,12 +186,12 @@ const SignUp = () => {
                         <Input
                             onChange={nicknameHandler}
                             placeholder='닉네임을 입력하세요'
-                            m_height='15vw'
-                            m_width='85vw'
-                            m_fontSize='20px'
-                            w_height='56px'
-                            w_width='320px'
-                            w_fontSize='20px'
+                            $m_height='15vw'
+                            $m_width='85vw'
+                            $m_fontSize='20px'
+                            $w_height='56px'
+                            $w_width='320px'
+                            $w_fontSize='20px'
                         >
                         </Input>
                     </div>
@@ -200,12 +200,12 @@ const SignUp = () => {
                         <Input
                             onChange={emailHandler}
                             placeholder='이메일을 입력하세요'
-                            m_height='15vw'
-                            m_width='85vw'
-                            m_fontSize='20px'
-                            w_height='56px'
-                            w_width='320px'
-                            w_fontSize='20px'
+                            $m_height='15vw'
+                            $m_width='85vw'
+                            $m_fontSize='20px'
+                            $w_height='56px'
+                            $w_width='320px'
+                            $w_fontSize='20px'
                             type='email'
                         />
                     </div>
@@ -217,12 +217,12 @@ const SignUp = () => {
                         <Input
                             onChange={passwordHandler}
                             placeholder='비밀번호를 입력하세요'
-                            m_height='15vw'
-                            m_width='85vw'
-                            m_fontSize='20px'
-                            w_height='56px'
-                            w_width='320px'
-                            w_fontSize='20px'
+                            $m_height='15vw'
+                            $m_width='85vw'
+                            $m_fontSize='20px'
+                            $w_height='56px'
+                            $w_width='320px'
+                            $w_fontSize='20px'
                             type='password'
                         />
                     </div>
@@ -234,12 +234,12 @@ const SignUp = () => {
                         <Input
                             onChange={repasswordHandler}
                             placeholder='비밀번호를 재입력 입력하세요'
-                            m_height='15vw'
-                            m_width='85vw'
-                            m_fontSize='20px'
-                            w_height='56px'
-                            w_width='320px'
-                            w_fontSize='20px'
+                            $m_height='15vw'
+                            $m_width='85vw'
+                            $m_fontSize='20px'
+                            $w_height='56px'
+                            $w_width='320px'
+                            $w_fontSize='20px'
                             type='password'
                         />
                     </div>
@@ -255,12 +255,12 @@ const SignUp = () => {
                             <Input
                                 onChange={verifyCodeHandler}
                                 placeholder='인증번호를 입력해주세요.'
-                                m_height='15vw'
-                                m_width='85vw'
-                                m_fontSize='20px'
-                                w_height='56px'
-                                w_width='320px'
-                                w_fontSize='20px'
+                                $m_height='15vw'
+                                $m_width='85vw'
+                                $m_fontSize='20px'
+                                $w_height='56px'
+                                $w_width='320px'
+                                $w_fontSize='20px'
                                 type='number'
                             />
                             <Button
