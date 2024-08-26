@@ -65,7 +65,7 @@ const Login = () => {
                 icon: 'error',
                 confirmButtonText: '확인'
             });
-        } else {
+        } else if(response.status === 500){
             Swal.fire({
                 text: '로그인 중 문제가 발생했서 다시 시도해라냥 ㅇㅅㅇ',
                 icon: 'error',

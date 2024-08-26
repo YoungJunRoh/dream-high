@@ -52,7 +52,7 @@ public interface DreamMapper {
             response.setMemberId(dream.getMember().getMemberId());
             response.setNickName(dream.getMember().getNickName());
         }else{
-            response.setNickName("anonymity");
+            response.setNickName("익명");
         }
 
         return response;
