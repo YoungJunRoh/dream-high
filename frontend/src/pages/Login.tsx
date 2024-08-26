@@ -48,31 +48,29 @@ const Login = () => {
 
     // 로그인 처리
     const loginHandler = async () => {
-        try {
-            const response = await postLogin(email as string, password as string);
-            setResponse(response.data);
-            console.log("Logging in with:", { email, password });
+        const response = await postLogin(email as string, password as string);
+        setResponse(response.data);
+        console.log("Logging in with:", { email, password });
 
-            // 로그인 성공 시 토큰 저장 및 페이지 이동
-            setAuthorization(response.headers.authorization);
-            setRefresh(response.headers.refresh);
-            setLogin(true);
-            navigate('/');
-        } catch (error) {
-            // 예외 처리
-            if (error.response && error.response.status === 401) {
-                Swal.fire({
-                    text: '이메일 또는 비밀번호가 잘못되었다냥 ㅇㅅㅇ',
-                    icon: 'error',
-                    confirmButtonText: '확인'
-                });
-            } else {
-                Swal.fire({
-                    text: '로그인 중 문제가 발생했서 다시 시도해라냥 ㅇㅅㅇ',
-                    icon: 'error',
-                    confirmButtonText: '확인'
-                });
-            }
+        // 로그인 성공 시 토큰 저장 및 페이지 이동
+        setAuthorization(response.headers.authorization);
+        setRefresh(response.headers.refresh);
+        setLogin(true);
+        navigate('/');
+
+        // 예외 처리
+        if (response.status === 401) {
+            Swal.fire({
+                text: '이메일 또는 비밀번호가 잘못되었다냥 ㅇㅅㅇ',
+                icon: 'error',
+                confirmButtonText: '확인'
+            });
+        } else {
+            Swal.fire({
+                text: '로그인 중 문제가 발생했서 다시 시도해라냥 ㅇㅅㅇ',
+                icon: 'error',
+                confirmButtonText: '확인'
+            });
         }
     };
 
@@ -92,7 +90,7 @@ const Login = () => {
                         w_height='56px'
                         w_width='320px'
                         w_fontSize='20px'
-                        type='email'               
+                        type='email'
                     ></Input>
                 </div>
                 <div className='login-input'>

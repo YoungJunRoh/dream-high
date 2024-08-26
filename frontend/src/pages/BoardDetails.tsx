@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useMember } from '../hooks/MemberManager.tsx';
-import { getDream, updateDream, postLike } from '../services/DreamService.ts';
+import { getDream, updateDream, postLike, deleteDream } from '../services/DreamService.ts';
 import { GetApiResponse } from '../interfaces/dream.ts';
 import Swal from 'sweetalert2';
 import BoardContent from '../components/BoardContent.tsx';
@@ -20,9 +20,10 @@ const BoardDetails = () => {
     const [response, setResponse] = useState<GetApiResponse | null>(null);
     const [patchResponse, setPatchResponse] = useState<GetApiResponse | null>(null);
     const [likeResponse, setLikeResponse] = useState<AxiosResponse | null>(null);
+    const [deleteDreams, setDeleteDreams] = useState<AxiosResponse | null>(null);
     const { authorization, login } = useMember();
     let currentSecret: string | undefined = response?.data.dreamSecret;
-
+    const navigator = useNavigate();
 
     const accessToken: AxiosRequestConfig = {
         headers: {
@@ -33,12 +34,22 @@ const BoardDetails = () => {
 
     const postRoleHandler = async () => {
         currentSecret === 'DREAM_PUBLIC' ? currentSecret = 'DREAM_PRIVATE' : currentSecret = 'DREAM_PUBLIC'; // 다른 경우 'DREAM_PRIVATE'
+        console.log(currentSecret);
         const response = await updateDream(dreamId, currentSecret, accessToken);
 
         setPatchResponse(response.data);
     }
 
-    const deleteHandler = () => {
+    const deleteHandler = async () => {
+        setDeleteDreams(await deleteDream(dreamId, accessToken));
+        if (deleteDreams) {
+            Swal.fire({
+                text: '게시물 삭제 완료다냥',
+                icon: 'success',
+                animation: true
+            });
+            navigator('/board');
+        }
     }
 
     const likeHandler = async () => {

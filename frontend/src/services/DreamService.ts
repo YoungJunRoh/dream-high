@@ -1,4 +1,4 @@
-import { postData, getData, patchData } from "./index.ts";
+import { postData, getData, patchData, deleteData } from "./index.ts";
 import { GetsApiResponse, PostApiResponse, GetApiResponse } from '../interfaces/dream.ts';
 import { AxiosRequestConfig, AxiosResponse } from "axios";
 
@@ -39,5 +39,11 @@ export const getDreams = async (page: number, size: number, dreamKeyword?: strin
 export const updateDream = async (dreamId: number, secret: string, accessToken: AxiosRequestConfig) => {
     const url = POST_DREAM_URL + '/' + dreamId;
     const response = await patchData<GetApiResponse>(url, { dreamId, secret }, accessToken);
+    return response;
+}
+
+export const deleteDream = async (dreamId: number, accessToken: AxiosRequestConfig) => {
+    const url = POST_DREAM_URL + '/' + dreamId;
+    const response = await patchData<AxiosResponse>(url, accessToken);
     return response;
 }
