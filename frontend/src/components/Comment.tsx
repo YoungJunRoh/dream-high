@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/global.css';
 import styled from 'styled-components';
-import { OptionTab } from './OptionTab.tsx';
-import OptionContent from './OptionTabContent.tsx';
-import { useMember } from '../hooks/MemberManager.tsx';
-import Input from './Input.tsx';
+import { OptionTab } from './OptionTab';
+import OptionContent from './OptionTabContent';
+import { useMember } from '../hooks/MemberManager';
+
 
 
 export const CommentForm = styled.div`
@@ -45,6 +45,20 @@ export const Date = styled.span`
     top: 2px;
 `;
 
+const EditContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+`;
+
+const Input = styled.input`
+    width: 70%;
+`;
+
+const Button = styled.button`
+    width: 30%;
+`;
+
 type Comment = {
     username: string;
     dateTime: string;
@@ -54,9 +68,17 @@ type Comment = {
 const Comment: React.FC<Comment> = ({ username, dateTime, content }) => {
     const { login, authorization } = useMember();
     const [edit, setEdit] = useState<boolean>(false);
+    const [currentContent, setContent] = useState<string>('');
 
+    useEffect(()=>{
+        setContent(content);
+    }, [])
     const setEditHandler = () => {
         setEdit(true);
+    }
+
+    const updateComment = () => {
+
     }
 
     return (
@@ -79,7 +101,15 @@ const Comment: React.FC<Comment> = ({ username, dateTime, content }) => {
                     </OptionTab>}
                 </div>
             </ContentInfo>
-            {edit ? 'asdasdasdas' :
+            {edit ?
+                <EditContainer>
+                    <Input
+                        value={currentContent}
+                        // onChange={setContent(currentContent)}
+                        ></Input>
+                    <Button onClick={updateComment}>수정완료</Button>
+                </EditContainer>
+                :
                 <Content className='font-normal'>
                     {content}
                 </Content>}

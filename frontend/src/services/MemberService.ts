@@ -1,12 +1,12 @@
 import { login, postData, getData } from "./index.ts";
 import { LoginResponse } from '../interfaces/member.ts';
 import { AxiosResponse, AxiosRequestConfig, AxiosHeaderValue } from 'axios';
-import { BASED_URL } from '../constants/ApiUrl.ts';
 
 interface statusCode {
     status: number;
 }
 
+const BASED_URL = process.env.REACT_APP_BASED_URL;
 const LOGIN_URL: string = BASED_URL+ '/auth/login';
 const LOGOUT_URL: string = BASED_URL + '/auth/logout';
 const REGISTER_URL: string = BASED_URL + '/members';

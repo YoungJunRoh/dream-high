@@ -5,8 +5,8 @@ import commentImg from '../assets/icon-comment.png';
 import styled from 'styled-components';
 
 type PostInfoProps = {
-    likeOnClick?(parm: any): void;
-    commentOnClick2?(parm: any): void;
+    likeOnClick?(parm?: any): void;
+    commentOnClick?(parm?: any | void): void;
     likeCount?: number;
     commentCount?: number;
 }
@@ -47,7 +47,7 @@ export const Count = styled.span`
     margin-left: 10px;
 `;
 
-const PostInfo: React.FC<PostInfoProps> = ({ likeOnClick, commentOnClick2, likeCount=0, commentCount=0 }) => {
+const PostInfo: React.FC<PostInfoProps> = ({ likeOnClick, commentOnClick, likeCount=0, commentCount=0 }) => {
     return (
         <PostInfoForm>
             <Heart
@@ -55,7 +55,7 @@ const PostInfo: React.FC<PostInfoProps> = ({ likeOnClick, commentOnClick2, likeC
             />
             <Count className='font-bold'>{likeCount}</Count>
             <Comment
-                onClick={commentOnClick2}
+                onClick={commentOnClick}
             />
             <Count className='font-bold'>{commentCount}</Count>
         </PostInfoForm>

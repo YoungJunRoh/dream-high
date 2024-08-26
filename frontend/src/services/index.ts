@@ -2,7 +2,7 @@ import axios, { Axios, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { APIResponse } from '../interfaces/response.ts';
 
 const client: Axios = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: process.env.REACT_APP_BASED_URL,
     headers: {
         'Content-Type': 'application/json',
     },

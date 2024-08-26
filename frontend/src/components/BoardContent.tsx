@@ -69,6 +69,14 @@ const BoardContent: React.FC<DreamDatas> = ({
                             content={dreamContent}
                         />
                    </div>
+
+                    <div className='result-imgdown'>
+                        <Button name="이미지로 저장하기" mode="save-image"
+                        //  onClick={handleSaveImageClick}
+                         >
+                        </Button>
+                    </div>
+
                     <div
                         className='result-imgdown'
                         onClick={saveAsImage} // 이미지 저장 버튼 클릭 시 함수 호출

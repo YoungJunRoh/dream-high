@@ -9,12 +9,6 @@
     background-image: url("../assets/img-background-morning.png");
 }
 
-.result-imgdown {
-    height: 100%;
-    width: 100%;
-    cursor: pointer;
-}
-
 .bottom-button {
     display: flex;
     flex-direction: row;
@@ -477,29 +471,6 @@
 .share-buttons {
     display: flex;
     flex-direction: row;
-}
-
-/* 이미지 저장하기 버튼 스타일 */
-.result-imgdown {
-    display: flex;
-    justify-content: center;
-    margin-top: 15px;  /* 이미지 저장 버튼의 위쪽 간격 */
-}
-
-.result-imgdown Button {
-    background-color: #66ccff;  /* 이전 버튼 배경색 */
-    color: #000000;  /* 글씨 색상 */
-    width: 220px;  /* 버튼 가로 길이 */
-    height: 40px;  /* 버튼 세로 길이 */
-    cursor: pointer;
-    border-radius: 10px;  /* 둥근 모서리 */
-    font-size: 16px;  /* 글씨 크기 */
-    font-weight: bold;
-    text-align: center;
-    display: flex;
-    align-items: center;  /* 수직 중앙 정렬 */
-    justify-content: center;  /* 수평 중앙 정렬 */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 약간의 그림자 */
 }
 
 #result-sharing-save:hover {

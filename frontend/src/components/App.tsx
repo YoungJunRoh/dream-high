@@ -18,13 +18,13 @@ import BoardDetail from '../pages/BoardDetails.tsx';
 import { MemberManager } from '../hooks/MemberManager.tsx';
 import { HeaderManager } from '../hooks/HeaderManager.tsx';
 import MemberModification from '../pages/MemberModification.tsx';
-import { ProfileProvider } from './ProfileContext.tsx'; // 경로를 맞춰주세요
-
+import { ProfileProvider } from './ProfileContext.tsx'; 
+import TarotResult from '../components/TarotResult.tsx';
+import TarotPage from '../pages/Tarot.tsx'; 
 const App = () => {
-
   useEffect(() => {
     if (!window.Kakao.isInitialized()) {
-      window.Kakao.init("4ddcb16f02ca7a2a6a5b750e9f72a46c");
+      window.Kakao.init(process.env.REACT_APP_KAKAO_APP_KEY);
     }
   }, []);
 
@@ -36,7 +36,7 @@ const App = () => {
             <HeaderManager>
               <Header />
               <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path='/' element={<Home />} />
                 <Route path="/interpretation" element={<Interpretation />} />
                 <Route path='/interpretation-result' element={<InterpretationResult />} />
                 <Route path='/login-home' element={<Login />} />
@@ -50,6 +50,8 @@ const App = () => {
                 <Route path='/memberModification' element={<MemberModification />} />
                 <Route path='/board' element={<Board />} />
                 <Route path='/board/:id' element={<BoardDetail />} />
+                <Route path='/tarot' element={<TarotPage />} /> 
+                <Route path="/tarot-result" element={<TarotResult />} />
               </Routes>
             </HeaderManager>
           </div>

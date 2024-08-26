@@ -1,4 +1,5 @@
 import React, { useState, ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/global.css';
 import '../styles/button.css';
 import styled from 'styled-components';
@@ -64,9 +65,18 @@ type ButtonProps = {
 // 버튼 width 글자 크기에 따라 늘어나도록 GPT 한테 커스텀 받기
 const Button: React.FC<ButtonProps> = ({ mode, name, draggable = true, option, children, onClick }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     const openModalHandler = () => {
         setIsOpen(prevIsOpen => !prevIsOpen);
+    };
+
+    const handleClick = () => {
+        if (mode === 'gotarot') {
+            navigate('/tarot'); // '타로 기능' 페이지로 이동
+        } else {
+            // 다른 모드에 대한 처리
+        }
     };
 
     let currentClass: string = 'main-button';
