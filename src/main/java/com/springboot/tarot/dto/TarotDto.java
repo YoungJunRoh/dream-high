@@ -27,9 +27,9 @@ public class TarotDto {
     public static class Response {
         @NotNull
         String category;
-        String firstCardMeaning;
-        String secondCardMeaning;
-        String thirdCardMeaning;
+        String firstCard;
+        String secondCard;
+        String thirdCard;
         String result;
 
 

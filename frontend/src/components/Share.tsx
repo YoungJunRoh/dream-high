@@ -9,7 +9,7 @@ type ShareProps = {
 }
 
 const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
-    const shareUrl = `http://tdtest.kro.kr:3000/board/${boardId}`;
+    const shareUrl = `http://dream-high.s3-website.ap-northeast-2.amazonaws.com/board/${boardId}`;
 
     const handleShareKakaoClick = () => {
         if (window.Kakao) {

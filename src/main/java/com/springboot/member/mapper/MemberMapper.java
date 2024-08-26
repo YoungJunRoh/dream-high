@@ -61,7 +61,7 @@ public interface MemberMapper {
         DreamDto.ResponseThree response = new DreamDto.ResponseThree();
         response.setDreamId(dream.getDreamId());
         response.setContent(dream.getContent());
-        response.setViewCount(dream.getViewCount());
+        response.setCreatedAt(dream.getCreatedAt());
 
         return response;
     }

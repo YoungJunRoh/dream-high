@@ -111,9 +111,7 @@ public class DreamService {
     }
     public Dream updateDream(Dream dream, String email){
         Dream findDream = findVerifiedDream(dream.getDreamId());
-
         memberService.findVerifiedMember(email);
-
         if(!findDream.getMember().getEmail().equals(email)){
             throw new BusinessLogicException(ExceptionCode.NOT_YOUR_DREAM);
         }
@@ -280,8 +278,9 @@ public class DreamService {
             String responseContent = response.getChoices().get(0).getMessage().getContent();
             Map<String, Object> responseMap = parseResponse(responseContent);
             return responseMap;
+        }else{
+            throw new BusinessLogicException(ExceptionCode.NOT_CONTENT);
         }
-        return null;
     }
 
 }

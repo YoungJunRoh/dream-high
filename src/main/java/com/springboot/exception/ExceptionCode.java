@@ -13,6 +13,7 @@ public enum ExceptionCode {
     DREAM_IS_PRIVATE(404, "This is private"),
     NOT_YOUR_COMMENT(403, "Not your Comment"),
     INVALID_AUTH_CODE(403, "INVALID_AUTH_CODE"),
+    NOT_CONTENT(400,"NOT_CONTENT"),
     CANNOT_CHANGE_MEMBER_STATUS(403, "MemberStatus cannot change" );
 
     @Getter
