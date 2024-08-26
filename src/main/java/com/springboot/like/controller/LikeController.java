@@ -33,11 +33,18 @@ public class LikeController {
                                    Authentication authentication){
         LikePostDto likePostDto = new LikePostDto();
         likePostDto.setDreamId(dreamId);
+
         if (authentication == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
+
         String email = authentication.getName();
         Like like = likeService.createLike(mapper.likePostDtoToLike(likePostDto), email);
+
+        if (like == null) {
+            // Like가 제거된 경우, No Content 상태를 반환
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
 
         URI location = UriCreator.createUri(LIKES_DEFAULT_URL, like.getLikeId());
         return ResponseEntity.created(location).build();

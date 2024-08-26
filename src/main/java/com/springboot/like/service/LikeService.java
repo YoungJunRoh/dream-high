@@ -35,8 +35,8 @@ public class LikeService {
         Integer count = like.getDream().getLikeCount();
         if(optionalLike.isPresent()){
             findMember.removeLike(optionalLike.get());
+            dream.getLikes().remove(optionalLike.get());
             likeRepository.delete(optionalLike.get());
-            like.getDream().setLikeCount(count-1);
             return null;
         }
         like.getDream().setLikeCount(count + 1);
