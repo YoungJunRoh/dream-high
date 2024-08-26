@@ -26,13 +26,13 @@ const ImageContainer = styled.div`
 `;
 
 const images = [
-    require('../assets/img-leave.png'),
+    require('../assets/collect06.png'),
     require('../assets/collect01.png'),
     require('../assets/collect02.png'),
     require('../assets/collect03.png'),
-    require('../assets/img-leave.png'),
+    require('../assets/collect07.png'),
     require('../assets/image-rulru02.png'),
-    require('../assets/img-leave.png')
+    require('../assets/collect05.png')
 
 ];
 
