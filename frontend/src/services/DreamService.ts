@@ -1,10 +1,9 @@
 import { postData, getData, patchData } from "./index.ts";
 import { GetsApiResponse, PostApiResponse, GetApiResponse } from '../interfaces/dream.ts';
-import { BASED_URL } from '../constants/ApiUrl.ts';
 import { AxiosRequestConfig, AxiosResponse } from "axios";
 
 
-const POST_DREAM_URL = BASED_URL + '/dreams'
+const POST_DREAM_URL = process.env.REACT_APP_BASED_URL + '/dreams'
 
 export const postDream = async (prompt: string) => {
     const response = await postData<PostApiResponse>(POST_DREAM_URL, prompt);
@@ -25,7 +24,7 @@ export const postComment = async (dreamId: number, content: string, accessToken:
 
 
 export const getDream = async (pathVariable: number, accessToken?: AxiosRequestConfig) => {
-    const response = await getData<GetApiResponse>(POSTDREAM_URL + '/' + pathVariable, accessToken );
+    const response = await getData<GetApiResponse>(POST_DREAM_URL + '/' + pathVariable, accessToken );
     return response;
 }
 

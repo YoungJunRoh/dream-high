@@ -70,7 +70,9 @@ const BoardContent: React.FC<DreamDatas> = ({
                         />
                    </div>
                     <div className='result-imgdown'>
-                        <Button name="이미지로 저장하기" mode="save-image" onClick={handleSaveImageClick}>
+                        <Button name="이미지로 저장하기" mode="save-image"
+                        //  onClick={handleSaveImageClick}
+                         >
                         </Button>
                     </div>
 

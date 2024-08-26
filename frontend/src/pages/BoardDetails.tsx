@@ -11,7 +11,6 @@ import OptionContent from '../components/OptionTabContent.tsx';
 import PostInfo from '../components/PostInfo.tsx';
 import Footer from '../components/Footer.tsx';
 import Comment from '../components/Comment.tsx';
-import { useMember } from '../hooks/MemberManager.tsx';
 import CommentInput from '../components/CommentInput.tsx'
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
@@ -93,7 +92,7 @@ const BoardDetails = () => {
     const summary: string = interpretationResponse?.summary as string;
     const dreamContent: string = data?.content as string;
     const interpertaionContent: string = interpretationResponse?.content as string;
-    
+
     const commentList = data.comments.map((comment) => (
         <Comment username={comment.nickName}
             dateTime={comment.modifiedAt}
@@ -135,12 +134,16 @@ const BoardDetails = () => {
                 boardId={dreamId}
                 username={name}
             />
-            <PostInfo />
+            <PostInfo
+                likeOnClick={likeHandler}
+                likeCount={response.data.likeCount}
+                commentCount={response.data.comments.length}
+            />
             {commentList}
             <CommentInput
-                dreamId={dreamId}
-                accessToken={accessToken}
-            />
+                    dreamId={dreamId}
+                    accessToken={accessToken}
+                />
             <Footer />
         </div>
     );
