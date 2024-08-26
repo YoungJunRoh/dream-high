@@ -16,21 +16,19 @@ const MyPage = () => {
     const [responseMember, setResponseMember] = useState<memberApiResponse | null>(null); // 사용자 정보 상태
     const [stampCount, setStampCount] = useState<number>(0); // 스탬프 개수 상태
 
+    const accessToken = {
+        headers: {
+            Authorization: authorization, // 인증 헤더 설정
+        },
+    };
+    
     // 사용자 정보를 가져오는 비동기 함수
     const getMemberAsync = async () => {
-        try {
-            const accessToken = {
-                headers: {
-                    Authorization: authorization, // 인증 헤더 설정
-                },
-            };
-            const response = await getMember(accessToken); // API 호출
-            setResponseMember(response.data); // 사용자 정보 상태 업데이트
-        } catch (error) {
-            console.error('Error fetching member data:', error); // 오류 로그 출력
-            alert('회원 정보를 가져오는 데 실패했습니다.');
-        }
-    };
+
+        const response = await getMember(accessToken); // API 호출
+        setResponseMember(response.data); // 사용자 정보 상태 업데이트
+        alert('회원 정보를 가져오는 데 실패했습니다.');
+    }
 
     // 컴포넌트가 마운트될 때 사용자 정보 가져오기
     useEffect(() => {
@@ -76,8 +74,7 @@ const MyPage = () => {
                     나의 꿈해몽🐾
                 </div>
 
-                {/* 스탬프 추가 버튼 */}
-                <button onClick={addStamp}>스탬프 추가</button>
+           
 
                 <Footer /> {/* Footer 컴포넌트 */}
             </div>

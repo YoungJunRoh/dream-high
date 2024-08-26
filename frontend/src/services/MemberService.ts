@@ -12,7 +12,7 @@ const LOGOUT_URL: string = BASED_URL + '/auth/logout';
 const REGISTER_URL: string = BASED_URL + '/members';
 const EMAIL_URL: string = BASED_URL + '/api/email/send-verification';
 const VERIFY_EMAIL_URL: string = BASED_URL + '/api/email/verify'
-const GET_MEMBER_URL: string = BASED_URL + '/member-email';
+const GET_MEMBER_URL: string = BASED_URL + '/members/member-email';
 
 export const postLogin = async (username: string, password: string) => {
     const response = await login<LoginResponse>(LOGIN_URL, { username, password });
