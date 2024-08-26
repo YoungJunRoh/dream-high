@@ -44,18 +44,8 @@ public class CommentController {
                                       @RequestBody CommentDto.Post commentPostDto,
                                       Authentication authentication){
         commentPostDto.setDreamId(dreamId);
-        String email = null;
+        String email = authentication.getName();
 
-        if (authentication != null) {
-            email = (String) authentication.getPrincipal();
-            // 로그아웃 상태 확인: 토큰이 Redis에서 이미 삭제된 경우
-            boolean isLoggedOut = !authService.isTokenValid(email);
-            if (isLoggedOut) {
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            }
-        }else{
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
         Comment comment = commentService.postComment(mapper.commentPostDtoToComment(commentPostDto), email);
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -67,18 +57,8 @@ public class CommentController {
                                        Authentication authentication){
         commentPatchDto.setCommentId(commentId);
 
-        String email = null;
+        String email = authentication.getName();
 
-        if (authentication != null) {
-            email = (String) authentication.getPrincipal();
-            // 로그아웃 상태 확인: 토큰이 Redis에서 이미 삭제된 경우
-            boolean isLoggedOut = !authService.isTokenValid(email);
-            if (isLoggedOut) {
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            }
-        }else{
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
 
         Comment comment = commentService.updateComment(mapper.commentPatchDtoToComment(commentPatchDto),email);
 
@@ -101,18 +81,8 @@ public class CommentController {
     @DeleteMapping("/comments/{comment-id}")
     public ResponseEntity deleteComment(@PathVariable("comment-id") @Positive long commentId,
                                         Authentication authentication){
-        String email = null;
 
-        if (authentication != null) {
-            email = (String) authentication.getPrincipal();
-            // 로그아웃 상태 확인: 토큰이 Redis에서 이미 삭제된 경우
-            boolean isLoggedOut = !authService.isTokenValid(email);
-            if (isLoggedOut) {
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            }
-        }else{
-            throw new BusinessLogicException(ExceptionCode.NOT_YOUR_COMMENT);
-        }
+        String email = authentication.getName();
         commentService.deleteComment(commentId, email);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

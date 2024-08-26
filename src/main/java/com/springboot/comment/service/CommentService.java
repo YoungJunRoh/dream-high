@@ -61,11 +61,14 @@ public class CommentService {
     }
 
     public Page<Comment> findComments(long dreamId, int page, int size){
-        return commentRepository.findByDream_DreamId(dreamId, PageRequest.of(page, size, Sort.by("createdAt").descending()));
+        return commentRepository.findByCommentStatusAndDream_DreamId(Comment.CommentStatus.COMMENT_ACTIVE, dreamId, PageRequest.of(page, size, Sort.by("createdAt").descending()));
     }
 
     public void deleteComment(long commentId, String email){
         Comment findComment = findComment(commentId);
+        memberService.findVerifiedMember(findComment.getMember().getEmail());
+        dreamService.findVerifiedDream(findComment.getDream().getDreamId());
+
         if(!findComment.getMember().getEmail().equals(email)){
             throw new BusinessLogicException(ExceptionCode.NOT_YOUR_COMMENT);
         }
