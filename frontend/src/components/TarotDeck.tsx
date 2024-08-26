@@ -1,6 +1,6 @@
 // TarotDeck.tsx
 import React from 'react';
-import TarotCard from '../components/TarotCard.tsx';
+import TarotCard from './TarotCard.tsx';
 import '../styles/tarot.css';
 
 const tarotCards = [

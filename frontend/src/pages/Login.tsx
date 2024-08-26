@@ -57,6 +57,22 @@ const Login = () => {
         setRefresh(response.headers.refresh);
         setLogin(true);
         navigate('/');
+      
+        // 예외 처리
+        if (response.status === 401) {
+            Swal.fire({
+                text: '이메일 또는 비밀번호가 잘못되었다냥 ㅇㅅㅇ',
+                icon: 'error',
+                confirmButtonText: '확인'
+            });
+        } else if(response.status === 500){
+            Swal.fire({
+                text: '로그인 중 문제가 발생했서 다시 시도해라냥 ㅇㅅㅇ',
+                icon: 'error',
+                confirmButtonText: '확인'
+            });
+        }
+
     };
 
     return (

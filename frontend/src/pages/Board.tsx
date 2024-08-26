@@ -16,23 +16,20 @@ const Board = () => {
     }, [])
 
     const [responseDreams, setResponseDreams] = useState<GetsApiResponse | null>(null);
+    // 안에 타입지정 
 
     const getDreamsAsync = async () => {
         // 비동기는 다 asynic붙여줘야함
-        try {
             const response = await getDreams(1, 10);
             setResponseDreams(response.data);
-        } catch (error) {
-            console.error("에러: ", error);
-            alert('gets 요청 실패');
-        }
+        
     }
 
     useEffect(() => {
         getDreamsAsync();
     }, [])
 
-    const datas:[] = responseDreams?.data as [];
+    const datas:any[] = responseDreams?.data || [];
     const boards = datas.map((data) => (<BoardList contentData={data}></BoardList>))
 
     return (

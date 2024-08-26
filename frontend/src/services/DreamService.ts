@@ -6,7 +6,7 @@ import { AxiosRequestConfig, AxiosResponse } from "axios";
 const POST_DREAM_URL = process.env.REACT_APP_BASED_URL + '/dreams'
 
 export const postDream = async (prompt: string, accessToken?:AxiosRequestConfig) => {
-    const response = await postData<PostApiResponse>(POST_DREAM_URL, prompt,accessToken);
+    const response = await postData<PostApiResponse>(POST_DREAM_URL, prompt, accessToken);
     return response; // result에서 DreamData 반환
 };
 

@@ -25,14 +25,16 @@ const Home = () => {
 
     const [responseDreams, setResponseDreams] = useState<GetsApiResponse | null>(null);
     const getDreamsAsync = async () => {
-        try {
             const response = await getDreams(1, 10);
             setResponseDreams(response.data);
-        } catch (error) {
-            console.error("에러: ", error);
-            alert('gets 요청 실패');
-        }
     }
+    // const response = await getDreams(1, 10);
+    //     setResponseDreams(response.data);
+    //     if (response.status === 200) {
+    //         alert('ss');
+    //     } else {
+    //         alert('gets 요청 실패');
+            
 
     useEffect(() => {
         getDreamsAsync();
@@ -50,7 +52,7 @@ const Home = () => {
             const randomHotDream: number = Math.floor(Math.random() * maxIndex);
             return responseDreams?.data[randomHotDream].content;
         }
-        return "데이터가 없습니다."; // fallback 메시지 또는 null
+        return "데이터가 없습니다.";// fallback 메시지 또는 null
     };
 
     const randomTmiIdx: number = Math.floor(Math.random() * tmiDatas.length);
