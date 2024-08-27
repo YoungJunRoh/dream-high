@@ -153,7 +153,7 @@ const SignUp = () => {
                                 name={verifyComplete ? '인증 완료' : '이메일 인증'}
                                 mode="normalButton"
                                 onClick={verifyComplete ? undefined : sendEmailAsync}
-                                disabled={verifyComplete} // 인증 완료 시 버튼 비활성화
+                                // disabled={verifyComplete} // 인증 완료 시 버튼 비활성화
                             />
                         )}
                     </div>

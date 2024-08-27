@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import '../styles/global.css';
 import '../styles/mypage.css';
 import ProfileImg from './ProfileImg.tsx';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useMember } from '../hooks/MemberManager.tsx'
 import Swal from 'sweetalert2';
 import { postLogout } from '../services/MemberService.ts';
@@ -96,6 +96,7 @@ export const MenuTab = () => {
   // 전역으로 토큰 및 로그인 상태를 저장하기 위한 훅스 호출
   const [isOpen, setIsOpen] = useState<boolean>(false); // 메뉴탭 상태
   const [isLogin, setIsLogin] = useState<boolean>(false); // 로그인 상태
+  const navigation = useNavigate();
   
   // AxiosRequestConfig 타입 선언.
   const { authorization, refresh, login, name, profileUrl, setAuthorization, setRefresh, setLogin } = useMember();
