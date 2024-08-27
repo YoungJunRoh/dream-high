@@ -4,6 +4,7 @@ import '../styles/getpicture.css';
 import styled, { css } from "styled-components";
 import Swal from 'sweetalert2';
 import { useProfile } from '../components/ProfileContext.tsx'; // Context 가져오기
+import { useLocation } from 'react-router-dom';
 
 
 const ImageItem = styled.img`
@@ -35,6 +36,10 @@ const images = [
     require('../assets/collect05.png')
 
 ];
+
+type PictureState = {
+    pictures: [];
+}
 
 function MyCollection() {
     const { profileImage, setProfileImage } = useProfile(); 
@@ -68,14 +73,18 @@ function MyCollection() {
         });
     };
 
+    const location = useLocation();
+    const state = location.state as PictureState | null;
+    const pictures:[] = state?.pictures as [];
+
     return (
         <div className='background'>
             <div className='collectionbox'>
                 <h2>내 컬렉션</h2>
                 <ImageContainer>
-                    {images.map((src, index) => (
-                        <ImageItem key={index} src={src} alt={`Image ${index + 1}`} 
-                        onClick={() => handleImageClick(index)} // 이미지 클릭 시 핸들러 호출
+                    {pictures.map((url) => (
+                        <ImageItem src={url} 
+                        // onClick={() => handleImageClick()} // 이미지 클릭 시 핸들러 호출
                         />
                     ))}
                 </ImageContainer>
