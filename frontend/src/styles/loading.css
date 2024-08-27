@@ -20,17 +20,17 @@
 }
 .loading-text {
     position: absolute;
-    top: 350px; /* 위치 조정 */
+    top: 350px; 
     left: 280px;
-    color: #333238c9; /* 핑크색 텍스트 */
-    font-size: 34px; /* 텍스트 크기 */
-    text-align: center; /* 텍스트 정렬 */
+    color: #333238c9; 
+    font-size: 34px; 
+    text-align: center; 
     font-family: "PF-StartDust-Bold";
-    white-space: nowrap; /* 줄바꿈 방지 */
+    white-space: nowrap; 
 }
 @media all and (max-width:430px) {
     #background {
-        position: fixed; /* 전체 화면을 차지하도록 fixed로 설정 */
+        position: fixed; 
         top: 0;
         left: 0;
         width: 100%;

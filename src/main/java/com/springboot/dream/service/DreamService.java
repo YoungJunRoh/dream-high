@@ -260,6 +260,7 @@ public class DreamService {
 
     private Map<String, Object>responseChatGpt(String content){
 
+
         String systemPrompt = "너는 꿈 해몽가야. 모든 말은 고양이 냥체를 해줘." +
                 "이모티콘도 써야 해. 긍정적으로 말해줘.응답을 줄 때는 dream_keyword, content, summary, advice, interpretation_mood_keyword의 json으로 주는데 json이라고 표시는 하지마. " +
                 "UTF-8 인코딩을 지켜줘. 꿈 키워드는 2개 배열로 주는데 하나는 감정 하나는 사물 관련해서 dream_keyword에 담아서 줘 " +
@@ -279,6 +280,7 @@ public class DreamService {
                 "지혜," +
                 "기쁨," +
                 "행운)에서 1개를 interpretation_mood_keyword에 담아야 해, 근데 너가 응답을 못 해줄 것 같은 내용에는 Error를 보내줘";
+
         OpenAiRequest request = new OpenAiRequest("gpt-4o", systemPrompt, content);
         OpenAiResponse response = template.postForObject(apiURL, request, OpenAiResponse.class);
 
