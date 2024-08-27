@@ -44,6 +44,12 @@ const Email = styled.p`
     font-size: 20px;
 `;
 
+const DeleteMember = styled.p`
+    font-size: 18px;
+    text-decoration: underline;
+    color: #575757;
+`;
+
 const ContentArea_col = styled.div`
     display: flex;
     flex-direction: column;
@@ -70,7 +76,7 @@ const MemberModification = () => {
     const gohome = useNavigate();
 
     const location = useLocation();
-    const state:MemberState = location.state;
+    const state: MemberState = location.state;
     const email = state.email;
     const accessToken: AxiosRequestConfig = state.accessToken;
     const memberId = state.memberId;
@@ -183,12 +189,12 @@ const MemberModification = () => {
                     </Link>
                 </InputArea_center>
                 <InputArea_center>
-                    <Button
-                        name='ㅌ..탈퇴'
-                        mode='leave'
+                    <DeleteMember
                         onClick={handleLeave} // 클릭 시 handleLeave 함수 호출
+                        className='font-normal'
                     >
-                    </Button>
+                        ㅎ..회원 탈퇴....
+                    </DeleteMember>
                 </InputArea_center>
             </ContentArea_col>
         </ModificationContainer>

@@ -21,6 +21,7 @@ export interface Data {
     stampCount: number;
     pictures: [];
     memberStatus: string;
+    profileUrl: string;
 }
 
 export interface memberApiResponse {
