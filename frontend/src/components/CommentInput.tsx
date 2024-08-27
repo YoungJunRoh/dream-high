@@ -32,7 +32,7 @@ const CommentInput: React.FC<Comment> = ({dreamId, accessToken}) => {
             Swal.fire({
                 icon: 'error',
                 title: '로그인 하라냥😿',
-                text: '로그인 안 한 집사는 이용 못한다냥!🐾',
+                text: '로그인 안 한 집사는 이용 못 한다냥!🐾',
                 confirmButtonText: '알겠다냥!'
             })
         }
