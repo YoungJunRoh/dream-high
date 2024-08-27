@@ -21,6 +21,7 @@ export interface Data {
     stampCount: number;
     pictures: [];
     memberStatus: string;
+    profileUrl: string;
 }
 
 export interface memberApiResponse {
@@ -32,3 +33,4 @@ export interface Dreams {
     content: string;
     createdAt: string;
 }
+
