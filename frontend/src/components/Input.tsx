@@ -19,6 +19,7 @@ type InputProps = {
     $w_width: string;
     $w_fontSize: string;
     type?: string;
+    value?: string;
 }
 
 const InputContainer = styled.div`
@@ -59,7 +60,7 @@ type: ${(props) => props.type};
 }
 `;
 
-const TextArea: React.FC<InputProps> = ({ onChange, onKeyDown, type, placeholder, children, $m_height, $m_width, $m_fontSize, $w_height, $w_width, $w_fontSize, deleteButton, deleteButtonOption }) => {
+const Input: React.FC<InputProps> = ({ onChange, onKeyDown, value, type, placeholder, children, $m_height, $m_width, $m_fontSize, $w_height, $w_width, $w_fontSize, deleteButton, deleteButtonOption }) => {
     const deleteRef = useRef<HTMLInputElement>(null);
     useKeyboardAvoider();
     return (
@@ -78,6 +79,7 @@ const TextArea: React.FC<InputProps> = ({ onChange, onKeyDown, type, placeholder
                 onKeyDown={onKeyDown}
                 type={type}
                 deleteButtonOption={deleteButtonOption}
+                value={value}
             >
                 {children}
             </InputForm>
@@ -96,4 +98,4 @@ const TextArea: React.FC<InputProps> = ({ onChange, onKeyDown, type, placeholder
     );
 }
 
-export default TextArea;
+export default Input;

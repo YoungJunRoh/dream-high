@@ -2,20 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/global.css';
 import '../styles/mypage.css'; // 마이페이지 스타일
-import LongPress from '../components/LongPress.tsx';
 import { useProfile } from '../components/ProfileContext.tsx'; // 프로필 컨텍스트
 import { getMember } from '../services/MemberService.ts'; // 사용자 정보 API
 import { useMember } from '../hooks/MemberManager.tsx'; // 회원 정보를 관리하는 훅
 import Stamp from '../components/Stamp.tsx'; // Stamp 컴포넌트
-import Footer from '../components/Footer.tsx'; // Footer 컴포넌트
 import { memberApiResponse } from '../interfaces/member.ts';
 import styled from 'styled-components';
 import background from '../assets/img-background-night.png';
 import defaultProfile from '../assets/img-non-login.png';
-import setting from '../assets/icon-setting.png';
-import { NavItem } from 'react-bootstrap';
 import BoardIndex from '../components/BoardIndex.tsx';
 import BoardList from '../components/BoardList.tsx';
+import { AxiosRequestConfig } from 'axios';
 
 type PictureList = {
     pictureDate: memberApiResponse;
@@ -80,7 +77,8 @@ const MyPage = () => {
     const [responseMember, setResponseMember] = useState<memberApiResponse | null>(null); // 사용자 정보 상태
     const [stampCount, setStampCount] = useState<number>(0); // 스탬프 개수 상태
     const navigation = useNavigate();
-    const accessToken = {
+
+    const accessToken: AxiosRequestConfig = {
         headers: {
             Authorization: authorization, // 인증 헤더 설정
         },
@@ -102,14 +100,22 @@ const MyPage = () => {
         setStampCount((prevCount) => prevCount + 1); // 스탬프 개수 증가
     };
 
-    const pictures: [] = responseMember?.data.pictures as[];    // 서연
+    const pictures: [] = responseMember?.data.pictures as [];    // 서연
     const changeProfileImg = () => {
         // TODO: 프로파일 이미지 변경하는 링크로 이동
         // navigation 사용, 스테이트 넘기기
-        navigation('/mycollection', {state: {pictures}})
+        navigation('/mycollection', { state: { pictures } })
     }
 
+    const email: string = responseMember?.data.email as string;
+    const name: string = responseMember?.data.nickName as string;
+    const memberId: number = responseMember?.data.memberId as number;
+    const memberStatus: string = responseMember?.data.memberStatus as string;
 
+    const changeMyProfile = () => {
+        navigation('/member-modification', { state: { email, name, accessToken, memberId, memberStatus } })
+    }
+    
     return (
         <MyPageContainer>
             <ContentArea className='font-extrabold'>
@@ -122,8 +128,8 @@ const MyPage = () => {
                 </ProfileImgArea>
                 <UserInfo className='font-bold'>
                     <h4>닉네임</h4>
-                    <p className='font-normal'>{responseMember?.data.nickName}</p> {/* 사용자 닉네임 */}
-                    <Link to='/member-modification'>회원정보 수정</Link>
+                    <p className='font-normal'>{name}</p> {/* 사용자 닉네임 */}
+                    <p onClick={changeMyProfile}>회원정보 수정</p>
                 </UserInfo>
             </ContentArea>
             <Link to={'/memberModification'}>
@@ -138,7 +144,7 @@ const MyPage = () => {
                 <Title>
                     나의 꿈해몽🐾
                 </Title>
-                <BoardIndex/>
+                <BoardIndex />
                 {responseMember?.data.dreams.map((data) => (<BoardList contentData={data}></BoardList>))}
             </ContentArea_col>
 

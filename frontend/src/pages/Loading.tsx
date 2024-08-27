@@ -5,7 +5,7 @@ import { postDream } from '../services/DreamService.ts';
 import { useMember } from '../hooks/MemberManager.tsx';
 import { AxiosRequestConfig } from 'axios';
 import MeteorEffect from '../components/MeteorEffect.tsx'; // MeteorEffect 컴포넌트 가져오기
-
+import Swal from 'sweetalert2';
 
 // 인터페이스 정의
 interface DreamKeyword {
@@ -52,7 +52,7 @@ const Loading = () => {
     const location = useLocation();
 
     const state = location.state as LocationState | null;
-    
+
     const prompt = state?.prompt || '기본값';
 
     const navigate = useNavigate();
@@ -60,16 +60,16 @@ const Loading = () => {
     const [responseContent, setResponseContent] = useState<ApiResponse | null>(null);
     const { authorization } = useMember();
 
-      // AxiosRequestConfig 타입 선언.
-  const accessToken: AxiosRequestConfig = {
-    headers: {
-      Authorization: authorization,
-    },
-  };
+    // AxiosRequestConfig 타입 선언.
+    const accessToken: AxiosRequestConfig = {
+        headers: {
+            Authorization: authorization,
+        },
+    };
 
     const postAsync = async () => {
-            const response = await postDream(prompt, accessToken);
-            setResponseContent(response.data);
+        const response = await postDream(prompt, accessToken);
+        setResponseContent(response.data);
     }
 
     useEffect(() => {
@@ -87,8 +87,7 @@ const Loading = () => {
         navigate('/interpretation-result', {
             state: { advice, interpertaionKeyword, summary, dreamContent, interpertaionContent }
         });
-    }else {
-        console.log("123123213213123123123");
+    } else {
     }
 
     return (

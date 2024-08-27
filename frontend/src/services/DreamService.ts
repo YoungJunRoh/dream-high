@@ -57,7 +57,7 @@ export const getComments = async (dreamId: number, page: number, size: number) =
 
 export const updateDream = async (dreamId: number, secret: string, accessToken: AxiosRequestConfig) => {
     const url = POST_DREAM_URL + '/' + dreamId;
-    const response = await patchData<GetApiResponse>(url, { dreamId, secret }, accessToken);
+    const response = await patchData<GetApiResponse>(url, { secret }, accessToken);
     return response;
 }
 
