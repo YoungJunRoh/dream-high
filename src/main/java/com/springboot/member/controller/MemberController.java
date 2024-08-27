@@ -109,7 +109,7 @@ public class MemberController {
             @PathVariable("member-id") @Positive long memberId,
             @Valid @RequestBody MemberDto.PatchPassword requestBody){
         requestBody.setMemberId(memberId);
-
+        memberService.verifyPassword(memberId, requestBody.getPassword(), requestBody.getNewPassword());
         Member member = memberService.updateMemberPassword(mapper.memberPatchPasswordToMember(requestBody));
 
         return new ResponseEntity<>(
@@ -121,8 +121,8 @@ public class MemberController {
                                      @RequestBody MemberDto.PatchProfile requestBody,
                                      Authentication authentication) {
         String email = authentication.getName();
-        Member member = memberService.findMember(memberId, email);
-        member.setProfileUrl(requestBody.getProfileUrl());
+        requestBody.setMemberId(memberId);
+        memberService.updateMemberProfile(mapper.memberPatchProfileToMember(requestBody), email);
 
         return new ResponseEntity(HttpStatus.OK);
     }

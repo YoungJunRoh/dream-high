@@ -29,7 +29,7 @@ public interface MemberMapper {
     default Member memberPatchPasswordToMember(MemberDto.PatchPassword requestBody){
         Member member = new Member();
         member.setMemberId(requestBody.getMemberId());
-        member.setPassword(requestBody.getPassword());
+        member.setPassword(requestBody.getNewPassword());
         return member;
     }
     Member memberPatchProfileToMember(MemberDto.PatchProfile requestBody);
