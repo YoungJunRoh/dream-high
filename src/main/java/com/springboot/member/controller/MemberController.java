@@ -111,6 +111,7 @@ public class MemberController {
         requestBody.setMemberId(memberId);
 
         Member member = memberService.updateMemberPassword(mapper.memberPatchPasswordToMember(requestBody));
+
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.memberToMemberResponse(member)), HttpStatus.OK);
     }

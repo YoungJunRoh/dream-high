@@ -26,7 +26,12 @@ public interface MemberMapper {
     }
 
     Member memberPatchToMember(MemberDto.Patch requestBody);
-    Member memberPatchPasswordToMember(MemberDto.PatchPassword requestBody);
+    default Member memberPatchPasswordToMember(MemberDto.PatchPassword requestBody){
+        Member member = new Member();
+        member.setMemberId(requestBody.getMemberId());
+        member.setPassword(requestBody.getPassword());
+        return member;
+    }
     Member memberPatchProfileToMember(MemberDto.PatchProfile requestBody);
     MemberDto.Response memberToMemberResponse(Member member);
     default MemberDto.Response memberToMemberResponseMyPage(Member member){
@@ -44,6 +49,7 @@ public interface MemberMapper {
         response.setNickName(member.getNickName());
         response.setDreams(dreams);
         response.setEmail(member.getEmail());
+        response.setProfileUrl(member.getProfileUrl());
         response.setPictures(pictures);
         response.setMemberStatus(member.getMemberStatus());
         response.setStampCount(member.getStamp().getCount());

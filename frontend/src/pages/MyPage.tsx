@@ -116,8 +116,6 @@ const MyPage = () => {
         navigation('/mycollection', { state: { pictures, accessToken, memberId } })
     }
 
-
-    
     return (
         <MyPageContainer>
             <ContentArea className='font-extrabold'>

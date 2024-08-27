@@ -58,7 +58,7 @@ public class Member {
     private List<Like> likes = new ArrayList<>();
 
     @Column(nullable = true)
-    private String profileUrl;
+    private String profileUrl = "https://dream-high-picture-reward.s3.ap-northeast-2.amazonaws.com/default_profile.png";
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
     private List<MemberRewardPicture> memberRewardPictures = new ArrayList<>();
