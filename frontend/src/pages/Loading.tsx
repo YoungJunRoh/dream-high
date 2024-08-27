@@ -69,7 +69,6 @@ const Loading = () => {
 
     const postAsync = async () => {
             const response = await postDream(prompt, accessToken);
-            setResponseContent(response.data);
             if (response.status === 500){
                 Swal.fire({
                     icon: 'error',
@@ -80,6 +79,7 @@ const Loading = () => {
                     navigate(-1); // 뒤로 가기
                 });
             }
+            setResponseContent(response.data);
     }
 
     useEffect(() => {

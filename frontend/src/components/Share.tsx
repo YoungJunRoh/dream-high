@@ -1,5 +1,6 @@
 import React from "react";
 import '../styles/result.css';
+import Swal from "sweetalert2";
 
 type ShareProps = {
     boardId: number;
@@ -43,6 +44,17 @@ const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
         const instagramUsername = 'target_username';  // 공유할 상대방의 인스타그램 사용자 이름
         const instagramUrl = `https://www.instagram.com/direct/inbox/`;
         const deepLink = `instagram://user?username=${instagramUsername}`;
+
+    
+        Swal.fire({
+                icon: 'error',
+                title: 'Instagram이 냥이를 거부한다냥😿',
+                text: '너무 나쁜 집사다냥!🐾',
+                confirmButtonText: '알겠다냥!'
+        }).then(() => {
+                
+        });
+        
 
         navigator.clipboard.writeText(shareUrl)
         .then(() => {

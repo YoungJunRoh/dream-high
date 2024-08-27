@@ -160,9 +160,9 @@ public class MemberService {
 
     }
 
-    public void deleteMember(long memberId) {
+    public void deleteMember(String email) {
         // TODO should business logic
-        Member findMember = findVerifiedMember(memberId);
+        Member findMember = findVerifiedMember(email);
 
         findMember.setMemberStatus(MEMBER_QUIT);
 

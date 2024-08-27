@@ -34,7 +34,7 @@ public class MemberRegistrationEventListener {
             e.printStackTrace();
             log.error("MailSendException: rollback for Member Registration:");
             Member member = event.getMember();
-            memberService.deleteMember(member.getMemberId());
+            memberService.deleteMember(member.getEmail());
         }
     }
 }
