@@ -58,7 +58,7 @@ const InputForm = styled.input.attrs<InputProps>(({ type, value, disabled }) => 
         font-size: ${(props) => props.$m_fontSize};
     }
 `;
-const TextArea: React.FC<InputProps> = ({
+const Input: React.FC<InputProps> = ({
     onChange,
     onKeyDown,
     value,
