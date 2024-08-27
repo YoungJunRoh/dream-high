@@ -7,7 +7,9 @@ import com.springboot.exception.BusinessLogicException;
 import com.springboot.exception.ExceptionCode;
 import com.springboot.helper.event.MemberRegistrationApplicationEvent;
 import com.springboot.member.entity.Member;
+import com.springboot.member.entity.MemberRewardPicture;
 import com.springboot.member.repository.MemberRepository;
+import com.springboot.picture.entity.RewardPicture;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -54,6 +56,12 @@ public class MemberService {
 
         List<String> roles = authorityUtils.createRoles(member.getEmail());
         member.setRoles(roles);
+
+        MemberRewardPicture memberRewardPicture = new MemberRewardPicture();
+        RewardPicture rewardPicture = new RewardPicture();
+        rewardPicture.setRewardPictureId(1L);
+        memberRewardPicture.addRewardPicture(rewardPicture);
+        memberRewardPicture.addMember(member);
 
         Member savedMember = memberRepository.save(member);
 
