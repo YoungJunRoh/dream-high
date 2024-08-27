@@ -72,6 +72,15 @@ const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
     };
 
     const handleCopyLinkClick = () => {
+        Swal.fire({
+                icon: 'error',
+                title: 'ClipBoard가 냥이를 거부한다냥😿',
+                text: '너무 나쁜 집사다냥!🐾',
+                confirmButtonText: '알겠다냥!'
+        }).then(() => {
+                
+        });
+            
         navigator.clipboard.writeText(shareUrl)
             .then(() => {
                 alert('공유 링크가 클립보드에 복사되었습니다!');
