@@ -14,6 +14,7 @@ public enum ExceptionCode {
     NOT_YOUR_COMMENT(403, "Not your Comment"),
     INVALID_AUTH_CODE(403, "INVALID_AUTH_CODE"),
     NOT_CONTENT(500,"NOT_CONTENT"),
+    PICTURE_NOT_FOUND(404, "Picture Not Found"),
     CANNOT_CHANGE_MEMBER_STATUS(403, "MemberStatus cannot change" );
 
     @Getter
