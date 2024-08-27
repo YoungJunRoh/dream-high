@@ -200,7 +200,7 @@ public class MemberService {
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
-    private void verifyExistsEmail(String email) {
+    public void verifyExistsEmail(String email) {
         Optional<Member> member = memberRepository.findByEmail(email);
         if (member.isPresent()) throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
     }

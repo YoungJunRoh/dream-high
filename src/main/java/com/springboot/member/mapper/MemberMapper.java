@@ -33,6 +33,7 @@ public interface MemberMapper {
         MemberDto.Response response = new MemberDto.Response();
 
         List<DreamDto.ResponseThree> dreams = member.getDreams().stream()
+                .filter(dream -> !dream.getDreamStatus().equals(Dream.DreamStatus.DREAM_DEACTIVE))
                 .limit(3)
                 .map(dream -> dreamToDreamResponseThree(dream))
                 .collect(Collectors.toList());

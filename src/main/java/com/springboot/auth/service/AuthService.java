@@ -19,9 +19,4 @@ public class AuthService {
     public boolean logout(String username) {
         return jwtTokenizer.deleteRegisterToken(username); // JwtTokenizer를 사용하여 저장된 토큰을 삭제합니다.
     }
-
-    public boolean isTokenValid(String username) {
-        return redisTemplate.hasKey(username);
-    }
-
 }
