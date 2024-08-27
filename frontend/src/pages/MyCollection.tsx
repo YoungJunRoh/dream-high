@@ -24,6 +24,8 @@ const ImageContainer = styled.div`
     padding: 10px; /* 패딩 추가 */
     border: 1px solid #ccc; /* 필요에 따라 테두리 추가 */
     border-radius: 8px; /* 필요에 따라 모서리 둥글게 만들기 */
+    height: max-content;
+    width: 80%;
 `;
 
 const images = [
@@ -45,7 +47,7 @@ function MyCollection() {
     const { profileImage, setProfileImage } = useProfile(); 
     const [imageList, setImageList] = useState(images); // 이미지 상태 관리
 
-    const handleImageClick = (index) => {
+    const handleImageClick = (index: number) => {
         const currentSrc = imageList[index];
 
         Swal.fire({
@@ -75,16 +77,23 @@ function MyCollection() {
 
     const location = useLocation();
     const state = location.state as PictureState | null;
-    const pictures:[] = state?.pictures as [];
 
+    interface picture {
+        memberRewardPictureId: number;
+        rewardPictureId: number;
+        rewardUrl: string;
+    }
+
+    const pictures:picture[] = state?.pictures as [];
+    
     return (
         <div className='background'>
             <div className='collectionbox'>
                 <h2>내 컬렉션</h2>
                 <ImageContainer>
-                    {pictures.map((url) => (
-                        <ImageItem src={url} 
-                        // onClick={() => handleImageClick()} // 이미지 클릭 시 핸들러 호출
+                    {pictures.map((picture) => (
+                        <ImageItem src={picture.rewardUrl} 
+                        onClick={() => handleImageClick(picture.rewardPictureId)} // 이미지 클릭 시 핸들러 호출
                         />
                     ))}
                 </ImageContainer>

@@ -58,10 +58,10 @@ const InputForm = styled.input.attrs<InputProps>(({ type, value, disabled }) => 
         font-size: ${(props) => props.$m_fontSize};
     }
 `;
-
 const TextArea: React.FC<InputProps> = ({
     onChange,
     onKeyDown,
+    value,
     type = 'text',
     placeholder,
     children,
@@ -74,6 +74,7 @@ const TextArea: React.FC<InputProps> = ({
     deleteButton,
     deleteButtonOption,
 }) => {
+
     const deleteRef = useRef<HTMLInputElement>(null);
     useKeyboardAvoider();
 
@@ -92,6 +93,8 @@ const TextArea: React.FC<InputProps> = ({
                 $w_fontSize={$w_fontSize}
                 onKeyDown={onKeyDown}
                 type={type}
+                deleteButtonOption={deleteButtonOption}
+                value={value}
             >
                 {children}
             </InputForm>
@@ -111,4 +114,4 @@ const TextArea: React.FC<InputProps> = ({
     );
 };
 
-export default TextArea;
+export default Input;

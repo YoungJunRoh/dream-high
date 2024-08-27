@@ -52,7 +52,7 @@ const Loading = () => {
     const location = useLocation();
 
     const state = location.state as LocationState | null;
-    
+
     const prompt = state?.prompt || '기본값';
 
     const navigate = useNavigate();
@@ -60,12 +60,12 @@ const Loading = () => {
     const [responseContent, setResponseContent] = useState<ApiResponse | null>(null);
     const { authorization } = useMember();
 
-      // AxiosRequestConfig 타입 선언.
-  const accessToken: AxiosRequestConfig = {
-    headers: {
-      Authorization: authorization,
-    },
-  };
+    // AxiosRequestConfig 타입 선언.
+    const accessToken: AxiosRequestConfig = {
+        headers: {
+            Authorization: authorization,
+        },
+    };
 
     const postAsync = async () => {
             const response = await postDream(prompt, accessToken);
