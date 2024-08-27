@@ -29,17 +29,21 @@ const BoardContent: React.FC<DreamDatas> = ({
     boardId,
     username
 }) => {
-    const cardRef = useRef<HTMLDivElement>(null); // 캡처할 요소에 대한 참조
+    const captureRef = useRef<HTMLDivElement>(null); // 캡처할 요소에 대한 참조
 
     // 이미지 저장 함수
-    const saveAsImage = () => {
-        if (cardRef.current) {
-            html2canvas(cardRef.current).then((canvas) => {
-                const link = document.createElement('a');
-                link.href = canvas.toDataURL('image/png');
-                link.download = 'dream_result.png'; // 다운로드할 파일 이름
-                link.click();
-            });
+    const handleCapture = async () => {
+        if (captureRef.current) {
+            const canvas = await html2canvas(captureRef.current);
+            const dataUrl = canvas.toDataURL('image/png');
+
+            const link = document.createElement('a');
+            link.href = dataUrl;
+            link.download = 'dream_result.png';
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         } else {
             Swal.fire({
                 title: '오류',
@@ -52,7 +56,7 @@ const BoardContent: React.FC<DreamDatas> = ({
 
 
     return (
-        <div className='background-morning' ref={cardRef}> {/* 캡처할 요소 */}
+        <div className='background-morning' ref={captureRef}> {/* 캡처할 요소 */}
             <div className='result-cat'>
                 <ChatBalloon message={advice} />
             </div>
@@ -69,17 +73,8 @@ const BoardContent: React.FC<DreamDatas> = ({
                             content={dreamContent}
                         />
                    </div>
-                    <div className='result-imgdown'>
-                        <Button name="이미지로 저장하기" mode="save-image"
-                        //  onClick={handleSaveImageClick}
-                         >
-                        </Button>
-                    </div>
-                    <div
-                        className='result-imgdown'
-                        onClick={saveAsImage} // 이미지 저장 버튼 클릭 시 함수 호출
-                    >
-
+                   <div className='result-imgdown'>
+                            <Button name="이미지로 저장하기" mode="save-image" onClick={handleCapture} />
                     </div>
                 </div>
             </div>

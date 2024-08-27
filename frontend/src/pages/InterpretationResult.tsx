@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ChatBalloon from '../components/ChatBalloon.tsx';
 import Button from '../components/Button.tsx';
@@ -9,9 +9,9 @@ import ResultBigBox from '../components/BigBox.tsx';
 import ResultSmallBox from '../components/SmallBox.tsx';
 import Footer from '../components/Footer.tsx';
 import { useLocation } from 'react-router-dom';
-import html2canvas from 'html2canvas'; // html2canvas 라이브러리 가져오기
+import html2canvas from 'html2canvas';
 import Share from '../components/Share.tsx';
-
+import Swal from 'sweetalert2';
 
 interface LocationState {
     advice: string;
@@ -26,10 +26,8 @@ const InterpretationResult = () => {
     const navigate = useNavigate();
     const state = location.state as LocationState | null;
 
-    //
     const boardId: number = 1;
-    const username: string = '아무개'
-    
+    const username: string = '아무개';
 
     const interpertaionKeyword = state?.interpertaionKeyword as string;
     const advice = state?.advice as string;
@@ -38,22 +36,31 @@ const InterpretationResult = () => {
     const interpertaionContent = state?.interpertaionContent as string;
 
     const captureRef = useRef<HTMLDivElement>(null);
-    const handleCapture = async () =>{
-        if(captureRef.current) {
+
+    const handleCapture = async () => {
+        if (captureRef.current) {
             const canvas = await html2canvas(captureRef.current);
-            const dataUrl = canvas.toDataURL("image/png");
+            const dataUrl = canvas.toDataURL('image/png');
 
             const link = document.createElement('a');
             link.href = dataUrl;
-            link.download = 'dream_interpretation_result.png';
+            link.download = 'dream_result.png';
 
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+        } else {
+            Swal.fire({
+                title: '오류',
+                text: '캡처할 수 없습니다.',
+                icon: 'error',
+                confirmButtonText: '확인',
+            });
         }
-    }
+    };
+
     const goToTarotPage = () => {
-        navigate('/tarot'); // 타로 페이지로 이동
+        navigate('/tarot');
     };
 
     return (
@@ -61,25 +68,18 @@ const InterpretationResult = () => {
             <div className='result-cat'>
                 <ChatBalloon message={advice} />
             </div>
-            <ResultBox message={summary} mode='main'/>
+            <div id='marginbox'>
+                <ResultBox message={summary} mode='board' />
+            </div>
             <div className='bottom-button'>
-                {/* <Link to={'/dream-interpretation'}>
-                    <Button
-                        name='result'
-                        mode='result'
-                        draggable={true}>
-                    </Button>
-                </Link> */}
                 <div id='result-sharing'>
                     <p className='font-bold'>공유하기</p>
                     <div id="result-sharing-area">
-                    <Share
-                            boardId={boardId}
-                            username={username}
-                            content={dreamContent}
-                        />
+                        <Share boardId={boardId} username={username} content={dreamContent} />
                     </div>
-                    <span className='font-normal result-font-size-18' onClick={handleCapture}>이미지로 저장하기</span>
+                    <div className='result-imgdown'>
+                        <Button name="이미지로 저장하기" mode="save-image" onClick={handleCapture} />
+                    </div>
                 </div>
             </div>
             <ResultSmallBox name='자세한 꿈해몽이다 냥냥🐾' mode='resultbox' />
@@ -88,9 +88,9 @@ const InterpretationResult = () => {
                 name='타로도 보러갈래냥?🐾'
                 mode='gotarot'
                 draggable={true}
-                onClick={goToTarotPage}>
-            </Button>
-            <Footer></Footer>
+                onClick={goToTarotPage}
+            />
+            <Footer />
         </div>
     );
 }

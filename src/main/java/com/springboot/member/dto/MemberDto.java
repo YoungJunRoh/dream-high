@@ -72,6 +72,8 @@ public class MemberDto {
 
         private String password;
 
+        private String newPassword;
+
         public void setMemberId(long memberId) {
             this.memberId = memberId;
         }
@@ -89,6 +91,7 @@ public class MemberDto {
         private List<DreamDto.ResponseThree> dreams;
         private int stampCount;
         private List<MemberRewardPictureDto.Response> pictures;
+        private String profileUrl;
         private Member.MemberStatus memberStatus;
 
         public String getMemberStatus() {

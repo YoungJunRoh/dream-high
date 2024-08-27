@@ -133,8 +133,8 @@ const MyPage = () => {
                     ></img>
                 </ProfileImgArea>
                 <UserInfo className='font-bold'>
-                    <h4>닉네임</h4>
-                    <p className='font-normal'>{name}</p> {/* 사용자 닉네임 */}
+                    <h4>'{name}'</h4>
+                    <p className='font-normal'>님 환영한다냥~</p> {/* 사용자 닉네임 */}
                     <p onClick={changeMyProfile}>회원정보 수정</p>
                 </UserInfo>
             </ContentArea>

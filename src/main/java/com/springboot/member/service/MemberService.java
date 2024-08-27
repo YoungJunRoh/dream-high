@@ -7,7 +7,9 @@ import com.springboot.exception.BusinessLogicException;
 import com.springboot.exception.ExceptionCode;
 import com.springboot.helper.event.MemberRegistrationApplicationEvent;
 import com.springboot.member.entity.Member;
+import com.springboot.member.entity.MemberRewardPicture;
 import com.springboot.member.repository.MemberRepository;
+import com.springboot.picture.entity.RewardPicture;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -54,6 +56,12 @@ public class MemberService {
 
         List<String> roles = authorityUtils.createRoles(member.getEmail());
         member.setRoles(roles);
+
+        MemberRewardPicture memberRewardPicture = new MemberRewardPicture();
+        RewardPicture rewardPicture = new RewardPicture();
+        rewardPicture.setRewardPictureId(1L);
+        memberRewardPicture.addRewardPicture(rewardPicture);
+        memberRewardPicture.addMember(member);
 
         Member savedMember = memberRepository.save(member);
 
@@ -106,11 +114,10 @@ public class MemberService {
     }
     public Member updateMemberPassword(Member member) {
         // TODO should business logic
-        //throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
         Member findMember = findVerifiedMember(member.getMemberId());
 
         Optional.ofNullable(member.getPassword())
-                .ifPresent(password -> findMember.setPassword(password));
+                .ifPresent(password -> findMember.setPassword(passwordEncoder.encode(member.getPassword())));
 
         findMember.setModifiedAt(LocalDateTime.now());
         return memberRepository.save(findMember);
