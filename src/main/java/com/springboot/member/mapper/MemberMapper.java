@@ -26,7 +26,12 @@ public interface MemberMapper {
     }
 
     Member memberPatchToMember(MemberDto.Patch requestBody);
-    Member memberPatchPasswordToMember(MemberDto.PatchPassword requestBody);
+    default Member memberPatchPasswordToMember(MemberDto.PatchPassword requestBody){
+        Member member = new Member();
+        member.setMemberId(requestBody.getMemberId());
+        member.setPassword(requestBody.getPassword());
+        return member;
+    }
     Member memberPatchProfileToMember(MemberDto.PatchProfile requestBody);
     MemberDto.Response memberToMemberResponse(Member member);
     default MemberDto.Response memberToMemberResponseMyPage(Member member){

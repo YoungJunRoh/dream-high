@@ -72,6 +72,8 @@ public class MemberDto {
 
         private String password;
 
+        private String newPassword;
+
         public void setMemberId(long memberId) {
             this.memberId = memberId;
         }
