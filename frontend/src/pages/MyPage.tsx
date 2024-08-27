@@ -115,7 +115,7 @@ const MyPage = () => {
         // navigation 사용, 스테이트 넘기기
         navigation('/mycollection', { state: { pictures, accessToken, memberId } })
     }
-    
+
     return (
         <MyPageContainer>
             <ContentArea className='font-extrabold'>
