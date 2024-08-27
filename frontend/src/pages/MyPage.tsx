@@ -101,10 +101,12 @@ const MyPage = () => {
     const addStamp = () => {
         setStampCount((prevCount) => prevCount + 1); // 스탬프 개수 증가
     };
-    // 서연
+
+    const pictures: [] = responseMember?.data.pictures as[];    // 서연
     const changeProfileImg = () => {
         // TODO: 프로파일 이미지 변경하는 링크로 이동
         // navigation 사용, 스테이트 넘기기
+        navigation('/mycollection', {state: {pictures}})
     }
 
 
