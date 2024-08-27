@@ -80,6 +80,7 @@ const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
             </div>
             <div id="result-sharing-link" onClick={handleCopyLinkClick}></div>
         </div>
+        
     );
 }
 
