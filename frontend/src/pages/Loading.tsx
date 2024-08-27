@@ -69,6 +69,7 @@ const Loading = () => {
 
     const postAsync = async () => {
             const response = await postDream(prompt, accessToken);
+            console.log(response.status);
             if (response.status === 500){
                 Swal.fire({
                     icon: 'error',
