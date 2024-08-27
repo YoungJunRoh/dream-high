@@ -40,16 +40,48 @@ const BoardDetails = () => {
     }
 
     const deleteHandler = async () => {
-        setDeleteDreams(await deleteDream(dreamId, accessToken));
-        if (deleteDreams) {
-            Swal.fire({
-                text: '게시물 삭제 완료다냥',
-                icon: 'success',
-                animation: true
-            });
-            navigator('/board');
-        }
-    }
+        Swal.fire({
+            title: '삭제할거냥?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '응',
+            cancelButtonText: '아니야',
+            reverseButtons: true,
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await deleteDream(dreamId, accessToken);
+    
+                    if (response.status === 200) {
+                        Swal.fire({
+                            text: '게시물 삭제 완료다냥',
+                            icon: 'success',
+                            animation: true
+                        });
+                        navigator('/board');
+                    } else if (response.status === 404) {
+                        Swal.fire({
+                            text: '존재하지 않는 게시물이다냥.',
+                            icon: 'error',
+                            animation: true
+                        });
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        text: '게시물 삭제에 실패했다냥.',
+                        icon: 'error',
+                        animation: true
+                    });
+                }
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire({
+                    text: '삭제가 취소되었다냥.',
+                    icon: 'info',
+                    animation: true
+                });
+            }
+        });
+    };
 
     const likeHandler = async () => {
         const response = await postLike(dreamId, accessToken);
