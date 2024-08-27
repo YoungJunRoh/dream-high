@@ -91,6 +91,7 @@ public class MemberDto {
         private List<DreamDto.ResponseThree> dreams;
         private int stampCount;
         private List<MemberRewardPictureDto.Response> pictures;
+        private String profileUrl;
         private Member.MemberStatus memberStatus;
 
         public String getMemberStatus() {

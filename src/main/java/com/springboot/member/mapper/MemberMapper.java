@@ -49,6 +49,7 @@ public interface MemberMapper {
         response.setNickName(member.getNickName());
         response.setDreams(dreams);
         response.setEmail(member.getEmail());
+        response.setProfileUrl(member.getProfileUrl());
         response.setPictures(pictures);
         response.setMemberStatus(member.getMemberStatus());
         response.setStampCount(member.getStamp().getCount());
