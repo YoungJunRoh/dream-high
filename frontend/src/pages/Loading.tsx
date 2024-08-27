@@ -81,7 +81,7 @@ const Loading = () => {
                 });
             }
             setResponseContent(response.data);
-        }
+    }
 
     useEffect(() => {
         postAsync();
