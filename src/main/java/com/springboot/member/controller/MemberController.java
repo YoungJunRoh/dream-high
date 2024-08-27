@@ -63,6 +63,7 @@ public class MemberController {
     }
 
 
+
     @PatchMapping("/{member-id}")
     public ResponseEntity patchMember(
             @PathVariable("member-id") @Positive long memberId,
