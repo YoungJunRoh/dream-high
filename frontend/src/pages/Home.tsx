@@ -14,19 +14,48 @@ import { GetsApiResponse } from '../interfaces/dream.ts';
 import HotDream from '../components/HotDream.tsx';
 import { useHeaderMode } from '../hooks/HeaderManager.tsx';
 import useReload from '../hooks/useReload .tsx';
+import { useMember } from '../hooks/MemberManager.tsx';
+import { AxiosRequestConfig } from 'axios';
+import { getMember } from '../services/MemberService.ts';
+import { memberApiResponse } from '../interfaces/member.ts'
 
 const Home = () => {
+    const { authorization, name, login, setName, profileUrl, setProfileUrl } = useMember();
+    const [responseMember, setResponseMember] = useState<memberApiResponse | null>(null);
     const { headerMode, setHeaderMode } = useHeaderMode();
+    const [responseDreams, setResponseDreams] = useState<GetsApiResponse | null>(null);
+
+    const accessToken: AxiosRequestConfig = {
+        headers: {
+            Authorization: authorization,
+        },
+    };
+
+    const getMemberAsync = async () => {
+        setResponseMember(await getMember(accessToken));
+
+    }
     useReload();
 
+
     useEffect(() => {
+//      getMemberAsync();
         setHeaderMode('main');
     }, [])
 
-    const [responseDreams, setResponseDreams] = useState<GetsApiResponse | null>(null);
+    setName(responseMember?.data.nickName as string);
+    setProfileUrl(responseMember?.data.profileUrl as string);
+    setHeaderMode('main');
+
+    useEffect(() => {
+        if (login) {
+            getMemberAsync();
+        }
+    }, [])
+
     const getDreamsAsync = async () => {
-            const response = await getDreams(1, 10);
-            setResponseDreams(response.data);
+        const response = await getDreams(1, 10);
+        setResponseDreams(response.data);
     }
     // const response = await getDreams(1, 10);
     //     setResponseDreams(response.data);
@@ -34,7 +63,7 @@ const Home = () => {
     //         alert('ss');
     //     } else {
     //         alert('gets 요청 실패');
-            
+
 
     useEffect(() => {
         getDreamsAsync();
