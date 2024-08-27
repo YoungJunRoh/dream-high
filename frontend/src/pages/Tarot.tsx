@@ -11,7 +11,7 @@ const TarotPage: React.FC = () => {
                 alt="고양이 공사중"
                 className="construction-gif"
             />
-            <h1 className="construction-message">공사중이다냥 🐾</h1>
+            <h1 className="construction-message">공사중이다옹🐾</h1>
         </div>
     );
 };
