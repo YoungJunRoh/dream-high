@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import '../styles/global.css';
 import '../styles/mypage.css'; // 마이페이지 스타일
-import { useProfile } from '../components/ProfileContext.tsx'; // 프로필 컨텍스트
+import { useProfile } from '../hooks/ProfileContext.tsx'; // 프로필 컨텍스트
 import { getMember } from '../services/MemberService.ts'; // 사용자 정보 API
 import { useMember } from '../hooks/MemberManager.tsx'; // 회원 정보를 관리하는 훅
 import Stamp from '../components/Stamp.tsx'; // Stamp 컴포넌트
@@ -13,7 +13,6 @@ import defaultProfile from '../assets/img-non-login.png';
 import BoardIndex from '../components/BoardIndex.tsx';
 import BoardList from '../components/BoardList.tsx';
 import { AxiosRequestConfig } from 'axios';
-import { stat } from 'fs';
 
 type PictureList = {
     pictureDate: memberApiResponse;
@@ -81,6 +80,7 @@ type AccessToken = {
 }
 
 const MyPage = () => {
+    const { profileUrl, setProfileUrl } = useMember();
     const [responseMember, setResponseMember] = useState<memberApiResponse | null>(null); // 사용자 정보 상태
     const [accessToken, setAccessToken] = useState<AxiosRequestConfig | null>(null);
     const navigation = useNavigate();
@@ -88,6 +88,7 @@ const MyPage = () => {
 
     // 컴포넌트가 마운트될 때 사용자 정보 가져오기
     useEffect(() => {
+        console.log("ㅁㄴㅇㅁㄴㅇㅁㄴㅇㄴㅁ");
         const state: AccessToken = location.state;
         setAccessToken(state.accessToken);
 
@@ -96,7 +97,8 @@ const MyPage = () => {
             setResponseMember(response.data); // 사용자 정보 상태 업데이트
         }
         getMemberAsync(); // API 호출
-    }, []);
+
+    }, [location]);
 
     console.log(`마이페이지 : ${accessToken?.headers?.Authorization}`);
 
@@ -118,7 +120,16 @@ const MyPage = () => {
         navigation('/mycollection', { state: { pictures, accessToken, memberId } })
     }
 
-    const profileUrl: string | null = responseMember?.data.profileUrl as string | null;
+    useEffect(() => {
+        setProfileUrl(responseMember?.data.profileUrl as string);
+    }, [responseMember])
+
+    useEffect(() => {
+        const state2 = location.state as { newProfileUrl?: string };
+        if (state2?.newProfileUrl) {
+            setProfileUrl(state2.newProfileUrl);
+        }
+    }, [responseMember])
 
     return (
         <MyPageContainer>

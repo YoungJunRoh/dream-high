@@ -3,7 +3,7 @@ import '../styles/global.css';
 import '../styles/getpicture.css';
 import styled, { css } from "styled-components";
 import Swal from 'sweetalert2';
-import { useProfile } from '../components/ProfileContext.tsx'; // Context 가져오기
+import { useProfile } from '../hooks/ProfileContext.tsx'; // Context 가져오기
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { patchProfile } from '../services/MemberService.ts';
@@ -52,7 +52,7 @@ const MyCollection = () => {
 
     const patchProfileAsync = async (profileUrl: string) => {
         // 비동기는 다 asynic붙여줘야함
-        console.log(accessToken);
+        console.log(profileUrl);
         const response = await patchProfile(memberId, profileUrl, accessToken);
         setProfileResponse(response);
         if (response.status === 200) {
@@ -60,7 +60,7 @@ const MyCollection = () => {
         }
     }
 
-    const handleImageClick = (index: number, url: string) => {
+    const handleImageClick = (index: number, newProfileUrl: string) => {
         Swal.fire({
             title: '사진을 변경할꺼냥?',
             showCancelButton: true,
@@ -68,8 +68,8 @@ const MyCollection = () => {
             cancelButtonText: '취소',
         }).then((result) => {
             if (result.isConfirmed) {
-                patchProfileAsync(url);
-            } navigate('/mypage', { state: { accessToken } });
+                patchProfileAsync(newProfileUrl);
+            } navigate('/mypage', { state: { accessToken, newProfileUrl } });
         });
     };
 
