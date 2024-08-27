@@ -19,41 +19,44 @@ import { AxiosRequestConfig } from 'axios';
 import { getMember } from '../services/MemberService.ts';
 import { memberApiResponse } from '../interfaces/member.ts'
 
-
-
-
-
-const Home =  () => {
-    const { authorization, setAuthorization, name, setName, profileUrl, setProfileUrl} = useMember();
+const Home = () => {
+    const { authorization, name, login, setName, profileUrl, setProfileUrl } = useMember();
+    const [responseMember, setResponseMember] = useState<memberApiResponse | null>(null);
     const { headerMode, setHeaderMode } = useHeaderMode();
-    
-  const accessToken: AxiosRequestConfig = {
-    headers: {
-      Authorization: authorization,
-    },
-  };
-  
-    const getMemberAsync = async() => {
-           setResponseMember( await getMember(accessToken));
+    const [responseDreams, setResponseDreams] = useState<GetsApiResponse | null>(null);
 
-    } 
+    const accessToken: AxiosRequestConfig = {
+        headers: {
+            Authorization: authorization,
+        },
+    };
+
+    const getMemberAsync = async () => {
+        setResponseMember(await getMember(accessToken));
+
+    }
     useReload();
-   
+
 
     useEffect(() => {
-        // getMemberAsync();
+//      getMemberAsync();
         setHeaderMode('main');
     }, [])
 
     const [responseMember, setResponseMember] = useState<memberApiResponse | null>(null);
     setName(responseMember?.data.nickName as string);
     setProfileUrl(responseMember?.data.profileUrl as string);
+    setHeaderMode('main');
 
+    useEffect(() => {
+        if (login) {
+            getMemberAsync();
+        }
+    }, [])
 
-    const [responseDreams, setResponseDreams] = useState<GetsApiResponse | null>(null);
     const getDreamsAsync = async () => {
-            const response = await getDreams(1, 10);
-            setResponseDreams(response.data);
+        const response = await getDreams(1, 10);
+        setResponseDreams(response.data);
     }
     // const response = await getDreams(1, 10);
     //     setResponseDreams(response.data);
@@ -61,7 +64,7 @@ const Home =  () => {
     //         alert('ss');
     //     } else {
     //         alert('gets 요청 실패');
-            
+
 
     useEffect(() => {
         getDreamsAsync();
