@@ -3,11 +3,13 @@ import styled from 'styled-components';
 import '../styles/global.css';
 import '../styles/mypage.css';
 import ProfileImg from './ProfileImg.tsx';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useMember } from '../hooks/MemberManager.tsx'
 import Swal from 'sweetalert2';
 import { postLogout } from '../services/MemberService.ts';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import defaultProfile from '../assets/img-non-login.png';
+
 
 // Modal Container
 export const ModalContainer = styled.div`
@@ -39,6 +41,9 @@ export const ModalBackdrop = styled.div`
   background: rgba(0, 0, 0, 0.5);
   }
 `;
+// 유즈멤버에서 네임이랑 프로필사진 가져오고 가져온걸로 이미지 등록하는거 
+// 우리가 한 마이페이지 설정한것처럼 마이페이지 참고하고 네임 유즈멤버 자동적용
+
 
 // 모달
 export const ModalView = styled.div.attrs(() => ({
@@ -81,14 +86,19 @@ export const ModalView = styled.div.attrs(() => ({
   }
 `;
 
+const ProfileImage= styled.img`
+  width: 180px;
+  height: 180px;
+  border-radius: 10%;
+`
+
 export const MenuTab = () => {
   // 전역으로 토큰 및 로그인 상태를 저장하기 위한 훅스 호출
-  const { authorization, refresh, login, setAuthorization, setRefresh, setLogin } = useMember();
   const [isOpen, setIsOpen] = useState<boolean>(false); // 메뉴탭 상태
   const [isLogin, setIsLogin] = useState<boolean>(false); // 로그인 상태
-  const navigation = useNavigate();
   
   // AxiosRequestConfig 타입 선언.
+  const { authorization, refresh, login, name, profileUrl, setAuthorization, setRefresh, setLogin } = useMember();
   const accessToken: AxiosRequestConfig = {
     headers: {
       Authorization: authorization,
@@ -133,13 +143,11 @@ export const MenuTab = () => {
         LogoutAsync();
         closeModalHandler();
         Swal.fire('다음에 또 보자냥~');
-        navigation('/');
       }
     })
   };
 
-  const name: string = '강룰루';
-
+  
   if (isLogin) {
     // 로그인 상태
     return (
@@ -155,7 +163,7 @@ export const MenuTab = () => {
               <ModalView onClick={(event) => event.stopPropagation()}>
                 <div id='menu-container'>
                   <div></div>
-                  <ProfileImg login={isLogin}></ProfileImg>
+                  <ProfileImage src={profileUrl? profileUrl:defaultProfile}></ProfileImage>
                   <span
                     id='menu-profile-name'
                     className='font-extrabold'
