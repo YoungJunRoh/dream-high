@@ -8,6 +8,7 @@ import Button from '../components/Button.tsx';
 import Input from '../components/Input.tsx';
 import Footer from '../components/Footer.tsx';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import Swal from 'sweetalert2';
 
 type MemberState = {
     memberId: number;
@@ -38,7 +39,19 @@ const PasswordReset = () => {
 
     const changePasswordClickHandlerAsync = async () => {
         const response = await patchPassword(memberId, password as string, newpassword as string, accessToken);
-        setResponse(response);
+        if(response.status === 200) {
+            navigate('/mypage');
+            Swal.fire({
+                title: '비밀번호 변경이 완료되었다냥~ (=◕ᆽ◕ฺ=)',
+                icon: 'success'
+            })
+        } else {
+            navigate('/mypage');
+            Swal.fire({
+                title: '서버 에러다냥~ 관리자에게 연락하라냥~ (=◕ᆽ◕ฺ=)',
+                icon: 'success'
+            })
+        }
     }
 
     return (
@@ -56,6 +69,7 @@ const PasswordReset = () => {
                         $w_height='56px'
                         $w_width='320px'
                         $w_fontSize='20px'
+                        type='password'
                     ></Input>
                 </div>
                 <div className='login-input'>
@@ -69,6 +83,7 @@ const PasswordReset = () => {
                         $w_height='56px'
                         $w_width='320px'
                         $w_fontSize='20px'
+                        type='password'
                     ></Input>
                 </div>
             </ResultBigBox>
