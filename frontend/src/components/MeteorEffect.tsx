@@ -4,13 +4,13 @@ import styled, { keyframes, css } from 'styled-components';
 // 별똥별 애니메이션을 정의하는 keyframes 함수
 const MeteorKeyframe = (direction: "left" | "right", angle: number) => keyframes`
     0% {
-        top: -5vh; // 애니메이션 시작 위치 (화면 위쪽)
+        top: 2vh; // 애니메이션 시작 위치 (화면 위쪽)
         transform: translateX(0px); // X축 이동 없음
         opacity: 1; // 완전 불투명
     }
     100% {
         top: 160vh; // 애니메이션 끝 위치 (화면 아래쪽)
-        transform: translateX(${direction === "left" ? "-" : "+"}${120 / Math.tan((angle * Math.PI) / 180)}vh); // 방향에 따라 X축 이동
+        transform: translateX(${direction === "left" ? "-" : "+"}${130 / Math.tan((angle * Math.PI) / 180)}vh); // 방향에 따라 X축 이동
         opacity: 1; // 끝 위치에서도 불투명 유지
     }
 `;
@@ -25,8 +25,8 @@ interface MeteorLayoutProps {
 const MeteorEffectLayout = styled.div<MeteorLayoutProps>`
     position: absolute; // 절대 위치
     left: 0; // 왼쪽에 위치
-    width: 900px; // 전체 너비
-    height: 1000px; // 전체 높이
+    width: 100%; // 전체 너비
+    height: 100%; // 전체 높이
     overflow: hidden; // 내용이 넘치지 않도록
     pointer-events: none; /* 클릭 이벤트 방지, 배경과 상호작용하지 않도록 */
 
@@ -64,8 +64,7 @@ const MeteorEffectLayout = styled.div<MeteorLayoutProps>`
 
     /* 미디어 쿼리 추가 */
     @media (max-width: 768px) {
-        width: 100%; /* 모바일 화면에서는 전체 너비 사용 */
-        height: 100%; /* 모바일 화면에서는 전체 높이 사용 */
+     
 
         .star {
             width: 3px; /* 별 크기 조정 */
@@ -74,11 +73,18 @@ const MeteorEffectLayout = styled.div<MeteorLayoutProps>`
         }
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 430px) {
+    position: absolute; // 절대 위치
+    left: 0; // 왼쪽에 위치
+    width: 100vw; // 전체 너비
+    height: 100vh; // 전체 높이
+    overflow: hidden; // 내용이 넘치지 않도록
+    pointer-events: none; /* 클릭 이벤트 방지, 배경과 상호작용하지 않도록 */
+
         .star {
-            width: 2px; /* 별 크기 조정 */
-            height: 2px; /* 별 크기 조정 */
-            animation: ${(props) => MeteorKeyframe(props.$direction, props.$angle)} 2.5s ease-in infinite; /* 애니메이션 속도 조정 */
+            width: 3px; /* 별 크기 조정 */
+            height: 4px; /* 별 크기 조정 */
+            animation: ${(props) => MeteorKeyframe(props.$direction, props.$angle)} 2.3s ease-in infinite; /* 애니메이션 속도 조정 */
         }
     }
 `;
@@ -100,10 +106,10 @@ interface MeteorEffectProps {
 const MAX_STAR_COUNT = 50;
 const colors = ["#c77eff", "#f6ff7e", "#ff8d7e", "#ffffff"];
 // MeteorEffect 컴포넌트 정의
-export default function MeteorEffect({ count = 12, white = false, maxDelay = 15, minSpeed = 2 , maxSpeed =  4, angle = 30, direction  = "right" }: MeteorEffectProps) {
+export default function MeteorEffect({ count = 12, white = false, maxDelay = 15, minSpeed = 2, maxSpeed = 4, angle = 30, direction = "right" }: MeteorEffectProps) {
     // 실제 생성할 별의 수를 결정 (최대 별의 수를 초과하지 않도록)
     const starCount = Math.min(count, MAX_STAR_COUNT);
-    
+
     return (
         <MeteorEffectLayout $direction={direction} $angle={angle}>
             {/* starCount 만큼 별을 생성 */}
