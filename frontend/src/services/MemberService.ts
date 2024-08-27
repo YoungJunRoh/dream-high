@@ -1,4 +1,4 @@
-import { login, postData, getData } from "./index.ts";
+import { login, postData, getData, patchData } from "./index.ts";
 import { LoginResponse } from '../interfaces/member.ts';
 import { AxiosResponse, AxiosRequestConfig, AxiosHeaderValue } from 'axios';
 
@@ -32,6 +32,11 @@ export const postMember = async (email: string, password: string, nickName: stri
 export const getMember = async (accessToken: AxiosRequestConfig): Promise<AxiosResponse> => {
     const response = await getData<AxiosResponse>(GET_MEMBER_URL, accessToken);
     return response; // result에서 DreamData 반환
+}
+export const patchProfile = async (memberId: number, profileUrl: string, accessToken: AxiosRequestConfig) => {
+    const url = REGISTER_URL + '/' + memberId + '/profile';
+    const response = await patchData<AxiosResponse>(url, { memberId, profileUrl }, accessToken);
+    return response;
 }
 
 export const postEmail = async (email: string): Promise<AxiosResponse> => {
