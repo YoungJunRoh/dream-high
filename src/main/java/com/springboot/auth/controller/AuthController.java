@@ -1,5 +1,6 @@
 package com.springboot.auth.controller;
 
+import com.springboot.auth.jwt.JwtTokenizer;
 import com.springboot.auth.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,11 +12,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-    private final AuthService authService;
 
-    public AuthController(AuthService authService) {
+
+    private final AuthService authService;
+    private final JwtTokenizer jwtTokenizer;
+
+    // 생성자 주입을 통해 AuthService와 JwtTokenizer를 주입받습니다.
+    public AuthController(AuthService authService, JwtTokenizer jwtTokenizer) {
         this.authService = authService;
+        this.jwtTokenizer = jwtTokenizer;
     }
+
 
     @PostMapping("/logout") // "/auth/logout" 경로로 POST 요청을 처리하는 메서드로 지정합니다.
     public ResponseEntity postLogout(Authentication authentication) {

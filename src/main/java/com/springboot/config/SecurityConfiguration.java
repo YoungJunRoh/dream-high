@@ -75,7 +75,7 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.POST, "/auth/logout").hasAnyRole("USER", "ADMIN")
                         .antMatchers(HttpMethod.PATCH, "/dreams/**").hasRole("USER")
                         .antMatchers(HttpMethod.DELETE, "/dreams/**").hasRole("USER")
-
+                        .antMatchers(HttpMethod.POST, "/dreams/**/sharing").hasRole("USER")
                         .anyRequest().permitAll()
                 ).oauth2Login(withDefaults());
         return http.build();

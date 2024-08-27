@@ -20,6 +20,7 @@ type InputProps = {
     $w_fontSize: string;
     type?: string;
     value?: string;
+    disabled?: boolean;
 }
 
 const InputContainer = styled.div`
@@ -34,39 +35,53 @@ const DeleteContent = styled.h4<XButton>`
     bottom: ${(props) => props.bottom};
     left: ${(props) => props.left};
     right: ${(props) => props.right};
+    cursor: pointer;
 `;
 
-const InputForm = styled.input<InputProps>`
-height: ${(props) => props.$w_height};
-width: ${(props) => props.$w_width};
-border: 5px solid black;
-padding: 10px;
-font-size: ${(props) => props.$w_fontSize};
-margin-bottom: 5px;
-resize: none;
-position: relative;
-type: ${(props) => props.type};
+const InputForm = styled.input.attrs<InputProps>(({ type, value, disabled }) => ({
+    type,
+    value,
+    disabled,
+}))<InputProps>`
+    height: ${(props) => props.$w_height};
+    width: ${(props) => props.$w_width};
+    border: 5px solid black;
+    padding: 10px;
+    font-size: ${(props) => props.$w_fontSize};
+    margin-bottom: 5px;
+    resize: none;
+    position: relative;
 
-@media all and (max-width:430px) {
-height: ${(props) => props.$m_height};
-width: ${(props) => props.$m_width};
-border: 5px solid black;
-padding: 10px;
-font-size: ${(props) => props.$m_fontSize};
-margin-bottom: 5px;
-resize: none;
-position: relative;
-type: ${(props) => props.type};
-}
+    @media all and (max-width:430px) {
+        height: ${(props) => props.$m_height};
+        width: ${(props) => props.$m_width};
+        font-size: ${(props) => props.$m_fontSize};
+    }
 `;
+const TextArea: React.FC<InputProps> = ({
+    onChange,
+    onKeyDown,
+    value,
+    type = 'text',
+    placeholder,
+    children,
+    $m_height,
+    $m_width,
+    $m_fontSize,
+    $w_height,
+    $w_width,
+    $w_fontSize,
+    deleteButton,
+    deleteButtonOption,
+}) => {
 
-const Input: React.FC<InputProps> = ({ onChange, onKeyDown, value, type, placeholder, children, $m_height, $m_width, $m_fontSize, $w_height, $w_width, $w_fontSize, deleteButton, deleteButtonOption }) => {
     const deleteRef = useRef<HTMLInputElement>(null);
     useKeyboardAvoider();
+
     return (
         <InputContainer>
             <InputForm
-                className='font-normal'
+                className="font-normal"
                 placeholder={placeholder}
                 onChange={onChange}
                 ref={deleteRef}
@@ -83,19 +98,20 @@ const Input: React.FC<InputProps> = ({ onChange, onKeyDown, value, type, placeho
             >
                 {children}
             </InputForm>
-            {deleteButton && <DeleteContent
-                className='font-extrabold'
-                onClick={() => deleteRef.current!.value = ''}
-                top={deleteButtonOption?.top}
-                bottom={deleteButtonOption?.bottom}
-                left={deleteButtonOption?.left}
-                right={deleteButtonOption?.right}
-            >
-                X
-            </DeleteContent>}
-
+            {deleteButton && (
+                <DeleteContent
+                    className="font-extrabold"
+                    onClick={() => deleteRef.current!.value = ''}
+                    top={deleteButtonOption?.top}
+                    bottom={deleteButtonOption?.bottom}
+                    left={deleteButtonOption?.left}
+                    right={deleteButtonOption?.right}
+                >
+                    X
+                </DeleteContent>
+            )}
         </InputContainer>
     );
-}
+};
 
 export default Input;

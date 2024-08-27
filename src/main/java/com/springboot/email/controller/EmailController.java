@@ -24,6 +24,7 @@ public class EmailController {
 
     @PostMapping("/send-verification")
     public String sendVerificationEmail(@RequestBody EmailRequestDto requestDto) {
+        memberService.verifyExistsEmail(requestDto.getEmail());
         emailService.sendVerificationEmail(requestDto.getEmail());
         return "Verification email sent.";
     }
