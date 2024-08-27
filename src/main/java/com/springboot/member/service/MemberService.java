@@ -121,14 +121,15 @@ public class MemberService {
         if(!passwordEncoder.matches(password, member.getPassword())){
             throw new BusinessLogicException(ExceptionCode.PASSWORD_WRONG);
         }
-        if(passwordEncoder.matches(password, newPassword)){
-            throw new BusinessLogicException(ExceptionCode.PASSWORD_SAME);
-        }
     }
 
-    public Member updateMemberPassword(Member member) {
+    public Member updateMemberPassword(Member member,String email) {
         // TODO should business logic
         Member findMember = findVerifiedMember(member.getMemberId());
+
+        if (member.getPassword() == null || member.getPassword().isEmpty()) {
+            throw new BusinessLogicException(ExceptionCode.PASSWORD_WRONG);
+        }
 
         Optional.ofNullable(member.getPassword())
                 .ifPresent(password -> findMember.setPassword(passwordEncoder.encode(member.getPassword())));
