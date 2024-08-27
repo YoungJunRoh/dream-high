@@ -119,11 +119,16 @@ export const MenuTab = () => {
   }
 
   useEffect(() => {
-    console.log('로그인 상태: ' + login + '토큰: ' + authorization + ' isLogin : ' + isLogin);
+    // console.log('로그인 상태: ' + login + '토큰: ' + authorization + ' isLogin : ' + isLogin);
     if (login !== null) {
       setIsLogin(true);
     } else setIsLogin(false);
   })
+
+  const myPageHandler = () => {
+    setIsOpen(false);
+    navigation('/mypage', {state:{ accessToken }});
+  }
 
   // 로그아웃
   const logoutHandler = () => {
@@ -170,13 +175,12 @@ export const MenuTab = () => {
                   >
                     {name}<span> 이다냥🐱</span></span>
                   <div className='menu-line-bold'></div>
-                  <Link
-                    to='/mypage'
-                    onClick={closeModalHandler}
+                  <div
+                    onClick={myPageHandler}
                     style={{ textDecoration: 'none' }}
                   >
                     <div className='menu-content font-bold'>마이페이지</div>
-                  </Link>
+                  </div>
                   <Link
                     to='/board'
                     onClick={closeModalHandler}
