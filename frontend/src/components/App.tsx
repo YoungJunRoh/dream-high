@@ -18,7 +18,7 @@ import BoardDetail from '../pages/BoardDetails.tsx';
 import { MemberManager } from '../hooks/MemberManager.tsx';
 import { HeaderManager } from '../hooks/HeaderManager.tsx';
 import MemberModification from '../pages/MemberModification.tsx';
-import { ProfileProvider } from './ProfileContext.tsx'; 
+import { ProfileProvider } from '../hooks/ProfileContext.tsx'; 
 // import TarotResult from '../components/TarotResult.tsx';
 import TarotPage from '../pages/Tarot.tsx'; 
 const App = () => {
