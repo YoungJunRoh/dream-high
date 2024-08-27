@@ -101,10 +101,19 @@ const MyPage = () => {
     };
 
     const pictures: [] = responseMember?.data.pictures as [];    // 서연
+    const email: string = responseMember?.data.email as string;
+    const name: string = responseMember?.data.nickName as string;
+    const memberId: number = responseMember?.data.memberId as number;
+    const memberStatus: string = responseMember?.data.memberStatus as string;
+
+    const changeMyProfile = () => {
+        navigation('/member-modification', { state: { email, name, accessToken, memberId, memberStatus } })
+    }
+
     const changeProfileImg = () => {
         // TODO: 프로파일 이미지 변경하는 링크로 이동
         // navigation 사용, 스테이트 넘기기
-        navigation('/mycollection', { state: { pictures } })
+        navigation('/mycollection', { state: { pictures, accessToken, memberId } })
     }
 
     const email: string = responseMember?.data.email as string;

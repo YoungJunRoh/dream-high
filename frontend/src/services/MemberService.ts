@@ -28,6 +28,11 @@ export const postMember = async (email: string, password: string, nickName: stri
     const response = await postData<AxiosResponse>(REGISTER_URL, { email, password, nickName, authCode });
     return response;
 }
+export const patchProfile = async (memberId: number, profileUrl: string, accessToken: AxiosRequestConfig) => {
+    const url = REGISTER_URL + '/' + memberId + '/profile';
+    const response = await patchData<AxiosResponse>(url, { memberId, profileUrl }, accessToken);
+    return response;
+}
 
 export const postEmail = async (email: string): Promise<AxiosResponse> => {
     const response = await postData<AxiosResponse>(EMAIL_URL, { email });
