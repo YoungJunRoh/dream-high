@@ -15,6 +15,8 @@ public enum ExceptionCode {
     INVALID_AUTH_CODE(403, "INVALID_AUTH_CODE"),
     NOT_CONTENT(500,"NOT_CONTENT"),
     PICTURE_NOT_FOUND(404, "Picture Not Found"),
+    PASSWORD_WRONG(400, "Password Wrong"),
+    PASSWORD_SAME(400, "Password Same"),
     CANNOT_CHANGE_MEMBER_STATUS(403, "MemberStatus cannot change" );
 
     @Getter

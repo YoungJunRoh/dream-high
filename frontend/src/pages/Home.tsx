@@ -38,7 +38,6 @@ const Home = () => {
         setResponseMember(response.data);
     }
 
-    console.log(responseMember);
     setName(responseMember?.data.nickName as string);
     setProfileUrl(responseMember?.data.profileUrl as string);
 

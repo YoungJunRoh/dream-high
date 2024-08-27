@@ -83,21 +83,31 @@ const BoardDetails = () => {
         });
     };
 
+    
     const likeHandler = async () => {
+        if(login){
         const response = await postLike(dreamId, accessToken);
         setLikeResponse(response);
-        if (response.status === 201) {
+            if (response.status === 201) {
+                Swal.fire({
+                    text: '좋아요 완료다냥',
+                    icon: 'success',
+                    animation: true
+                });
+            } else if (response.status === 204) {
+                Swal.fire({
+                    text: '좋아요 취소다냥',
+                    icon: 'success',
+                    animation: true
+                });
+            }
+        }else {
             Swal.fire({
-                text: '좋아요 완료다냥',
-                icon: 'success',
-                animation: true
-            });
-        } else if (response.status === 204) {
-            Swal.fire({
-                text: '좋아요 취소다냥',
-                icon: 'success',
-                animation: true
-            });
+                icon: 'error',
+                title: '로그인 하라냥😿',
+                text: '로그인 안 한 집사는 이용 못 한다냥!🐾',
+                confirmButtonText: '알겠다냥!'
+            })
         }
     }
 

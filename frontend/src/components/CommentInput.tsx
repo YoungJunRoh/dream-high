@@ -5,6 +5,8 @@ import Button from './Button.tsx';
 import styled from 'styled-components';
 import { postComment } from '../services/DreamService.ts';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { useMember } from '../hooks/MemberManager.tsx';
+import Swal from 'sweetalert2';
 
 type Comment = {
     dreamId: number;
@@ -20,10 +22,20 @@ const Container = styled.div`
 const CommentInput: React.FC<Comment> = ({dreamId, accessToken}) => {
     const [response, setResponse] = useState<AxiosResponse | null>(null);
     const [content, setContent] = useState<string>('');
+    const {login} = useMember();
 
     const createComment = async () => {
-        const response = await postComment(dreamId, content, accessToken);
-        setResponse(response);
+        if(login){
+            const response = await postComment(dreamId, content, accessToken);
+            setResponse(response);
+        }else{
+            Swal.fire({
+                icon: 'error',
+                title: '로그인 하라냥😿',
+                text: '로그인 안 한 집사는 이용 못 한다냥!🐾',
+                confirmButtonText: '알겠다냥!'
+            })
+        }
     }
 
     const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
