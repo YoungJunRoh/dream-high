@@ -70,8 +70,10 @@ const MyCollection = () => {
         }).then((result) => {
             if(result.isConfirmed) {
                 patchProfileAsync(url);
-            }
-        })
+            }navigate('/mypage', {
+                state: {pictures}
+            })
+        });
     };
   
     return (

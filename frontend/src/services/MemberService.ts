@@ -30,7 +30,7 @@ export const postMember = async (email: string, password: string, nickName: stri
 }
 export const patchProfile = async (memberId: number, profileUrl: string, accessToken: AxiosRequestConfig) => {
     const url = REGISTER_URL + '/' + memberId + '/profile';
-    const response = await patchData<AxiosResponse>(url, { memberId, profileUrl }, accessToken);
+    const response = await patchData<AxiosResponse>(url, profileUrl, accessToken);
     return response;
 }
 

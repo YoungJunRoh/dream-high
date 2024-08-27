@@ -18,6 +18,10 @@ type PictureList = {
     pictureDate: memberApiResponse;
 }
 
+interface LocationState {
+    pictures: [];
+}
+
 const MyPageContainer = styled.div`
     width: 100%;
     height: 100%;
@@ -115,13 +119,15 @@ const MyPage = () => {
         // navigation 사용, 스테이트 넘기기
         navigation('/mycollection', { state: { pictures, accessToken, memberId } })
     }
+    
+    const profileUrl:string | null = responseMember?.data.profileUrl as string | null;
 
     return (
         <MyPageContainer>
             <ContentArea className='font-extrabold'>
                 <ProfileImgArea>
                     <img
-                        src={defaultProfile}
+                        src={profileUrl? profileUrl : defaultProfile }
                         width='150px'
                         onClick={changeProfileImg}  // 서연
                     ></img>

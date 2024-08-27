@@ -8,6 +8,10 @@ export interface MemberContextType {
   setRefresh: (refresh: string | null) => void;
   login: boolean | null;
   setLogin: (login: boolean | null) => void;
+  name: string | null;
+  setName: (name: string | null) => void;
+  profileUrl: string | null;
+  setProfileUrl:(profileUrl: string | null) => void;
 }
 
 // 기본 값 설정
@@ -18,6 +22,8 @@ export const MemberManager: React.FC<{ children: ReactNode }> = ({ children }) =
   const [authorization, setAuthorization] = useState<string | null>(null);
   const [refresh, setRefresh] = useState<string | null>(null);
   const [login, setLogin] = useState<boolean | null>(null);
+  const [name, setName] = useState<string | null>(null);
+  const [profileUrl, setProfileUrl] = useState<string | null>(null);
 
   // 로컬 스토리지에서 데이터 가져오기
   useEffect(() => {
