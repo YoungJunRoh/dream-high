@@ -146,14 +146,13 @@ const SignUp = () => {
                             $w_width='320px'
                             $w_fontSize='20px'
                             type='email'
-                            disabled={verifyComplete} // 인증 완료 시 수정 불가
+                            readonly={verifyComplete} // 인증 완료 시 readonly 적용
                         />
                         {!verifyComplete && (
                             <Button
-                                name={verifyComplete ? '인증 완료' : '이메일 인증'}
+                                name='이메일 인증'
                                 mode="normalButton"
-                                onClick={verifyComplete ? undefined : sendEmailAsync}
-                               
+                                onClick={sendEmailAsync}
                             />
                         )}
                     </div>
