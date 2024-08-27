@@ -10,6 +10,7 @@ import background from '../assets/img-background-night.png';
 import Input from '../components/Input.tsx';
 import { updateName } from '../services/MemberService.ts';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { postLogout, deleteMember } from '../services/MemberService.ts';
 
 const ModificationContainer = styled.div`
     width: 100%;
@@ -101,16 +102,21 @@ const MemberModification = () => {
         }
 
         const response = await updateName(memberId, name, memberStatus, accessToken);
-        setResponse(response);
         if (response.status === 200) {
             Swal.fire({
                 text: '닉네임 변경이 완료되었다냥~'
             });
+            navigation('/mypage', { state: { accessToken } });
         }
+        setResponse(response);
     }
 
     const changePasswordHandler = () => {
         navigation('/login-passwordreset', { state: { memberId, accessToken } })
+    }
+
+    const goMypage = () => {
+        navigation('/mypage', { state: { accessToken } });
     }
 
     const handleLeave = () => {
@@ -124,9 +130,11 @@ const MemberModification = () => {
             showCancelButton: true,
             confirmButtonText: '아니.....',
             cancelButtonText: '어..미안..',
-        }).then((result) => {
-            if (result.isConfirmed) {
+        }).then(async (result) => {
+            if (!result.isConfirmed) {
                 gohome('/');
+                await deleteMember(memberId, accessToken);
+                await postLogout(accessToken);
             }
         });
     };
@@ -180,13 +188,12 @@ const MemberModification = () => {
                     </div>
                 </InputArea_center>
                 <InputArea_center>
-                    <Link to={'/mypage'}>
-                        <Button
-                            name='수정완료다냥!🐾'
-                            mode='leave'
-                        >
-                        </Button>
-                    </Link>
+                    <Button
+                        name='수정완료다냥!🐾'
+                        mode='leave'
+                        onClick={goMypage}
+                    >
+                    </Button>
                 </InputArea_center>
                 <InputArea_center>
                     <DeleteMember

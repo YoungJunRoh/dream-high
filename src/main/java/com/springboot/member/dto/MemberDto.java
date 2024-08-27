@@ -33,8 +33,10 @@ public class MemberDto {
         private String authCode;
     }
     @Getter
+    @Setter
     @AllArgsConstructor
     public static class PatchProfile{
+        private long memberId;
         @NotBlank
         private String profileUrl;
     }

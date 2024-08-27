@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import '../styles/global.css';
 import '../styles/mypage.css'; // 마이페이지 스타일
 import { useProfile } from '../components/ProfileContext.tsx'; // 프로필 컨텍스트
@@ -13,6 +13,7 @@ import defaultProfile from '../assets/img-non-login.png';
 import BoardIndex from '../components/BoardIndex.tsx';
 import BoardList from '../components/BoardList.tsx';
 import { AxiosRequestConfig } from 'axios';
+import { stat } from 'fs';
 
 type PictureList = {
     pictureDate: memberApiResponse;
@@ -75,41 +76,38 @@ const UserInfo = styled.div`
     top: 25px;
 `;
 
+type AccessToken = {
+    accessToken: AxiosRequestConfig;
+}
+
 const MyPage = () => {
-    const { profileImage } = useProfile(); // 프로필 이미지 가져오기
-    const { authorization } = useMember(); // 인증 정보 가져오기
     const [responseMember, setResponseMember] = useState<memberApiResponse | null>(null); // 사용자 정보 상태
-    const [stampCount, setStampCount] = useState<number>(0); // 스탬프 개수 상태
+    const [accessToken, setAccessToken] = useState<AxiosRequestConfig | null>(null);
     const navigation = useNavigate();
-
-    const accessToken: AxiosRequestConfig = {
-        headers: {
-            Authorization: authorization, // 인증 헤더 설정
-        },
-    };
-
-    // 사용자 정보를 가져오는 비동기 함수
-    const getMemberAsync = async () => {
-        const response = await getMember(accessToken); // API 호출
-        setResponseMember(response.data); // 사용자 정보 상태 업데이트
-    }
+    const location = useLocation();
 
     // 컴포넌트가 마운트될 때 사용자 정보 가져오기
     useEffect(() => {
+        const state: AccessToken = location.state;
+        setAccessToken(state.accessToken);
+
+        const getMemberAsync = async () => {
+            const response = await getMember(state.accessToken); // API 호출
+            setResponseMember(response.data); // 사용자 정보 상태 업데이트
+        }
         getMemberAsync(); // API 호출
     }, []);
 
-    // 스탬프 개수를 증가시키는 함수
-    const addStamp = () => {
-        setStampCount((prevCount) => prevCount + 1); // 스탬프 개수 증가
-    };
+    console.log(`마이페이지 : ${accessToken?.headers?.Authorization}`);
 
-    const pictures: [] = responseMember?.data.pictures as [];    // 서연
+    // 스탬프 개수를 증가시키는 함수
+    const pictures: [] = responseMember?.data.pictures as [];
     const email: string = responseMember?.data.email as string;
     const name: string = responseMember?.data.nickName as string;
     const memberId: number = responseMember?.data.memberId as number;
     const memberStatus: string = responseMember?.data.memberStatus as string;
 
+    console.log(name);
     const changeMyProfile = () => {
         navigation('/member-modification', { state: { email, name, accessToken, memberId, memberStatus } })
     }
@@ -119,15 +117,15 @@ const MyPage = () => {
         // navigation 사용, 스테이트 넘기기
         navigation('/mycollection', { state: { pictures, accessToken, memberId } })
     }
-    
-    const profileUrl:string | null = responseMember?.data.profileUrl as string | null;
+
+    const profileUrl: string | null = responseMember?.data.profileUrl as string | null;
 
     return (
         <MyPageContainer>
             <ContentArea className='font-extrabold'>
                 <ProfileImgArea>
                     <img
-                        src={profileUrl? profileUrl : defaultProfile }
+                        src={profileUrl ? profileUrl : defaultProfile}
                         width='150px'
                         onClick={changeProfileImg}  // 서연
                     ></img>
@@ -144,7 +142,7 @@ const MyPage = () => {
                 <Title
                     className='font-bold'
                 >스탬프</Title>
-                <Stamp count={stampCount} /> {/* 현재 스탬프 개수를 전달 */}
+                <Stamp count={responseMember?.data.stampCount as number} /> {/* 현재 스탬프 개수를 전달 */}
             </ContentArea_col>
             <ContentArea_col>
                 <Title>

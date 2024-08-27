@@ -14,27 +14,46 @@ import { GetsApiResponse } from '../interfaces/dream.ts';
 import HotDream from '../components/HotDream.tsx';
 import { useHeaderMode } from '../hooks/HeaderManager.tsx';
 import useReload from '../hooks/useReload .tsx';
+import { useMember } from '../hooks/MemberManager.tsx';
+import { AxiosRequestConfig } from 'axios';
+import { getMember } from '../services/MemberService.ts';
+import { memberApiResponse } from '../interfaces/member.ts'
 
 const Home = () => {
+    const { authorization, name, login, setName, profileUrl, setProfileUrl } = useMember();
+    const [responseMember, setResponseMember] = useState<memberApiResponse | null>(null);
     const { headerMode, setHeaderMode } = useHeaderMode();
-    useReload();
+    const [responseDreams, setResponseDreams] = useState<GetsApiResponse | null>(null);
+    
+    setHeaderMode('main'); // 헤더 상태
 
+    const accessToken: AxiosRequestConfig = {
+        headers: {
+            Authorization: authorization,
+        },
+    };
+
+    const getMemberAsync = async () => {
+        const response = await getMember(accessToken);
+        setResponseMember(response.data);
+    }
+
+    setName(responseMember?.data.nickName as string);
+    setProfileUrl(responseMember?.data.profileUrl as string);
+
+    // useReload();
+
+    
     useEffect(() => {
-        setHeaderMode('main');
+        if (login) {
+            getMemberAsync();
+        }
     }, [])
 
-    const [responseDreams, setResponseDreams] = useState<GetsApiResponse | null>(null);
     const getDreamsAsync = async () => {
-            const response = await getDreams(1, 10);
-            setResponseDreams(response.data);
+        const response = await getDreams(1, 10);
+        setResponseDreams(response.data);
     }
-    // const response = await getDreams(1, 10);
-    //     setResponseDreams(response.data);
-    //     if (response.status === 200) {
-    //         alert('ss');
-    //     } else {
-    //         alert('gets 요청 실패');
-            
 
     useEffect(() => {
         getDreamsAsync();
@@ -56,7 +75,7 @@ const Home = () => {
     };
 
     const randomTmiIdx: number = Math.floor(Math.random() * tmiDatas.length);
-
+    
     return (
         <div className='background-night'>
             <div className='main-cat'>
