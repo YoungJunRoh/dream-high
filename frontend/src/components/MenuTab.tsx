@@ -86,7 +86,7 @@ export const ModalView = styled.div.attrs(() => ({
   }
 `;
 
-const ProfileImage= styled.img`
+const ProfileImage = styled.img`
   width: 180px;
   height: 180px;
   border-radius: 10%;
@@ -97,7 +97,7 @@ export const MenuTab = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false); // 메뉴탭 상태
   const [isLogin, setIsLogin] = useState<boolean>(false); // 로그인 상태
   const navigation = useNavigate();
-  
+
   // AxiosRequestConfig 타입 선언.
   const { authorization, refresh, login, name, profileUrl, setAuthorization, setRefresh, setLogin } = useMember();
   const accessToken: AxiosRequestConfig = {
@@ -120,7 +120,7 @@ export const MenuTab = () => {
   }
 
   useEffect(() => {
-    // console.log('로그인 상태: ' + login + '토큰: ' + authorization + ' isLogin : ' + isLogin);
+    console.log('로그인 상태: ' + login + '토큰: ' + authorization + ' isLogin : ' + isLogin);
     if (login !== null) {
       setIsLogin(true);
     } else setIsLogin(false);
@@ -128,7 +128,7 @@ export const MenuTab = () => {
 
   const myPageHandler = () => {
     setIsOpen(false);
-    navigation('/mypage', {state:{ accessToken }});
+    navigation('/mypage', { state: { accessToken } });
   }
 
   // 로그아웃
@@ -148,12 +148,13 @@ export const MenuTab = () => {
         setRefresh(null);
         LogoutAsync();
         closeModalHandler();
+        navigation('/');
         Swal.fire('다음에 또 보자냥~');
       }
     })
   };
 
-  
+
   if (isLogin) {
     // 로그인 상태
     return (
@@ -169,7 +170,7 @@ export const MenuTab = () => {
               <ModalView onClick={(event) => event.stopPropagation()}>
                 <div id='menu-container'>
                   <div></div>
-                  <ProfileImage src={profileUrl? profileUrl:defaultProfile}></ProfileImage>
+                  <ProfileImage src={profileUrl ? profileUrl : defaultProfile}></ProfileImage>
                   <span
                     id='menu-profile-name'
                     className='font-extrabold'

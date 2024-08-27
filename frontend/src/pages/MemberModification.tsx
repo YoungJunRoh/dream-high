@@ -102,16 +102,21 @@ const MemberModification = () => {
         }
 
         const response = await updateName(memberId, name, memberStatus, accessToken);
-        setResponse(response);
         if (response.status === 200) {
             Swal.fire({
                 text: '닉네임 변경이 완료되었다냥~'
             });
+            navigation('/mypage', { state: { accessToken } });
         }
+        setResponse(response);
     }
 
     const changePasswordHandler = () => {
         navigation('/login-passwordreset', { state: { memberId, accessToken } })
+    }
+
+    const goMypage = () => {
+        navigation('/mypage', { state: { accessToken } });
     }
 
     const handleLeave = () => {
@@ -183,13 +188,12 @@ const MemberModification = () => {
                     </div>
                 </InputArea_center>
                 <InputArea_center>
-                    <Link to={'/mypage'}>
-                        <Button
-                            name='수정완료다냥!🐾'
-                            mode='leave'
-                        >
-                        </Button>
-                    </Link>
+                    <Button
+                        name='수정완료다냥!🐾'
+                        mode='leave'
+                        onClick={goMypage}
+                    >
+                    </Button>
                 </InputArea_center>
                 <InputArea_center>
                     <DeleteMember
