@@ -41,7 +41,7 @@ const Home =  () => {
    
 
     useEffect(() => {
-        getMemberAsync();
+        // getMemberAsync();
         setHeaderMode('main');
     }, [])
 
