@@ -10,6 +10,7 @@ import com.springboot.member.entity.Member;
 import com.springboot.member.entity.MemberRewardPicture;
 import com.springboot.member.repository.MemberRepository;
 import com.springboot.picture.entity.RewardPicture;
+import com.springboot.picture.service.RewardPictureService;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,13 +36,15 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final JwtAuthorityUtils authorityUtils;
     private final EmailService emailService;
+    private final RewardPictureService rewardPictureService;
 
-    public MemberService(MemberRepository memberRepository, ApplicationEventPublisher publisher, PasswordEncoder passwordEncoder, JwtAuthorityUtils authorityUtils, EmailService emailService) {
+    public MemberService(MemberRepository memberRepository, ApplicationEventPublisher publisher, PasswordEncoder passwordEncoder, JwtAuthorityUtils authorityUtils, EmailService emailService, RewardPictureService rewardPictureService) {
         this.memberRepository = memberRepository;
         this.publisher = publisher;
         this.passwordEncoder = passwordEncoder;
         this.authorityUtils = authorityUtils;
         this.emailService = emailService;
+        this.rewardPictureService = rewardPictureService;
     }
 
     public Member createMember(Member member) {
@@ -58,9 +61,9 @@ public class MemberService {
         member.setRoles(roles);
 
         MemberRewardPicture memberRewardPicture = new MemberRewardPicture();
-        RewardPicture rewardPicture = new RewardPicture();
-        rewardPicture.setRewardPictureId(1L);
-        memberRewardPicture.addRewardPicture(rewardPicture);
+        RewardPicture picture = rewardPictureService.findRewardPicture(1L);
+
+        memberRewardPicture.addRewardPicture(picture);
         memberRewardPicture.addMember(member);
 
         Member savedMember = memberRepository.save(member);
