@@ -116,7 +116,15 @@ const MyPage = () => {
         navigation('/mycollection', { state: { pictures, accessToken, memberId } })
     }
 
+    const email: string = responseMember?.data.email as string;
+    const name: string = responseMember?.data.nickName as string;
+    const memberId: number = responseMember?.data.memberId as number;
+    const memberStatus: string = responseMember?.data.memberStatus as string;
 
+    const changeMyProfile = () => {
+        navigation('/member-modification', { state: { email, name, accessToken, memberId, memberStatus } })
+    }
+    
     return (
         <MyPageContainer>
             <ContentArea className='font-extrabold'>

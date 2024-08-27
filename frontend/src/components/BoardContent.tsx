@@ -69,24 +69,22 @@ const BoardContent: React.FC<DreamDatas> = ({
                             content={dreamContent}
                         />
                    </div>
-
                     <div className='result-imgdown'>
                         <Button name="이미지로 저장하기" mode="save-image"
                         //  onClick={handleSaveImageClick}
                          >
                         </Button>
                     </div>
-
                     <div
                         className='result-imgdown'
                         onClick={saveAsImage} // 이미지 저장 버튼 클릭 시 함수 호출
                     >
-                        <span className='font-normal result-font-size-18'>
-                            이미지로 저장하기
-                        </span>
+
                     </div>
                 </div>
             </div>
+            <ResultSmallBox name='내가 기록한 꿈이다 냥냥🐾' mode='resultbox' />
+            <ResultBigBox mode='resultbox'>{dreamContent}</ResultBigBox>
             <ResultSmallBox name='자세한 꿈해몽이다 냥냥🐾' mode='resultbox' />
             <ResultBigBox mode='resultbox'>{interpertaionContent}</ResultBigBox>
         </div>

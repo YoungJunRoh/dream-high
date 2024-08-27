@@ -25,8 +25,9 @@ const ImageContainer = styled.div`
     height: 100%;
     border: 1px solid #ccc; /* 필요에 따라 테두리 추가 */
     border-radius: 8px; /* 필요에 따라 모서리 둥글게 만들기 */
+    height: max-content;
+    width: 80%;
 `;
-
 type PictureState = {
     pictures: [];
     memberId:number;
@@ -38,12 +39,10 @@ interface picture {
     rewardUrl: string;
 }
 
-function MyCollection() {
+const MyCollection = () => {
     const { profileImage, setProfileImage } = useProfile(); 
-
     const location = useLocation();
     const state = location.state as PictureState | null;
-
     const pictures: picture[] = state?.pictures as [];
     const memberId:number =  state?.memberId as number;
     const accessToken: AxiosRequestConfig = state?.accessToken as AxiosRequestConfig; 
@@ -65,34 +64,16 @@ function MyCollection() {
     const handleImageClick = (index:number, url:string) => {
         Swal.fire({
             title: '사진을 변경할꺼냥?',
-            //text: '컬렉션 중 이미지를 선택하라냥!',
-          //  input: 'select', // 파일 입력
-          //  inputOptions: {
-          //      [currentSrc]: '현재 이미지', // 현재 이미지를 옵션에 추가
-          ///      ...imageList.reduce((acc, img) => {
-           //         if (img !== currentSrc) {
-          //              acc[img] = img; // 현재 이미지를 제외한 나머지 이미지를 옵션에 추가
-            //        }
-          //          return acc;
-           //     }, {})
-         //   },
             showCancelButton: true,
             confirmButtonText: '변경',
             cancelButtonText: '취소',
-         //   preConfirm: (selectedImage) => {
-         //       const newImages = [...imageList];
-        //        newImages[index] = selectedImage; // 선택한 이미지로 업데이트
-        //        setImageList(newImages);
-           //       setProfileImage(selectedImage); // 선택한 이미지를 프로필 이미지로 설정
-         //         patchProfileAsync(); // 프로필 업데이트 호출
-              //  }
         }).then((result) => {
             if(result.isConfirmed) {
                 patchProfileAsync(url);
             }
         })
     };
-
+  
     return (
         <div className='background'>
             <div className='collectionbox'>

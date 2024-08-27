@@ -7,7 +7,7 @@ interface statusCode {
 }
 
 const BASED_URL = process.env.REACT_APP_BASED_URL;
-const LOGIN_URL: string = BASED_URL+ '/auth/login';
+const LOGIN_URL: string = BASED_URL + '/auth/login';
 const LOGOUT_URL: string = BASED_URL + '/auth/logout';
 const REGISTER_URL: string = BASED_URL + '/members';
 const EMAIL_URL: string = BASED_URL + '/api/email/send-verification';
@@ -16,22 +16,17 @@ const GET_MEMBER_URL: string = BASED_URL + '/members/member-email';
 
 export const postLogin = async (username: string, password: string) => {
     const response = await login<LoginResponse>(LOGIN_URL, { username, password });
-    return response; // result에서 DreamData 반환
+    return response;
 };
 
 export const postLogout = async (accessToken: AxiosRequestConfig): Promise<AxiosResponse> => {
     const response = await postData<AxiosResponse>(LOGOUT_URL, {}, accessToken);
-    return response; // result에서 DreamData 반환
+    return response;
 };
 
-export const postMember = async (email: string, password: string, nickName: string, authCode:string): Promise<AxiosResponse> => {
+export const postMember = async (email: string, password: string, nickName: string, authCode: string): Promise<AxiosResponse> => {
     const response = await postData<AxiosResponse>(REGISTER_URL, { email, password, nickName, authCode });
-    return response; // result에서 DreamData 반환
-}
-
-export const getMember = async (accessToken: AxiosRequestConfig): Promise<AxiosResponse> => {
-    const response = await getData<AxiosResponse>(GET_MEMBER_URL, accessToken);
-    return response; // result에서 DreamData 반환
+    return response;
 }
 export const patchProfile = async (memberId: number, profileUrl: string, accessToken: AxiosRequestConfig) => {
     const url = REGISTER_URL + '/' + memberId + '/profile';
@@ -41,7 +36,7 @@ export const patchProfile = async (memberId: number, profileUrl: string, accessT
 
 export const postEmail = async (email: string): Promise<AxiosResponse> => {
     const response = await postData<AxiosResponse>(EMAIL_URL, { email });
-    return response; // result에서 DreamData 반환
+    return response;
 }
 
 export const postVerifyEmail = async (email: string, code: string) => {
@@ -50,3 +45,21 @@ export const postVerifyEmail = async (email: string, code: string) => {
     console.log("RE" + response);
     return response;
 }
+
+export const getMember = async (accessToken: AxiosRequestConfig): Promise<AxiosResponse> => {
+    const response = await getData<AxiosResponse>(GET_MEMBER_URL, accessToken);
+    return response; 
+}
+
+export const updateName = async (memberId: number, nickName:string, memberStatus:string, accessToken: AxiosRequestConfig): Promise<AxiosResponse> => {
+    const url = REGISTER_URL + `/${memberId}`;
+    const response = await patchData<AxiosResponse>(url, {memberId, nickName, memberStatus}, accessToken);
+    return response; 
+}
+
+export const patchPassword = async (memberId: number, password:string, newPassword:string, accessToken: AxiosRequestConfig): Promise<AxiosResponse> => {
+    const url = REGISTER_URL + `/${memberId}/password`;
+    const response = await patchData<AxiosResponse>(url, {password, newPassword}, accessToken);
+    return response; 
+}
+
