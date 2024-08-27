@@ -106,11 +106,10 @@ public class MemberService {
     }
     public Member updateMemberPassword(Member member) {
         // TODO should business logic
-        //throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
         Member findMember = findVerifiedMember(member.getMemberId());
 
         Optional.ofNullable(member.getPassword())
-                .ifPresent(password -> findMember.setPassword(password));
+                .ifPresent(password -> findMember.setPassword(passwordEncoder.encode(member.getPassword())));
 
         findMember.setModifiedAt(LocalDateTime.now());
         return memberRepository.save(findMember);
