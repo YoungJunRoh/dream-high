@@ -37,7 +37,13 @@ const Home = () => {
     }
     useReload();
 
-    console.log(login, name);
+
+    useEffect(() => {
+//      getMemberAsync();
+        setHeaderMode('main');
+    }, [])
+
+    const [responseMember, setResponseMember] = useState<memberApiResponse | null>(null);
     setName(responseMember?.data.nickName as string);
     setProfileUrl(responseMember?.data.profileUrl as string);
     setHeaderMode('main');
