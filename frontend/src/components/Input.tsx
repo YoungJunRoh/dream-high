@@ -1,9 +1,8 @@
-import React, { ReactEventHandler, ReactNode, useRef } from 'react';
+import React, { ReactNode, useRef } from 'react';
 import '../styles/global.css';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { XButton } from '../interfaces/input.ts';
 import useKeyboardAvoider from '../hooks/useKeyboardAvoider.tsx';
+import { XButton } from '../interfaces/input.ts';
 
 type InputProps = {
     onChange?(parm?: any): void;
@@ -13,7 +12,7 @@ type InputProps = {
     placeholder?: string;
     children?: ReactNode;
     $m_height: string;
-    $m_width: string; // DOM에 전달되지 않아야 할 prop가 포함되어 생긴 경고를 해결하기 위한 코드
+    $m_width: string;
     $m_fontSize: string;
     $w_height: string;
     $w_width: string;
@@ -58,10 +57,10 @@ const InputForm = styled.input.attrs<InputProps>(({ type, value, disabled }) => 
         font-size: ${(props) => props.$m_fontSize};
     }
 `;
-const Input: React.FC<InputProps> = ({
+
+const TextArea: React.FC<InputProps> = ({
     onChange,
     onKeyDown,
-    value,
     type = 'text',
     placeholder,
     children,
@@ -74,7 +73,6 @@ const Input: React.FC<InputProps> = ({
     deleteButton,
     deleteButtonOption,
 }) => {
-
     const deleteRef = useRef<HTMLInputElement>(null);
     useKeyboardAvoider();
 
@@ -93,8 +91,6 @@ const Input: React.FC<InputProps> = ({
                 $w_fontSize={$w_fontSize}
                 onKeyDown={onKeyDown}
                 type={type}
-                deleteButtonOption={deleteButtonOption}
-                value={value}
             >
                 {children}
             </InputForm>
@@ -114,4 +110,4 @@ const Input: React.FC<InputProps> = ({
     );
 };
 
-export default Input;
+export default TextArea;
