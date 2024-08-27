@@ -2,17 +2,13 @@ package com.springboot.member.controller;
 
 
 import com.springboot.auth.service.AuthService;
-import com.springboot.email.dto.EmailAuthDto;
 import com.springboot.email.service.EmailService;
 import com.springboot.exception.BusinessLogicException;
 import com.springboot.exception.ExceptionCode;
 import com.springboot.member.dto.MemberDto;
-import com.springboot.member.dto.MemberRewardPictureDto;
 import com.springboot.member.entity.Member;
-import com.springboot.member.entity.MemberRewardPicture;
 import com.springboot.member.mapper.MemberMapper;
 import com.springboot.member.service.MemberService;
-import com.springboot.picture.entity.RewardPicture;
 import com.springboot.response.SingleResponseDto;
 import com.springboot.stamp.entity.Stamp;
 import com.springboot.utils.UriCreator;
@@ -50,7 +46,7 @@ public class MemberController {
     @PostMapping
     public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post requestBody){
 
-        boolean isEmailVerified = emailService.verfiyFinalAuthCode(requestBody.getEmail(), requestBody.getAuthCode());
+        boolean isEmailVerified = emailService.verifyFinalAuthCode(requestBody.getEmail(), requestBody.getAuthCode());
 
         if (!isEmailVerified) {
             throw new BusinessLogicException(ExceptionCode.EMAIL_NOT_AUTH);

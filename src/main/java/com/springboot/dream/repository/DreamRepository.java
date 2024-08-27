@@ -15,5 +15,8 @@ public interface DreamRepository extends JpaRepository<Dream, Long> {
 
     // 드림 상태가 ACTIVE인 드림을 필터링하고, 드림 키워드를 기반으로 검색하는 메소드
     // 키워드가 비어있으면 전체 드림을 반환
-    Page<Dream> findByDreamStatusAndDreamKeywords_NameContaining(Dream.DreamStatus status, String keyword, Pageable pageRequest);
+    Page<Dream> findByDreamStatusAndDreamSecretAndDreamKeywords_NameContaining(Dream.DreamStatus status, Dream.DreamSecret dreamSecret, String keyword, Pageable pageRequest);
+
+    Page<Dream> findByDreamStatusAndDreamSecret(Dream.DreamStatus status, Dream.DreamSecret dreamSecret, Pageable pageRequest);
+
 }

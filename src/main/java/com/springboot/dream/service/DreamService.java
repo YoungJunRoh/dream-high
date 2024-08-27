@@ -117,7 +117,7 @@ public class DreamService {
         }
 
         Optional.ofNullable(dream.getDreamSecret())
-                .ifPresent(findDream::setDreamSecret);
+                .ifPresent(dreamSecret -> findDream.setDreamSecret(dreamSecret));
 
         findDream.setModifiedAt(LocalDateTime.now());
 
@@ -181,18 +181,23 @@ public class DreamService {
 
     public Page<Dream> findDreamsVerify(String dreamKeyword, int page, int size){
         if(dreamKeyword == null || dreamKeyword.isEmpty()) {
-            return findAllDreams(page, size);
+            return findAllDreamsPublic(page, size);
         }else{
             return findDreams(dreamKeyword,page,size);
         }
     }
 
     public Page<Dream> findDreams(String dreamKeyword, int page, int size) {
-        return dreamRepository.findByDreamStatusAndDreamKeywords_NameContaining(Dream.DreamStatus.DREAM_ACTIVE, dreamKeyword, PageRequest.of(page, size, Sort.by("dreamId").descending()));
+        return dreamRepository.findByDreamStatusAndDreamSecretAndDreamKeywords_NameContaining(Dream.DreamStatus.DREAM_ACTIVE, Dream.DreamSecret.DREAM_PUBLIC, dreamKeyword, PageRequest.of(page, size, Sort.by("dreamId").descending()));
     }
 
     public Page<Dream> findAllDreams(int page, int size){
         return dreamRepository.findByDreamStatus(Dream.DreamStatus.DREAM_ACTIVE,PageRequest.of(page, size,
+                Sort.by("dreamId").descending()));
+    }
+
+    public Page<Dream> findAllDreamsPublic(int page, int size){
+        return dreamRepository.findByDreamStatusAndDreamSecret(Dream.DreamStatus.DREAM_ACTIVE, Dream.DreamSecret.DREAM_PUBLIC, PageRequest.of(page, size,
                 Sort.by("dreamId").descending()));
     }
 
@@ -255,27 +260,35 @@ public class DreamService {
 
     private Map<String, Object>responseChatGpt(String content){
 
-        String systemPrompt = "너는 꿈 해몽가야. 그리고 고양이 냥체를 해줘. 이모티콘도 써야 해. 긍정적으로 말해줘.응답을 줄 때는 dream_keyword, content, summary, advice, interpretation_mood_keyword의 json으로 주는데 json이라고 표시는 하지마. UTF-8 인코딩을 지켜줘. 꿈 키워드는 2개 배열로 주는데 하나는 감정 하나는 사물 관련해서 dream_keyword에 담아서 줘 해몽 내용은 content, 해몽 내용을 요약해서 3줄안으로 summary에, 1줄 조언은 advice에 넣어주고, 해몽 분위기 키워드(희망\n" +
-                "성취\n" +
-                "치유\n" +
-                "기회\n" +
-                "성장\n" +
-                "평화\n" +
-                "행복\n" +
-                "새로운 시작\n" +
-                "사랑\n" +
-                "보호\n" +
-                "조화\n" +
-                "번영\n" +
-                "용기\n" +
-                "지혜\n" +
-                "기쁨\n" +
-                "행운)에서 1개를 interpretation_mood_keyword에 담아야 해";
+        String systemPrompt = "너는 꿈 해몽가야. 모든 말은 고양이 냥체를 해줘." +
+                "이모티콘도 써야 해. 긍정적으로 말해줘.응답을 줄 때는 dream_keyword, content, summary, advice, interpretation_mood_keyword의 json으로 주는데 json이라고 표시는 하지마. " +
+                "UTF-8 인코딩을 지켜줘. 꿈 키워드는 2개 배열로 주는데 하나는 감정 하나는 사물 관련해서 dream_keyword에 담아서 줘 " +
+                "해몽 내용은 content, 해몽 내용을 요약해서 3줄안으로 summary에, 1줄 조언은 advice에 넣어주고, 해몽 분위기 키워드(희망" +
+                "성취," +
+                "치유," +
+                "기회," +
+                "성장," +
+                "평화," +
+                "행복," +
+                "새로운 시작," +
+                "사랑," +
+                "보호," +
+                "조화," +
+                "번영," +
+                "용기," +
+                "지혜," +
+                "기쁨," +
+                "행운)에서 1개를 interpretation_mood_keyword에 담아야 해, 근데 너가 응답을 못 해줄 것 같은 내용에는 Error를 보내줘";
         OpenAiRequest request = new OpenAiRequest("gpt-4o", systemPrompt, content);
         OpenAiResponse response = template.postForObject(apiURL, request, OpenAiResponse.class);
 
         if (response != null && response.getChoices() != null && !response.getChoices().isEmpty()) {
             String responseContent = response.getChoices().get(0).getMessage().getContent();
+
+            if (responseContent.contains("Error") || responseContent.trim().isEmpty()) {
+                throw new BusinessLogicException(ExceptionCode.NOT_CONTENT);
+            }
+
             Map<String, Object> responseMap = parseResponse(responseContent);
             return responseMap;
         }else{

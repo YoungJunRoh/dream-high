@@ -5,7 +5,7 @@ import { postDream } from '../services/DreamService.ts';
 import { useMember } from '../hooks/MemberManager.tsx';
 import { AxiosRequestConfig } from 'axios';
 import MeteorEffect from '../components/MeteorEffect.tsx'; // MeteorEffect 컴포넌트 가져오기
-
+import Swal from 'sweetalert2';
 
 // 인터페이스 정의
 interface DreamKeyword {
@@ -70,6 +70,16 @@ const Loading = () => {
     const postAsync = async () => {
             const response = await postDream(prompt, accessToken);
             setResponseContent(response.data);
+            if (response.status === 500){
+                Swal.fire({
+                    icon: 'error',
+                    title: '해몽 에러다냥😿',
+                    text: '해몽을 할 수 없었다냥... 다시 해보자냥!🐾',
+                    confirmButtonText: '알겠다냥!'
+                }).then(() => {
+                    navigate(-1); // 뒤로 가기
+                });
+            }
     }
 
     useEffect(() => {
@@ -87,9 +97,10 @@ const Loading = () => {
         navigate('/interpretation-result', {
             state: { advice, interpertaionKeyword, summary, dreamContent, interpertaionContent }
         });
-    }else {
-        console.log("123123213213123123123");
     }
+    
+    
+    
 
     return (
         <div id='background'>
