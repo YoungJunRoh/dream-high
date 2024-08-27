@@ -41,7 +41,7 @@ const BoardDetails = () => {
 
     const deleteHandler = async () => {
         setDeleteDreams(await deleteDream(dreamId, accessToken));
-        if (deleteDreams) {
+        if (deleteDreams?.status) {
             Swal.fire({
                 text: '게시물 삭제 완료다냥',
                 icon: 'success',

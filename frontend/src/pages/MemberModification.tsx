@@ -10,6 +10,7 @@ import background from '../assets/img-background-night.png';
 import Input from '../components/Input.tsx';
 import { updateName } from '../services/MemberService.ts';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { postLogout, deleteMember } from '../services/MemberService.ts';
 
 const ModificationContainer = styled.div`
     width: 100%;
@@ -124,9 +125,11 @@ const MemberModification = () => {
             showCancelButton: true,
             confirmButtonText: '아니.....',
             cancelButtonText: '어..미안..',
-        }).then((result) => {
-            if (result.isConfirmed) {
+        }).then(async (result) => {
+            if (!result.isConfirmed) {
                 gohome('/');
+                await deleteMember(memberId, accessToken);
+                await postLogout(accessToken);
             }
         });
     };

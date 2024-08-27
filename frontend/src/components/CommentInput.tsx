@@ -30,11 +30,11 @@ const CommentInput: React.FC<Comment> = ({dreamId, accessToken}) => {
         setContent(e.target.value);
     }
 
-    useEffect(() => {
-        if (response) {
-          window.location.reload(); // 새로고침
-        }
-      }, [response]); // shouldReload 상태가 변경될 때마다 실행
+    // useEffect(() => {
+    //     if (response) {
+    //       window.location.reload(); // 새로고침
+    //     }
+    //   }, [response]); // shouldReload 상태가 변경될 때마다 실행
 
     return (
         <Container>
