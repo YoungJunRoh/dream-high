@@ -30,10 +30,14 @@ export const MemberManager: React.FC<{ children: ReactNode }> = ({ children }) =
     const storedAuthorization = localStorage.getItem('authorization');
     const storedRefresh = localStorage.getItem('refresh');
     const storedLogin = localStorage.getItem('login');
+    const storedName = localStorage.getItem('name');
+    const storedProfileUrl = localStorage.getItem('profileUrl');
 
     setAuthorization(storedAuthorization);
     setRefresh(storedRefresh);
     setLogin(storedLogin === 'true' ? true : storedLogin === 'false' ? false : null);
+    setName(storedName);
+    setProfileUrl(storedProfileUrl);
   }, []);
 
   // 상태 변경 시 localStorage에 저장
@@ -55,10 +59,22 @@ export const MemberManager: React.FC<{ children: ReactNode }> = ({ children }) =
     } else {
       localStorage.removeItem('login');
     }
+    
+    if(name !== null) {
+      localStorage.setItem('name', name);
+    }else {
+      localStorage.removeItem('name');
+    }
+
+    if(profileUrl !== null) {
+      localStorage.setItem('profileUrl', profileUrl);
+    }else{
+      localStorage.removeItem('profileUrl');
+    }
   }, [authorization, refresh, login]);
 
   return (
-    <MemberContext.Provider value={{ authorization, setAuthorization, refresh, setRefresh, login, setLogin }}>
+    <MemberContext.Provider value={{ authorization, setAuthorization, refresh, setRefresh, login, setLogin, name, setName, profileUrl, setProfileUrl }}>
       {children}
     </MemberContext.Provider>
   );

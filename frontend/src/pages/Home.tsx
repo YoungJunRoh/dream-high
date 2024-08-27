@@ -14,14 +14,41 @@ import { GetsApiResponse } from '../interfaces/dream.ts';
 import HotDream from '../components/HotDream.tsx';
 import { useHeaderMode } from '../hooks/HeaderManager.tsx';
 import useReload from '../hooks/useReload .tsx';
+import { useMember } from '../hooks/MemberManager.tsx';
+import { AxiosRequestConfig } from 'axios';
+import { getMember } from '../services/MemberService.ts';
+import { memberApiResponse } from '../interfaces/member.ts'
 
-const Home = () => {
+
+
+
+
+const Home =  () => {
+    const { authorization, setAuthorization, name, setName, profileUrl, setProfileUrl} = useMember();
     const { headerMode, setHeaderMode } = useHeaderMode();
+    
+  const accessToken: AxiosRequestConfig = {
+    headers: {
+      Authorization: authorization,
+    },
+  };
+  
+    const getMemberAsync = async() => {
+           setResponseMember( await getMember(accessToken));
+
+    } 
     useReload();
+   
 
     useEffect(() => {
+        getMemberAsync();
         setHeaderMode('main');
     }, [])
+
+    const [responseMember, setResponseMember] = useState<memberApiResponse | null>(null);
+    setName(responseMember?.data.nickName as string);
+    setProfileUrl(responseMember?.data.profileUrl as string);
+
 
     const [responseDreams, setResponseDreams] = useState<GetsApiResponse | null>(null);
     const getDreamsAsync = async () => {
