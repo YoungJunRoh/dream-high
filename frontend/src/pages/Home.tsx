@@ -92,8 +92,8 @@ const Home = () => {
                 <Link to='/board'>
                     <BoardSeeMore />
                 </Link>
-                <Footer />
             </div>
+            <Footer />
         </div>
     );
 };

@@ -13,8 +13,8 @@ const Footer = () => {  // 수정
     };
 
     return (
-        <footer className='font-normal'>
-            <div className='footer-item'>
+        <footer>
+            <div className='footer-item font-normal'>
                 <Link to="/" className='width-child'>
                     <img
                         className='footer-img'

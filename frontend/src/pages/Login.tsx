@@ -12,8 +12,20 @@ import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'; 
 import Footer from '../components/Footer.tsx';
 import Input from '../components/Input.tsx';
+import styled from 'styled-components';
+import googleIcon from '../assets/img-google.svg';
 import happycat from '../assets/happycat.gif';
-import Loading from './Loading.tsx';
+
+const GoogleOAuth = styled.div`
+    display: flex;
+    flex-direction: column;
+    background-image: url(${googleIcon});
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 250px;
+    height: 60px;
+    cursor: pointer;
+`;
 
 const Login = () => {
     const { setAuthorization, setRefresh, setLogin, setName, setProfileUrl} = useMember();

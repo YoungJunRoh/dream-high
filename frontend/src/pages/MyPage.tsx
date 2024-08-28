@@ -166,7 +166,7 @@ const MyPage = () => {
             <ContentArea_col>
                 <Title
                     className='font-bold'
-                >스탬프{stampCount}/5</Title>
+                >스탬프 현황</Title>
                 <Stamp count={responseMember?.data.stampCount as number} /> {/* 현재 스탬프 개수를 전달 */}
             </ContentArea_col>
             <ContentArea_col>

@@ -16,10 +16,11 @@ import { AxiosRequestConfig, AxiosResponse } from 'axios';
 const BoardDetails = () => {
     const params = useParams();
     const dreamId: number = parseInt(params.id as string);
-    const [response, setResponse] = useState<GetApiResponse | null>(null);
+    const [responseContent, setResponse] = useState<GetApiResponse | null>(null);
     const [patchResponse, setPatchResponse] = useState<GetApiResponse | null>(null);
     const [likeResponse, setLikeResponse] = useState<AxiosResponse | null>(null);
     const [deleteDreams, setDeleteDreams] = useState<AxiosResponse | null>(null);
+    const [updateComment, setUpdateComment] = useState<boolean>(false);
     const { authorization, login } = useMember();
     const navigator = useNavigate();
 
@@ -29,6 +30,16 @@ const BoardDetails = () => {
         },
     };
 
+    useEffect(() => {
+        const getDreamAsync = async () => {
+            const response = await getDream(dreamId, accessToken);
+            setResponse(response.data);
+        }
+        getDreamAsync();
+        setUpdateComment(false);
+    }, [updateComment, ]);
+
+
     const postRoleHandler = async () => {
         currentSecret === 'DREAM_PUBLIC' ? currentSecret = 'DREAM_PRIVATE' : currentSecret = 'DREAM_PUBLIC'; // 다른 경우 'DREAM_PRIVATE'
         console.log(currentSecret);
@@ -37,7 +48,7 @@ const BoardDetails = () => {
         setPatchResponse(response.data);
     }
 
-    let currentSecret: string = response?.data.dreamSecret as string;
+    let currentSecret: string = responseContent?.data.dreamSecret as string;
 
     const deleteHandler = async () => {
         Swal.fire({
@@ -109,28 +120,24 @@ const BoardDetails = () => {
         }
     }
 
-    useEffect(() => {
-        const getDreamAsync = async () => {
-            const response = await getDream(dreamId, accessToken);
-            setResponse(response.data);
-        };
-
-        getDreamAsync();
-    }, [dreamId]);
-
     // 데이터가 아직 로딩되지 않았을 때 로딩 상태를 표시하거나 예외 처리
-    if (!response) {
+    if (!responseContent) {
         return <div>Loading...</div>;
     }
 
-    if (response.status === 404) {
+    if (responseContent.status === 404) {
         Swal.fire({
             text: '존재하지 않는 게시판입니다.'
         });
         return null; // 알림 후 아무것도 렌더링하지 않음
     }
+// 받아서 useEffect 실행하고, 거기서 setUpdateComment false로 변경.
 
-    const data = response.data;
+    const onUpdate = (update: boolean) => {
+        setUpdateComment(update)
+    }
+
+    const data = responseContent.data;
     const interpretationResponse = data?.interpretationResponse;
 
     const name: string = data.nickName;
@@ -181,11 +188,12 @@ const BoardDetails = () => {
             />
             <PostInfo
                 likeOnClick={likeHandler}
-                likeCount={response.data.likeCount}
-                commentCount={response.data.comments.length}
+                likeCount={responseContent.data.likeCount}
+                commentCount={responseContent.data.comments.length}
             />
             <Comment
                 dreamId={dreamId}
+                update={onUpdate}
             />
             <Footer />
         </div>
