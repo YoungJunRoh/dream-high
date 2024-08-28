@@ -133,7 +133,7 @@ const Login = () => {
                         $w_fontSize='20px'
                         type='email'
                     ></Input>
-                </div>
+               </div>
                 <div className='login-input'>
                     <h5>비밀번호</h5>
                     <Input
@@ -150,12 +150,14 @@ const Login = () => {
                     ></Input>
                 </div>
             </ResultBigBox>
+            <div className= 'logBtn'>
             <Button
                 name='로그인🐾'
                 mode='login'
                 draggable={true}
                 onClick={loginHandler}
             />
+            <div className='loginoption'>
             <Button
                 name='SNS로그인'
                 mode='pass'
@@ -176,8 +178,9 @@ const Login = () => {
                     draggable={true}
                 />
             </Link>
+            </div>
+            </div>
             <div id='blank'></div>
-            <Footer />
         </div>
     );
 }
