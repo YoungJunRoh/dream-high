@@ -12,24 +12,6 @@ import { useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import Share from '../components/Share.tsx';
 import Swal from 'sweetalert2';
-import styled from 'styled-components';
-import rulru from '../assets/rulru-result.png';
-
-const ResultCat = styled.div`
-    background-image: url(${rulru});
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-repeat: no-repeat;
-    width: 100vw;
-    height: 250vw;
-    margin-top: 6px;
-    /* 화면의 1/4 차지하도록 설정 */
-    background-position: center;
-    /* 중앙에 위치하도록 설정 */
-    background-size: contain;
-    /* 이미지의 비율을 유지하며 크기를 조절 */
-`;
 
 interface LocationState {
     advice: string;
@@ -84,9 +66,9 @@ const InterpretationResult = () => {
     return (
         <React.Fragment>
             <div className='background-morning' ref={captureRef}>
-                <ResultCat>
+                <div className='result-cat'>
                     <ChatBalloon message={advice} />
-                </ResultCat>
+                </div>
                 <div id='marginbox'>
                     <ResultBox message={summary} mode='board' />
                 </div>

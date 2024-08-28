@@ -21,7 +21,6 @@ const BoardDetails = () => {
     const [likeResponse, setLikeResponse] = useState<AxiosResponse | null>(null);
     const [deleteDreams, setDeleteDreams] = useState<AxiosResponse | null>(null);
     const { authorization, login } = useMember();
-    let currentSecret: string | undefined = response?.data.dreamSecret;
     const navigator = useNavigate();
 
     const accessToken: AxiosRequestConfig = {
@@ -30,7 +29,6 @@ const BoardDetails = () => {
         },
     };
 
-
     const postRoleHandler = async () => {
         currentSecret === 'DREAM_PUBLIC' ? currentSecret = 'DREAM_PRIVATE' : currentSecret = 'DREAM_PUBLIC'; // 다른 경우 'DREAM_PRIVATE'
         console.log(currentSecret);
@@ -38,6 +36,8 @@ const BoardDetails = () => {
 
         setPatchResponse(response.data);
     }
+
+    let currentSecret: string = response?.data.dreamSecret as string;
 
     const deleteHandler = async () => {
         Swal.fire({
@@ -49,26 +49,24 @@ const BoardDetails = () => {
             reverseButtons: true,
         }).then(async (result) => {
             if (result.isConfirmed) {
-                try {
-                    const response = await deleteDream(dreamId, accessToken);
-    
-                    if (response.status === 200) {
-                        Swal.fire({
-                            text: '게시물 삭제 완료다냥',
-                            icon: 'success',
-                            animation: true
-                        });
-                        navigator('/board');
-                    } else if (response.status === 404) {
-                        Swal.fire({
-                            text: '존재하지 않는 게시물이다냥.',
-                            icon: 'error',
-                            animation: true
-                        });
-                    }
-                } catch (error) {
+                const response = await deleteDream(dreamId, accessToken);
+                setDeleteDreams(response);
+                if (response.status === 200) {
                     Swal.fire({
-                        text: '게시물 삭제에 실패했다냥.',
+                        text: '게시물 삭제 완료다냥',
+                        icon: 'success',
+                        animation: true
+                    });
+                    navigator('/board');
+                } else if (response.status === 404) {
+                    Swal.fire({
+                        text: '존재하지 않는 게시물이다냥.',
+                        icon: 'error',
+                        animation: true
+                    });
+                } else if (response.status === 501) {
+                    Swal.fire({
+                        text: '너의 게시물이 아니다냥~',
                         icon: 'error',
                         animation: true
                     });
@@ -83,11 +81,11 @@ const BoardDetails = () => {
         });
     };
 
-    
+
     const likeHandler = async () => {
-        if(login){
-        const response = await postLike(dreamId, accessToken);
-        setLikeResponse(response);
+        if (login) {
+            const response = await postLike(dreamId, accessToken);
+            setLikeResponse(response);
             if (response.status === 201) {
                 Swal.fire({
                     text: '좋아요 완료다냥',
@@ -101,7 +99,7 @@ const BoardDetails = () => {
                     animation: true
                 });
             }
-        }else {
+        } else {
             Swal.fire({
                 icon: 'error',
                 title: '로그인 하라냥😿',
@@ -185,7 +183,7 @@ const BoardDetails = () => {
                 likeCount={response.data.likeCount}
                 commentCount={response.data.comments.length}
             />
-            <Comment 
+            <Comment
                 dreamId={dreamId}
             />
             <Footer />

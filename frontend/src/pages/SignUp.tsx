@@ -129,7 +129,6 @@ const SignUp = () => {
                 confirmButtonText: '확인'
             });
         }
-
     };
 
     const verifyPassword = password === repassword ? '일치하다냥😻' : '틀리다냥😿';
