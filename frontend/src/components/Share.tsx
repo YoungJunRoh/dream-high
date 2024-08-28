@@ -43,7 +43,7 @@ const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
                 content: {
                     title: `${username}님의 해몽 결과다냥`,
                     description: content.substring(0, 30) + '...',
-                    imageUrl: '../assets/thumbnail.png',
+                    imageUrl: 'https://dream-high.s3.ap-northeast-2.amazonaws.com/thumbnail.jpeg',
                     link: {
                         mobileWebUrl: shareUrl,
                         webUrl: shareUrl,
