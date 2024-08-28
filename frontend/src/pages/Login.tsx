@@ -1,24 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/login.css';
 import ResultBigBox from '../components/BigBox.tsx';
 import ResultSmallBox from '../components/SmallBox.tsx';
 import Button from '../components/Button.tsx';
-import { LoginResponse } from '../interfaces/member.ts'
-import { postLogin } from '../services/MemberService.ts';
+import { LoginResponse, memberApiResponse } from '../interfaces/member.ts'
+import { getMember, postLogin } from '../services/MemberService.ts';
 import { useMember } from '../hooks/MemberManager.tsx';
+import { MemberContextType } from '../hooks/MemberManager.tsx';
+import { MemberManager } from '../hooks/MemberManager.tsx';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'; // Swal 추가
 import Footer from '../components/Footer.tsx';
 import Input from '../components/Input.tsx';
 
-const Login = () => {
-    const { setAuthorization, setRefresh, setLogin } = useMember();
-    const navigate = useNavigate();
 
+const Login = () => {
+    const { setAuthorization, setRefresh, setLogin, setName, setProfileUrl} = useMember();
+    
+    const navigate = useNavigate();
     const [response, setResponse] = useState<LoginResponse | null>(null);
     const [email, setEmail] = useState<string>();
     const [password, setPassword] = useState<string>();
 
+   
     // 이메일 추출
     const emailHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setEmail(e.target.value);
@@ -57,7 +61,7 @@ const Login = () => {
         setRefresh(response.headers.refresh);
         setLogin(true);
         navigate('/');
-      
+
         // 예외 처리
         if (response.status === 401) {
             Swal.fire({
