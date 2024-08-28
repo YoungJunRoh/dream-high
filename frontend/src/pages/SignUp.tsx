@@ -12,6 +12,8 @@ import Timer from '../components/Timer.tsx';
 import Swal from 'sweetalert2';
 import { postMember, postEmail, postVerifyEmail } from '../services/MemberService.ts';
 import Input from '../components/Input.tsx';
+import {emailValidation, nameValidation, passwordValidation} from '../utils/Validation.tsx';
+import clapcat from '../assets/clapcat.gif';
 
 const SignUp = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -96,7 +98,7 @@ const SignUp = () => {
         // 이용약관 동의 여부 확인
         if (!isAgreed) {
             Swal.fire({
-                text: '인증 코드 확인 중 오류가 발생했습니다. 다시 시도해 주세요.',
+                text: '이용약관에 동의하라냥~',
                 icon: 'error',
                 confirmButtonText: '확인'
             });
@@ -254,7 +256,7 @@ const SignUp = () => {
                 </div>
             </ResultBigBox>
             <div id='signup-confirm'>
-                <Button name='가입하러가자냥🐾' mode='login' onClick={handleComplete} />
+                <Button name='가입하러가자냥🐾' mode='login' onClick={() => handleComplete(nickname,password,email)} />
             </div>
             {isModalOpen && (
                 <TermsModal onClose={handleCloseModal} onAgree={handleAgree} />
