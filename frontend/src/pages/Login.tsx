@@ -12,6 +12,7 @@ import Footer from '../components/Footer.tsx';
 import Input from '../components/Input.tsx';
 import styled from 'styled-components';
 import googleIcon from '../assets/img-google.svg';
+import happycat from '../assets/happycat.gif';
 
 const GoogleOAuth = styled.div`
     display: flex;
