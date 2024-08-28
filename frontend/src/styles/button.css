@@ -410,14 +410,14 @@
     border-radius: 20px;
     /* 둥근 모서리 */
     width: max-content;
-    height: 12vw;
+    height: max-content;
     position: absolute;
-    left: 50px;
+    left: 90px;
     top: 10px;
     box-shadow: 0 0 0 4px #fff, 4px 4px 0 0 #333;
     /* 클릭 시 살짝 눌리는 효과 */
     transform: translate(4px, 4px);
-    margin-top: -19vw;
+    margin-top: -5vw;
     z-index: 2;
     position: relative;
     display: flex;
