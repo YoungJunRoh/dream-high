@@ -116,6 +116,9 @@ const BoardDetails = () => {
                 title: '로그인 하라냥😿',
                 text: '로그인 안 한 집사는 이용 못 한다냥!🐾',
                 confirmButtonText: '알겠다냥!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                }
             })
         }
     }
