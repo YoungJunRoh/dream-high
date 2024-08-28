@@ -13,6 +13,7 @@ import defaultProfile from '../assets/img-non-login.png';
 import BoardIndex from '../components/BoardIndex.tsx';
 import BoardList from '../components/BoardList.tsx';
 import { AxiosRequestConfig } from 'axios';
+import setting from '../assets/icon-setting.png';
 
 type PictureList = {
     pictureDate: memberApiResponse;
@@ -37,8 +38,10 @@ const MyPageContainer = styled.div`
 
 const ContentArea = styled.div`
     display: flex;
-    flex-direction: row;
-    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 30px;
+    height: 350px;
     width: 90%;
     background-color: rgba(140, 68, 124, 0.8);
     background-repeat: no-repeat;
@@ -65,14 +68,24 @@ const Title = styled.h5`
 `;
 
 const ProfileImgArea = styled.div`
+    justify-content: center;
     padding: 20px;
 `;
 
 const UserInfo = styled.div`
     display: flex;
     flex-direction: column;
+    text-align: center;
+    align-items: center;
     position: relative;
-    top: 25px;
+`;
+
+const Setting = styled.div`
+    background-image: url(${setting});
+    background-repeat: no-repeat;
+    margin-top: 20px;
+    width: 35px;
+    height: 35px;
 `;
 
 type AccessToken = {
@@ -142,9 +155,8 @@ const MyPage = () => {
                     ></img>
                 </ProfileImgArea>
                 <UserInfo className='font-bold'>
-                    <h4>'{name}'</h4>
-                    <p className='font-normal'>님 환영한다냥~</p> {/* 사용자 닉네임 */}
-                    <p onClick={changeMyProfile}>회원정보 수정</p>
+                    <h4>{name}</h4><h5> 회원님 환영한다냥~</h5>
+                    <Setting onClick={changeMyProfile} />
                 </UserInfo>
             </ContentArea>
             <Link to={'/memberModification'}>
