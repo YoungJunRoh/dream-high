@@ -66,7 +66,7 @@ public class EmailService {
     public void sendPasswordResetEmail(String email, String resetToken) {
         redisTemplate.opsForValue().set(RESET_PREFIX + resetToken, email, Duration.ofHours(1)); // 1시간 동안 유효
         if (memberRepository.existsByEmail(email)) {
-            String resetLink = "https://localhost:8080/reset-password?token=" + resetToken;
+            String resetLink = "http:// ubuntu@ec2-3-36-67-129.ap-northeast-2.compute.amazonaws.com:8080/reset-password?token=" + resetToken;
             String subject = "비밀번호 재설정 링크입니다.";
             String content = "비밀번호 재설정을 하려면 다음 링크를 클릭하세요: <a href=\"" + resetLink + "\">비밀번호 재설정</a>";
 
