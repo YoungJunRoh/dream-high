@@ -15,6 +15,7 @@ import Input from '../components/Input.tsx';
 import styled from 'styled-components';
 import googleIcon from '../assets/img-google.svg';
 import happycat from '../assets/happycat.gif';
+import constructionImage from '../assets/constructure.gif';
 
 const GoogleOAuth = styled.div`
     display: flex;
@@ -161,8 +162,15 @@ const Login = () => {
             <Button
                 name='SNS로그인'
                 mode='pass'
-                option='modal'
-                draggable={true}
+                // option='mode'
+                onClick={() => {
+                    Swal.fire({
+                        title: '공사중이다냥~!',
+                    html: ` <img src="${constructionImage}" alt="고양이 공사중" style="width: 300px; height: auto; margin-bottom: 10px;" />
+                    `,
+                confirmButtonText: '확인'
+                    })    
+                }}
             />
             <Link to='/signup'>
                 <Button
