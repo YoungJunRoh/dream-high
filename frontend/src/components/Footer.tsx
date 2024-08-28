@@ -13,7 +13,7 @@ const Footer = () => {  // 수정
     };
 
     return (
-        <footer>
+        <div className='footer'>
             <div className='footer-item font-normal'>
                 <Link to="/" className='width-child'>
                     <img
@@ -32,7 +32,7 @@ const Footer = () => {  // 수정
             <div className='footer-ourteam font-normal'>Develop by
                 <span className='footer-color-gold font-extrabold'>Team DreamHigh</span>
             </div>
-        </footer>
+        </div>
     );
 }
 

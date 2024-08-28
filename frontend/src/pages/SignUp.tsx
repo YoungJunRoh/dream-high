@@ -12,22 +12,32 @@ import Timer from '../components/Timer.tsx';
 import Swal from 'sweetalert2';
 import { postMember, postEmail, postVerifyEmail } from '../services/MemberService.ts';
 import Input from '../components/Input.tsx';
-import {emailValidation, nameValidation, passwordValidation} from '../utils/Validation.tsx';
+import { emailValidation, nameValidation, passwordValidation } from '../utils/Validation.tsx';
 import clapcat from '../assets/clapcat.gif';
+import { AxiosResponse } from 'axios';
+
+const delay = (ms: number): Promise<void> => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 const SignUp = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [isAgreed, setIsAgreed] = useState<boolean>(false);
-    const [nickname, setNickname] = useState<string>(''); 
-    const [email, setEmail] = useState<string>(''); 
-    const [password, setPassword] = useState<string>(''); 
-    const [repassword, setRepassword] = useState<string>(''); 
-    const [verificationCode, setVerificationCode] = useState<string>(''); 
-    const [verifyComplete, setVerifyComplete] = useState<boolean>(false); 
+    const [nickname, setNickname] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [repassword, setRepassword] = useState<string>('');
+    const [verificationCode, setVerificationCode] = useState<string>('');
+    const [verifyComplete, setVerifyComplete] = useState<boolean>(false);
     const [showVerification, setShowVerification] = useState<boolean>(false);
     const [isTimer, setIsTimer] = useState<boolean>(false);
     const [resendEmail, setResendEmail] = useState<boolean>(false);
+    const [isEmailResponse, setIsEmailResponse] = useState<AxiosResponse | null>(null);
     const navigate = useNavigate();
+
+    const timerHandler = () => {
+        setIsTimer(false);
+    }
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
@@ -39,13 +49,18 @@ const SignUp = () => {
 
     const handleAgree = () => setIsAgreed(true);
 
+    const postEmailAsync = async () => {
+        const response = await postEmail(email);
+        setIsEmailResponse(response);
+    }
+
     // 이메일 인증 API 요청 코드
     const sendEmailAsync = async () => {
-        try {
-            await postEmail(email);
-            setIsTimer(true);
-            setShowVerification(true);
-        } catch {
+        await delay(500);
+        setIsTimer(true);
+        postEmailAsync();
+        setShowVerification(true);
+        if (isEmailResponse && isEmailResponse?.status !== 200) {
             Swal.fire({
                 text: '이메일 전송에 실패했습니다. 다시 시도해 주세요.',
                 icon: 'error',
@@ -102,7 +117,7 @@ const SignUp = () => {
                 icon: 'error',
                 confirmButtonText: '확인'
             });
-          return;
+            return;
         }
 
         // 회원가입 API 요청 처리
@@ -204,7 +219,10 @@ const SignUp = () => {
                                 <Button
                                     mode='normalButton'
                                     name='이메일 재전송'
-                                    onClick={sendEmailAsync}
+                                    onClick={() => {
+                                        timerHandler();
+                                        sendEmailAsync();
+                                    }}
                                 />
                             )}
                         </div>
@@ -256,7 +274,7 @@ const SignUp = () => {
                 </div>
             </ResultBigBox>
             <div id='signup-confirm'>
-                <Button name='가입하러가자냥🐾' mode='login' onClick={() => handleComplete(nickname,password,email)} />
+                <Button name='가입하러가자냥🐾' mode='login' onClick={() => handleComplete(nickname, password, email)} />
             </div>
             {isModalOpen && (
                 <TermsModal onClose={handleCloseModal} onAgree={handleAgree} />
