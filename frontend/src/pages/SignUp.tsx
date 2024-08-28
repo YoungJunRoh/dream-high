@@ -109,9 +109,9 @@ const SignUp = () => {
         const response = await postMember(email, password, nickname, verificationCode);
         if (response?.status === 201) {
             Swal.fire({
-                text: '회원가입이 완료되었다냥~!',
-                html: `<img src="${clapcat}" alt="Clap Cat" style="width: 300px; height: auto; margin-bottom: 10px;" />
-            `,
+                title: '회원가입이 완료되었다냥~!',
+                    html: ` <img src="${clapcat}" alt="Clap Cat" style="width: 300px; height: auto; margin-bottom: 10px;" />
+                    `,
                 confirmButtonText: '확인'
             }).then((result) => {
                 if (result.isConfirmed) {
