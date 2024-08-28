@@ -37,6 +37,7 @@ interface LocationState {
     summary: string;
     dreamContent: string;
     interpertaionContent: string;
+    dreamId: number;
 }
 
 const InterpretationResult = () => {
@@ -52,6 +53,7 @@ const InterpretationResult = () => {
     const summary = state?.summary as string;
     const dreamContent = state?.dreamContent as string;
     const interpertaionContent = state?.interpertaionContent as string;
+    const dreamId = state?.dreamId as number;
 
     const captureRef = useRef<HTMLDivElement>(null);
 
@@ -94,7 +96,7 @@ const InterpretationResult = () => {
                     <div id='result-sharing'>
                         <p className='font-bold'>공유하기</p>
                         <div id="result-sharing-area">
-                            <Share boardId={boardId} username={username} content={dreamContent} />
+                            <Share boardId={boardId} username={username} content={dreamContent} dreamId={dreamId}/>
                         </div>
                         <div className='result-imgdown'>
                             <Button name="이미지로 저장하기" mode="save-image" onClick={handleCapture} />

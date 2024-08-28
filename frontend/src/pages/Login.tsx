@@ -6,14 +6,11 @@ import Button from '../components/Button.tsx';
 import { LoginResponse, memberApiResponse } from '../interfaces/member.ts'
 import { getMember, postLogin } from '../services/MemberService.ts';
 import { useMember } from '../hooks/MemberManager.tsx';
-import { MemberContextType } from '../hooks/MemberManager.tsx';
-import { MemberManager } from '../hooks/MemberManager.tsx';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'; // Swal 추가
 import Footer from '../components/Footer.tsx';
 import Input from '../components/Input.tsx';
 import happycat from '../assets/happycat.gif';
-import Loading from './Loading.tsx';
 
 const Login = () => {
     const { setAuthorization, setRefresh, setLogin, setName, setProfileUrl} = useMember();
