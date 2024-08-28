@@ -6,8 +6,9 @@ import com.springboot.member.entity.Member;
 import com.springboot.picture.entity.RewardPicture;
 import com.springboot.picture.repository.RewardPictureRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+
 import java.util.Optional;
 
 @Service

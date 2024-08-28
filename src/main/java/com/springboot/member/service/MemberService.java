@@ -27,6 +27,7 @@ import java.util.Optional;
 import static com.springboot.member.entity.Member.MemberStatus.MEMBER_ACTIVE;
 import static com.springboot.member.entity.Member.MemberStatus.MEMBER_QUIT;
 
+@Transactional
 @Service
 public class MemberService {
 

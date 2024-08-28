@@ -7,10 +7,10 @@ import com.springboot.picture.entity.RewardPicture;
 import com.springboot.picture.repository.RewardPictureRepository;
 import com.springboot.stamp.entity.Stamp;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
+@Transactional
 @Service
 public class StampService {
 
