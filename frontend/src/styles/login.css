@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100%;
+    height: 100vh;
     background-image: url("../assets/img-background-night.png");
     background-size: cover; /* 전체 배경 크기 맞춤 */
     background-color: #340C62;
@@ -27,7 +27,14 @@
     font-size: 18px;
     color: red;
 }
-
+.logBtn{
+    position: relative;
+    bottom: 80px;
+}
+.loginoption{
+    position: absolute;
+    
+}
 .style-timer {
     display: flex;
     flex-direction: column;
@@ -82,9 +89,17 @@ h5 {
 
 @media all and (max-width:430px) {
     .login-background {
+        display: flex;
+        flex-direction: column;
         background-size: cover;
+        align-items: center;
+        height: 100%;
+        background-image: url("../assets/img-background-night.png");
+        background-size: cover; /* 전체 배경 크기 맞춤 */
+        background-color: #340C62;
+        background-repeat: no-repeat;
     }
-
+    
     .loginbigbox {
         width: 100vw;
         padding: 10px;
