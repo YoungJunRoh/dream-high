@@ -20,39 +20,40 @@ const Board = () => {
 
     const getDreamsAsync = async () => {
         // 비동기는 다 asynic붙여줘야함
-            const response = await getDreams(1, 10);
-            setResponseDreams(response.data);
-        
+        const response = await getDreams(1, 10);
+        setResponseDreams(response.data);
+
     }
 
     useEffect(() => {
         getDreamsAsync();
     }, [])
 
-    const datas:any[] = responseDreams?.data || [];
+    const datas: any[] = responseDreams?.data || [];
     const boards = datas.map((data) => (<BoardList contentData={data}></BoardList>))
 
     return (
-        <div className='background-night'>
-            <div id='board-main'>
-                <div id='board-searchzone'>
-                    <SearchBar />
-                    <div id='board-searchbtn'>
-                        <Button
-                            mode='search'
-                            name='검색'
-                        >
-                        </Button>
+        <React.Fragment>
+            <div className='background-night'>
+                <div id='board-main'>
+                    <div id='board-searchzone'>
+                        <SearchBar />
+                        <div id='board-searchbtn'>
+                            <Button
+                                mode='search'
+                                name='검색'
+                            >
+                            </Button>
+                        </div>
+                    </div>
+                    <BoardIndex />
+                    {boards}
+                    <div className='board-footer'>
                     </div>
                 </div>
-                <BoardIndex />
-                {boards}
-                <div className='board-footer'>
-                    <Footer />
-                </div>
             </div>
-        </div>
-
+            <Footer />
+        </React.Fragment>
     );
 }
 
