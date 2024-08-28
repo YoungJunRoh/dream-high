@@ -7,8 +7,9 @@ import com.springboot.like.repository.LikeRepository;
 import com.springboot.member.entity.Member;
 import com.springboot.member.service.MemberService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+
 import java.util.Optional;
 
 @Service

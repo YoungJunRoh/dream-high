@@ -171,7 +171,7 @@ const Login = () => {
                     draggable={true}
                 />
             </Link>
-            <Link to='/login-passwordfind'>
+            <Link to='/preparing'>
                 <Button
                     name='비밀번호 찾기'
                     mode='pass'
