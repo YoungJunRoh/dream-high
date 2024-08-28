@@ -30,9 +30,6 @@ const Share: React.FC<ShareProps> = ({ boardId, username, content, dreamId }) =>
     const postAsync = async () => {
         const response = await postStamp(dreamId, accessToken);
         setResponsePicture(response.data);
-        console.log(response.status);
-        console.log(responsePicture?.data.rewardUrl);
-        console.log(responsePicture);
     }
     
 
