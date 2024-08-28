@@ -6,6 +6,7 @@ const client: Axios = axios.create({
     headers: {
         'Content-Type': 'application/json',
     },
+    validateStatus: (status) => status >= 200 && status < 510,
 });
 
 // POST 메서드

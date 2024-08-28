@@ -25,6 +25,15 @@ const CommentInput: React.FC<Comment> = ({dreamId, accessToken}) => {
     const {login} = useMember();
 
     const createComment = async () => {
+        if (content.length < 5) {
+            Swal.fire({
+                icon: 'error',
+                title: '글자 수 제한!😿',
+                text: '5글자 이상 입력하라냥~🐾',
+                confirmButtonText: '알겠다냥!'
+            })
+            return;
+        }
         if(login){
             const response = await postComment(dreamId, content, accessToken);
             setResponse(response);

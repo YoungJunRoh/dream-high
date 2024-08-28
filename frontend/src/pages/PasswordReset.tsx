@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 type MemberState = {
     memberId: number;
     accessToken: AxiosRequestConfig;
+    email: string;
 }
 
 const PasswordReset = () => {
@@ -36,6 +37,7 @@ const PasswordReset = () => {
 
     const memberId: number = state.memberId as number;
     const accessToken: AxiosRequestConfig = state.accessToken as AxiosRequestConfig;
+    const email: string = state.email as string;
 
     const changePasswordClickHandlerAsync = async () => {
         const response = await patchPassword(memberId, password as string, newpassword as string, accessToken);
@@ -44,6 +46,12 @@ const PasswordReset = () => {
             Swal.fire({
                 title: '비밀번호 변경이 완료되었다냥~ (=◕ᆽ◕ฺ=)',
                 icon: 'success'
+            })
+        } else if (response.status === 400) {
+            navigate('/member-modification', { state: { accessToken, email } });
+            Swal.fire({
+                title: '비밀번호가 틀렸다냥 (=◕ᆽ◕ฺ=)',
+                icon: 'error'
             })
         } else {
             navigate('/mypage', { state: { accessToken } });
