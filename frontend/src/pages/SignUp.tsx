@@ -124,7 +124,7 @@ const SignUp = () => {
                 });
             }
             Swal.fire({
-                text: '회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.',
+                text: '회원가입 중 오류가 발생했다냥. 다시 시도하라냥.',
                 icon: 'error',
                 confirmButtonText: '확인'
             });
@@ -141,7 +141,7 @@ const SignUp = () => {
                         <h5>닉네임</h5>
                         <Input
                             onChange={e => setNickname(e.target.value)}
-                            placeholder='닉네임을 입력하세요'
+                            placeholder='닉네임을 입력하라냥'
                             $m_height='15vw'
                             $m_width='85vw'
                             $m_fontSize='20px'
@@ -154,7 +154,7 @@ const SignUp = () => {
                         <h5>이메일</h5>
                         <Input
                             onChange={e => setEmail(e.target.value)}
-                            placeholder='이메일을 입력하세요'
+                            placeholder='이메일을 입력하라냥'
                             $m_height='15vw'
                             $m_width='85vw'
                             $m_fontSize='20px'
@@ -162,7 +162,7 @@ const SignUp = () => {
                             $w_width='320px'
                             $w_fontSize='20px'
                             type='email'
-                            readonly={verifyComplete} // 인증 완료 시 readonly 적용
+                            readonly={verifyComplete} 
                         />
                         {!verifyComplete && (
                             <Button
@@ -182,7 +182,7 @@ const SignUp = () => {
                             </div>
                             <Input
                                 onChange={e => setVerificationCode(e.target.value)}
-                                placeholder='인증번호를 입력해주세요.'
+                                placeholder='인증번호를 입력해달라냥.'
                                 $m_height='15vw'
                                 $m_width='85vw'
                                 $m_fontSize='20px'
@@ -212,7 +212,7 @@ const SignUp = () => {
                         </div>
                         <Input
                             onChange={e => setPassword(e.target.value)}
-                            placeholder='비밀번호를 입력하세요'
+                            placeholder='비밀번호를 입력하라냥'
                             $m_height='15vw'
                             $m_width='85vw'
                             $m_fontSize='20px'
@@ -229,7 +229,7 @@ const SignUp = () => {
                         </div>
                         <Input
                             onChange={e => setRepassword(e.target.value)}
-                            placeholder='비밀번호를 재입력하세요'
+                            placeholder='비밀번호를 재입력하라냥'
                             $m_height='15vw'
                             $m_width='85vw'
                             $m_fontSize='20px'
