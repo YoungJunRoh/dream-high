@@ -9,7 +9,7 @@ import { useMember } from '../hooks/MemberManager.tsx';
 import { MemberContextType } from '../hooks/MemberManager.tsx';
 import { MemberManager } from '../hooks/MemberManager.tsx';
 import { Link, useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2'; // Swal 추가
+import Swal from 'sweetalert2'; 
 import Footer from '../components/Footer.tsx';
 import Input from '../components/Input.tsx';
 import happycat from '../assets/happycat.gif';
@@ -57,15 +57,19 @@ const Login = () => {
             const response = await postLogin(email as string, password as string);
             if (response.status === 401) {
                 Swal.fire({
-                    text: '이메일 또는 비밀번호가 잘못되었다냥 ㅇㅅㅇ',
-                    icon: 'error',
+                    title: '다시 입력하라냥',
+                    html: ` <p>이메일 또는 비밀번호가 잘못되었다냥 ㅇㅅㅇ</p> <img src="${happycat}" alt="Happy Cat" style="width: 300px; height: auto; margin-bottom: 10px;" />
+                    `,
                     confirmButtonText: '확인'
                 });
                 return;
             } else if (response.status === 500) {
                 Swal.fire({
-                    text: '로그인 중 문제가 발생했서 다시 시도해라냥 ㅇㅅㅇ',
-                    icon: 'error',
+                    title: '로그인 중 문제가 발생했다옹 ',
+                    html: `<img src="${happycat}" alt="Happy Cat" style="width: 300px; height: auto; margin-bottom: 10px;" />
+                     <p>다시 시도해라냥 ㅇㅅㅇ</p>
+                    
+                `,
                     confirmButtonText: '확인'
                 });
                 return;
@@ -82,7 +86,7 @@ const Login = () => {
             Swal.fire({
                 text: '이메일 또는 비밀번호가 잘못되었다냥 ㅇㅅㅇ',
                 html: `<img src="${happycat}" alt="Happy Cat" style="width: 300px; height: auto; margin-bottom: 10px;" />
-                <p>로그인해야 공유할 수 있다냥.</p>
+
             `,
                 confirmButtonText: '확인'
             });
