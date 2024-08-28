@@ -24,7 +24,7 @@ const Home = () => {
     const [responseMember, setResponseMember] = useState<memberApiResponse | null>(null);
     const { headerMode, setHeaderMode } = useHeaderMode();
     const [responseDreams, setResponseDreams] = useState<GetsApiResponse | null>(null);
-    
+
     setHeaderMode('main'); // 헤더 상태
 
     const accessToken: AxiosRequestConfig = {
@@ -43,13 +43,6 @@ const Home = () => {
 
     // useReload();
 
-    
-    useEffect(() => {
-        if (login) {
-            getMemberAsync();
-        }
-    }, [])
-
     const getDreamsAsync = async () => {
         const response = await getDreams(1, 10);
         setResponseDreams(response.data);
@@ -57,6 +50,9 @@ const Home = () => {
 
     useEffect(() => {
         getDreamsAsync();
+        if (login) {
+            getMemberAsync();
+        }
     }, [])
 
     const totalElements = responseDreams?.pageInfo.totalElements as number;
@@ -75,7 +71,7 @@ const Home = () => {
     };
 
     const randomTmiIdx: number = Math.floor(Math.random() * tmiDatas.length);
-    
+
     return (
         <div className='background-night'>
             <div className='main-cat'>
