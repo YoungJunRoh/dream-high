@@ -59,7 +59,7 @@ type ButtonProps = {
     draggable?: boolean;
     children?: ReactNode;
     option?: string;
-    onClick?(): void;
+    onClick?(parm?: any): void;
 }
 
 // 버튼 width 글자 크기에 따라 늘어나도록 GPT 한테 커스텀 받기

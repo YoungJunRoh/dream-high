@@ -41,7 +41,7 @@ const ContentArea = styled.div`
     flex-direction: column;
     align-items: center;
     padding-top: 30px;
-    height: 350px;
+    height: max-content;
     width: 90%;
     background-color: rgba(140, 68, 124, 0.8);
     background-repeat: no-repeat;
@@ -84,6 +84,7 @@ const Setting = styled.div`
     background-image: url(${setting});
     background-repeat: no-repeat;
     margin-top: 20px;
+    margin-bottom: 20px;
     width: 35px;
     height: 35px;
 `;
@@ -144,6 +145,7 @@ const MyPage = () => {
         }
     }, [responseMember])
 
+    const stampCount:number = (responseMember?.data.stampCount as number + 1) % 5;
     return (
         <MyPageContainer>
             <ContentArea className='font-extrabold'>
@@ -155,7 +157,7 @@ const MyPage = () => {
                     ></img>
                 </ProfileImgArea>
                 <UserInfo className='font-bold'>
-                    <h4>{name}</h4><h5> 회원님 환영한다냥~</h5>
+                    <h1>{name}</h1><h5> 회원님 환영한다냥~</h5>
                     <Setting onClick={changeMyProfile} />
                 </UserInfo>
             </ContentArea>
@@ -164,7 +166,7 @@ const MyPage = () => {
             <ContentArea_col>
                 <Title
                     className='font-bold'
-                >스탬프</Title>
+                >스탬프{stampCount}/5</Title>
                 <Stamp count={responseMember?.data.stampCount as number} /> {/* 현재 스탬프 개수를 전달 */}
             </ContentArea_col>
             <ContentArea_col>

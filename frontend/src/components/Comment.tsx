@@ -7,7 +7,6 @@ import { AxiosRequestConfig } from "axios";
 import CommentInput from "./CommentInput.tsx";
 import styled from "styled-components";
 import '../styles/global.css';
-import useReload from "../hooks/useReload .tsx";
 
 type CommentProp = {
     dreamId: number
@@ -39,11 +38,14 @@ const Comment: React.FC<CommentProp> = ({ dreamId }) => {
     const getCommentsAsync = async () => {
         setResponse((await getComments(dreamId, 1, 10)).data);
     }
+    const [upload, setUpload] = useState<string>('');
+    const [uploadEdit, setUploadEdit] = useState<boolean>(false);
+    const [uploadDelete, setUploadDelete] = useState<boolean>(false);
 
     const currentPage: number = response?.pageInfo.totalPages as number;
     const size: number = 10;
     const pageUp = async () => {
-        if (page < currentPage+1) {
+        if (page < currentPage + 1) {
             setPage(page + 1);
             setResponse((await getComments(dreamId, page, size)).data);
         }
@@ -66,10 +68,15 @@ const Comment: React.FC<CommentProp> = ({ dreamId }) => {
         );
     }
 
-
     useEffect(() => {
+        setUploadEdit(false);
+        setUploadDelete(false);
         getCommentsAsync();
-    }, []);
+    }, [upload, uploadEdit, uploadDelete]);
+
+    const uploadEvent = (content: string) => {
+        setUpload(content);
+    }
 
     return (
         <React.Fragment>
@@ -78,12 +85,17 @@ const Comment: React.FC<CommentProp> = ({ dreamId }) => {
                     username={data.nickName as string}
                     dateTime={data.createdAt as string}
                     content={data.content as string}
+                    commentId={data.commentId as number}
+                    uploadEdit={setUploadEdit}
+                    memberId={data.memberId}
+                    uploadDelete={setUploadDelete}
                 ></CommentForm>))}
             <CommentInput
                 dreamId={dreamId}
                 accessToken={accessToken}
+                uploadState={uploadEvent}
             />
-            <PageInfo/>
+            <PageInfo />
         </React.Fragment>
     );
 };

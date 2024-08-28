@@ -12,18 +12,30 @@ import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'; // Swal 추가
 import Footer from '../components/Footer.tsx';
 import Input from '../components/Input.tsx';
-import happycat from '../assets/happycat.gif';
-import Loading from './Loading.tsx';
+
+import styled from 'styled-components';
+import googleIcon from '../assets/img-google.svg';
+
+const GoogleOAuth = styled.div`
+    display: flex;
+    flex-direction: column;
+    background-image: url(${googleIcon});
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 250px;
+    height: 60px;
+    cursor: pointer;
+`;
 
 const Login = () => {
-    const { setAuthorization, setRefresh, setLogin, setName, setProfileUrl} = useMember();
-    
+    const { setAuthorization, setRefresh, setLogin, setName, setProfileUrl } = useMember();
+
     const navigate = useNavigate();
     const [response, setResponse] = useState<LoginResponse | null>(null);
     const [email, setEmail] = useState<string>();
     const [password, setPassword] = useState<string>();
 
-   
+
     // 이메일 추출
     const emailHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setEmail(e.target.value);
@@ -71,7 +83,7 @@ const Login = () => {
                 return;
             } else {
                 setResponse(response.data);
-                 // 로그인 성공 시 토큰 저장 및 페이지 이동
+                // 로그인 성공 시 토큰 저장 및 페이지 이동
                 setAuthorization(response.headers.authorization);
                 setRefresh(response.headers.refresh);
                 setLogin(true);
@@ -145,7 +157,12 @@ const Login = () => {
                 mode='pass'
                 option='modal'
                 draggable={true}
-            />
+            >
+                <a href='http://localhost:8080/oauth2/authorization/google'>
+                    <GoogleOAuth />
+                </a>
+
+            </Button>
             <Link to='/signup'>
                 <Button
                     name='회원가입'

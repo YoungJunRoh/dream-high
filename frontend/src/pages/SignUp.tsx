@@ -131,6 +131,13 @@ const SignUp = () => {
                 icon: 'error',
                 confirmButtonText: '확인'
             });
+        } else if (response?.status >= 500) {
+            Swal.fire({
+                text: '회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.',
+                icon: 'error',
+                confirmButtonText: '확인'
+            });
+        }
     };
 
     const verifyPassword = password === repassword ? '일치하다냥😻' : '틀리다냥😿';
