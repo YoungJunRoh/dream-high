@@ -25,6 +25,8 @@ const Home = () => {
     const { headerMode, setHeaderMode } = useHeaderMode();
     const [responseDreams, setResponseDreams] = useState<GetsApiResponse | null>(null);
 
+    setHeaderMode('main'); // 헤더 상태
+
     const accessToken: AxiosRequestConfig = {
         headers: {
             Authorization: authorization,
@@ -32,42 +34,25 @@ const Home = () => {
     };
 
     const getMemberAsync = async () => {
-        setResponseMember(await getMember(accessToken));
-
+        const response = await getMember(accessToken);
+        setResponseMember(response.data);
     }
-    useReload();
 
-
-    useEffect(() => {
-//      getMemberAsync();
-        setHeaderMode('main');
-    }, [])
-
-    const [responseMember, setResponseMember] = useState<memberApiResponse | null>(null);
     setName(responseMember?.data.nickName as string);
     setProfileUrl(responseMember?.data.profileUrl as string);
-    setHeaderMode('main');
 
-    useEffect(() => {
-        if (login) {
-            getMemberAsync();
-        }
-    }, [])
+    // useReload();
 
     const getDreamsAsync = async () => {
         const response = await getDreams(1, 10);
         setResponseDreams(response.data);
     }
-    // const response = await getDreams(1, 10);
-    //     setResponseDreams(response.data);
-    //     if (response.status === 200) {
-    //         alert('ss');
-    //     } else {
-    //         alert('gets 요청 실패');
-
 
     useEffect(() => {
         getDreamsAsync();
+        if (login) {
+            getMemberAsync();
+        }
     }, [])
 
     const totalElements = responseDreams?.pageInfo.totalElements as number;

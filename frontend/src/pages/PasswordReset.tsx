@@ -13,13 +13,14 @@ import Swal from 'sweetalert2';
 type MemberState = {
     memberId: number;
     accessToken: AxiosRequestConfig;
+    email: string;
 }
 
 const PasswordReset = () => {
     const location = useLocation();
     const state: MemberState = location.state as MemberState;
     const navigate = useNavigate();
-    
+
     const [password, setPassword] = useState<string>('');
     const [newpassword, setNewPassword] = useState<string>('');
     const [response, setResponse] = useState<AxiosResponse | null>(null);
@@ -36,17 +37,24 @@ const PasswordReset = () => {
 
     const memberId: number = state.memberId as number;
     const accessToken: AxiosRequestConfig = state.accessToken as AxiosRequestConfig;
+    const email: string = state.email as string;
 
     const changePasswordClickHandlerAsync = async () => {
         const response = await patchPassword(memberId, password as string, newpassword as string, accessToken);
-        if(response.status === 200) {
-            navigate('/mypage');
+        if (response.status === 200) {
+            navigate('/mypage', { state: { accessToken } });
             Swal.fire({
                 title: '비밀번호 변경이 완료되었다냥~ (=◕ᆽ◕ฺ=)',
                 icon: 'success'
             })
+        } else if (response.status === 400) {
+            navigate('/member-modification', { state: { accessToken, email } });
+            Swal.fire({
+                title: '비밀번호가 틀렸다냥 (=◕ᆽ◕ฺ=)',
+                icon: 'error'
+            })
         } else {
-            navigate('/mypage');
+            navigate('/mypage', { state: { accessToken } });
             Swal.fire({
                 title: '서버 에러다냥~ 관리자에게 연락하라냥~ (=◕ᆽ◕ฺ=)',
                 icon: 'success'

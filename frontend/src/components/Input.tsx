@@ -20,6 +20,7 @@ type InputProps = {
     type?: string;
     value?: string;
     disabled?: boolean;
+    readonly?: boolean; 
 }
 
 const InputContainer = styled.div`
@@ -37,10 +38,11 @@ const DeleteContent = styled.h4<XButton>`
     cursor: pointer;
 `;
 
-const InputForm = styled.input.attrs<InputProps>(({ type, value, disabled }) => ({
+const InputForm = styled.input.attrs<InputProps>(({ type, value, disabled, readonly }) => ({
     type,
     value,
     disabled,
+    readOnly: readonly,
 }))<InputProps>`
     height: ${(props) => props.$w_height};
     width: ${(props) => props.$w_width};
@@ -56,6 +58,12 @@ const InputForm = styled.input.attrs<InputProps>(({ type, value, disabled }) => 
         width: ${(props) => props.$m_width};
         font-size: ${(props) => props.$m_fontSize};
     }
+        ${(props) =>
+        props.readonly &&
+        `
+        background-color: #e9ecef;
+        cursor: not-allowed;
+    `}
 `;
 
 const TextArea: React.FC<InputProps> = ({
@@ -72,6 +80,7 @@ const TextArea: React.FC<InputProps> = ({
     $w_fontSize,
     deleteButton,
     deleteButtonOption,
+    readonly,
 }) => {
     const deleteRef = useRef<HTMLInputElement>(null);
     useKeyboardAvoider();
@@ -91,6 +100,7 @@ const TextArea: React.FC<InputProps> = ({
                 $w_fontSize={$w_fontSize}
                 onKeyDown={onKeyDown}
                 type={type}
+                readonly={readonly}
             >
                 {children}
             </InputForm>

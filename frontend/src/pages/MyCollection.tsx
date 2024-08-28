@@ -3,10 +3,10 @@ import '../styles/global.css';
 import '../styles/getpicture.css';
 import styled, { css } from "styled-components";
 import Swal from 'sweetalert2';
-import { useProfile } from '../components/ProfileContext.tsx'; // Context 가져오기
+import { useProfile } from '../hooks/ProfileContext.tsx'; // Context 가져오기
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
-import {patchProfile} from '../services/MemberService.ts';
+import { patchProfile } from '../services/MemberService.ts';
 
 const ImageItem = styled.img`
     flex: 0 0 21%; /* 기본적으로 4개 이미지를 한 줄에 배치 (5% 여유 포함) */
@@ -30,60 +30,57 @@ const ImageContainer = styled.div`
 `;
 type PictureState = {
     pictures: [];
-    memberId:number;
+    memberId: number;
     accessToken: AxiosRequestConfig;
 }
 
 interface picture {
-    rewardPictureId: number; 
+    rewardPictureId: number;
     rewardUrl: string;
 }
 
 const MyCollection = () => {
-    const { profileImage, setProfileImage } = useProfile(); 
     const location = useLocation();
     const state = location.state as PictureState | null;
     const pictures: picture[] = state?.pictures as [];
-    const memberId:number =  state?.memberId as number;
-    const accessToken: AxiosRequestConfig = state?.accessToken as AxiosRequestConfig; 
+    const memberId: number = state?.memberId as number;
+    const accessToken: AxiosRequestConfig = state?.accessToken as AxiosRequestConfig;
     const navigate = useNavigate();
 
     const [profileResponse, setProfileResponse] = useState<AxiosResponse | null>(null);
     // 안에 타입지정 
- 
+
     const patchProfileAsync = async (profileUrl: string) => {
         // 비동기는 다 asynic붙여줘야함
-        console.log(accessToken);
-            const response = await patchProfile(memberId, profileUrl, accessToken);
-            setProfileResponse(response);
-            if(response.status === 200) {
-                Swal.fire("완료다냥");
-            }
+        console.log(profileUrl);
+        const response = await patchProfile(memberId, profileUrl, accessToken);
+        setProfileResponse(response);
+        if (response.status === 200) {
+            Swal.fire("완료다냥");
+        }
     }
 
-    const handleImageClick = (index:number, url:string) => {
+    const handleImageClick = (index: number, newProfileUrl: string) => {
         Swal.fire({
             title: '사진을 변경할꺼냥?',
             showCancelButton: true,
             confirmButtonText: '변경',
             cancelButtonText: '취소',
         }).then((result) => {
-            if(result.isConfirmed) {
-                patchProfileAsync(url);
-            }navigate('/mypage', {
-                state: {pictures}
-            })
+            if (result.isConfirmed) {
+                patchProfileAsync(newProfileUrl);
+            } navigate('/mypage', { state: { accessToken, newProfileUrl } });
         });
     };
-  
+
     return (
         <div className='background'>
             <div className='collectionbox'>
                 <h2>내 컬렉션</h2>
                 <ImageContainer>
                     {pictures.map((picture) => (
-                        <ImageItem src={picture.rewardUrl} 
-                         onClick={() => handleImageClick(picture.rewardPictureId, picture.rewardUrl)} // 이미지 클릭 시 핸들러 호출
+                        <ImageItem src={picture.rewardUrl}
+                            onClick={() => handleImageClick(picture.rewardPictureId, picture.rewardUrl)} // 이미지 클릭 시 핸들러 호출
                         />
                     ))}
                 </ImageContainer>

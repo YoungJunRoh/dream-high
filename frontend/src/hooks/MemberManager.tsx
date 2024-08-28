@@ -71,7 +71,7 @@ export const MemberManager: React.FC<{ children: ReactNode }> = ({ children }) =
     }else{
       localStorage.removeItem('profileUrl');
     }
-  }, [authorization, refresh, login]);
+  }, [authorization, refresh, login, name, profileUrl]);
 
   return (
     <MemberContext.Provider value={{ authorization, setAuthorization, refresh, setRefresh, login, setLogin, name, setName, profileUrl, setProfileUrl }}>

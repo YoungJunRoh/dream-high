@@ -41,22 +41,19 @@ const Comment: React.FC<CommentProp> = ({ dreamId }) => {
     }
 
     const currentPage: number = response?.pageInfo.totalPages as number;
-    
+    const size: number = 10;
     const pageUp = async () => {
-        console.log(currentPage);
-        if (page <= currentPage) {
+        if (page < currentPage+1) {
             setPage(page + 1);
+            setResponse((await getComments(dreamId, page, size)).data);
         }
-        console.log('up ' + page);
-        setResponse((await getComments(dreamId, page, 10)).data);
     }
 
     const pageDown = async () => {
         if (page > 1) {
             setPage(page - 1);
+            setResponse((await getComments(dreamId, page, size)).data);
         }
-        console.log('down ' + page);
-        setResponse((await getComments(dreamId, page, 10)).data);
     }
 
     const PageInfo = () => {

@@ -115,9 +115,21 @@ public class MemberService {
         findMember.setModifiedAt(LocalDateTime.now());
         return memberRepository.save(findMember);
     }
-    public Member updateMemberPassword(Member member) {
+    public void verifyPassword(long memberId, String password, String newPassword){
+        Member member = findVerifiedMember(memberId);
+
+        if(!passwordEncoder.matches(password, member.getPassword())){
+            throw new BusinessLogicException(ExceptionCode.PASSWORD_WRONG);
+        }
+    }
+
+    public Member updateMemberPassword(Member member,String email) {
         // TODO should business logic
         Member findMember = findVerifiedMember(member.getMemberId());
+
+        if (member.getPassword() == null || member.getPassword().isEmpty()) {
+            throw new BusinessLogicException(ExceptionCode.PASSWORD_WRONG);
+        }
 
         Optional.ofNullable(member.getPassword())
                 .ifPresent(password -> findMember.setPassword(passwordEncoder.encode(member.getPassword())));
@@ -126,10 +138,10 @@ public class MemberService {
         return memberRepository.save(findMember);
     }
 
-    public Member updateMemberProfile(Member member) {
+    public Member updateMemberProfile(Member member, String email) {
         // TODO should business logic
         //throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
-        Member findMember = findVerifiedMember(member.getMemberId());
+        Member findMember = findVerifiedMember(email);
 
         Optional.ofNullable(member.getProfileUrl())
                 .ifPresent(profileUrl-> findMember.setProfileUrl(profileUrl));

@@ -12,6 +12,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'; // Swal 추가
 import Footer from '../components/Footer.tsx';
 import Input from '../components/Input.tsx';
+import Loading from './Loading.tsx';
 
 
 const Login = () => {
@@ -52,31 +53,46 @@ const Login = () => {
 
     // 로그인 처리
     const loginHandler = async () => {
-        const response = await postLogin(email as string, password as string);
-        setResponse(response.data);
-        console.log("Logging in with:", { email, password });
+        if (email !== undefined && password != undefined) {
+            const response = await postLogin(email as string, password as string);
+            if (response.status === 401) {
+                Swal.fire({
+                    text: '이메일 또는 비밀번호가 잘못되었다냥 ㅇㅅㅇ',
+                    icon: 'error',
+                    confirmButtonText: '확인'
+                });
+                return;
+            } else if (response.status === 500) {
+                Swal.fire({
+                    text: '로그인 중 문제가 발생했서 다시 시도해라냥 ㅇㅅㅇ',
+                    icon: 'error',
+                    confirmButtonText: '확인'
+                });
+                return;
+            } else {
+                setResponse(response.data);
+                 // 로그인 성공 시 토큰 저장 및 페이지 이동
+                setAuthorization(response.headers.authorization);
+                setRefresh(response.headers.refresh);
+                setLogin(true);
+                navigate('/');
+            }
+        } else if (email === undefined) {
 
-        // 로그인 성공 시 토큰 저장 및 페이지 이동
-        setAuthorization(response.headers.authorization);
-        setRefresh(response.headers.refresh);
-        setLogin(true);
-        navigate('/');
-
-        // 예외 처리
-        if (response.status === 401) {
             Swal.fire({
-                text: '이메일 또는 비밀번호가 잘못되었다냥 ㅇㅅㅇ',
+                text: '이메일을 입력하라냥~',
                 icon: 'error',
                 confirmButtonText: '확인'
             });
-        } else if(response.status === 500){
+            return;
+        } else if (password === undefined) {
             Swal.fire({
-                text: '로그인 중 문제가 발생했서 다시 시도해라냥 ㅇㅅㅇ',
+                text: '비밀번호를 입력하라냥~~',
                 icon: 'error',
                 confirmButtonText: '확인'
             });
+            return;
         }
-
     };
 
     return (
