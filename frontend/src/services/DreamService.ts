@@ -9,6 +9,11 @@ export const postDream = async (prompt: string, accessToken?: AxiosRequestConfig
     const response = await postData<PostApiResponse>(POST_DREAM_URL, prompt, accessToken);
     return response; // result에서 DreamData 반환
 };
+export const postStamp = async (dreamId: number, accessToken: AxiosRequestConfig ) => {
+    const url = POST_DREAM_URL + '/' + dreamId + '/sharing';
+    const response = await postData<AxiosResponse>(url, {}, accessToken);
+    return response; // result에서 DreamData 반환
+}
 
 export const postLike = async (dreamId: number, accessToken: AxiosRequestConfig) => {
     const url = POST_DREAM_URL + '/' + dreamId + '/likes';
@@ -21,6 +26,7 @@ export const postComment = async (dreamId: number, content: string, accessToken:
     const response = await postData<AxiosResponse>(url, { content, dreamId }, accessToken);
     return response; // result에서 DreamData 반환
 };
+
 
 export const updateComment = async (commentId: number, content: string, accessToken: AxiosRequestConfig) => {
     const url = BASED_URL + '/' + 'comments/' + commentId;

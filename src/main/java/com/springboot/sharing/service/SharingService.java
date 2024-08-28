@@ -57,7 +57,7 @@ public class SharingService {
         stampService.incrementStampCount(dream.getMember());
 
         Stamp stamp = member.getStamp();
-        if (stamp.getCount() % 5 == 0){
+        if (stamp.getCount() % 5 == 0 && stamp.getCount() != 0){
             RewardPicture rewardPicture = getNextRewardPictureForMember(member);
             MemberRewardPicture memberRewardPicture = new MemberRewardPicture();
             memberRewardPicture.setMember(member);

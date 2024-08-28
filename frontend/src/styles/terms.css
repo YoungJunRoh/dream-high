@@ -1,3 +1,12 @@
+@font-face {
+    font-family: "PF-StartDust";
+    src: url("../assets/fonts/PF-StarDust.ttf") format("truetype");
+  }
+  
+  @font-face {
+    font-family: "PF-StartDust-Bold";
+    src: url("../assets/fonts/PF-StarDust-Bold.ttf") format("truetype");
+  }
 .modal {
     position: fixed;
     top: 0;
@@ -177,5 +186,6 @@
 }
 .h5{
     margin-top: 6vw;
+    font-family: "PF-StartDust-Bold", sans-serif; /* 버튼에 폰트 적용 */
 }
 }

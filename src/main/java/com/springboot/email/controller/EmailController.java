@@ -51,6 +51,7 @@ public class EmailController {
     public String sendPasswordResetEmail(@RequestParam String email) {
 
         String resetToken = java.util.UUID.randomUUID().toString();
+
         emailService.sendPasswordResetEmail(email, resetToken);
         return "Password reset email sent.";
     }

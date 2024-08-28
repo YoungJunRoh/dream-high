@@ -13,6 +13,8 @@ import Swal from 'sweetalert2';
 import { postMember, postEmail, postVerifyEmail } from '../services/MemberService.ts';
 import Input from '../components/Input.tsx';
 import { emailValidation, nameValidation, passwordValidation } from '../utils/Validation.tsx';
+import clapcat from '../assets/clapcat.gif';
+
 
 const SignUp = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -55,29 +57,29 @@ const SignUp = () => {
 
     // 이메일 인증 확인 API 요청 코드
     const matchCodeAsync = async () => {
-        const response = await postVerifyEmail(email, verificationCode);
-        if (response && response.status === 200) {
-            setVerifyComplete(true); // 이메일 인증이 완료되면 이메일 수정 및 클릭 불가
-            setShowVerification(false);
-            Swal.fire({
-                text: '이메일 인증이 완료되었다냥~',
-                icon: 'success',
-                confirmButtonText: '확인'
-            });
-        } else if (response.status === 400) {
-            Swal.fire({
-                text: '인증번호 틀렸다냥~',
-                icon: 'error',
-                confirmButtonText: '확인'
-            });
-        } else {
-            Swal.fire({
-                text: '관리자에게 문의 바란다냥~',
-                icon: 'warning',
-                confirmButtonText: '확인'
-            });
-        }
-
+            const response = await postVerifyEmail(email, verificationCode);
+            if (response && response.status === 200) {
+                setVerifyComplete(true); // 이메일 인증이 완료되면 이메일 수정 및 클릭 불가
+                setShowVerification(false);
+                Swal.fire({
+                    text: '이메일 인증이 완료되었다냥~',
+                    icon: 'success',
+                    confirmButtonText: '확인'
+                });
+            } else if (response.status === 400) {
+                Swal.fire({
+                    text: '인증번호 틀렸다냥~',
+                    icon: 'error',
+                    confirmButtonText: '확인'
+                });
+            } else {
+                Swal.fire({
+                    text: '관리자에게 문의 바란다냥~',
+                    icon: 'warning',
+                    confirmButtonText: '확인'
+                });
+            }
+            
     };
 
     // 회원가입 완료 처리 코드
@@ -105,20 +107,27 @@ const SignUp = () => {
         }
 
         // 회원가입 API 요청 처리
-        const response = await postMember(email, password, nickname, verificationCode);
-        if (response?.status === 201) {
+            const response = await postMember(email, password, nickname, verificationCode);
+            if (response?.status === 201) {
+                Swal.fire({
+                    text: '회원가입이 완료되었다냥~!',
+                    html: `<img src="${clapcat}" alt="Clap Cat" style="width: 300px; height: auto; margin-bottom: 10px;" />
+            `,
+                    confirmButtonText: '확인'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        navigate('/login-home');
+                    }
+                });
+            } else if (response?.status === 409) {
+                Swal.fire({
+                    text: '이미 존재하는 이메일이다냥~~',
+                    icon: 'error',
+                    confirmButtonText: '확인'
+                });
+            }
             Swal.fire({
-                text: '회원가입이 완료되었다냥~!',
-                icon: 'success',
-                confirmButtonText: '확인'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    navigate('/login-home');
-                }
-            });
-        } else if (response?.status === 409) {
-            Swal.fire({
-                text: '이미 존재하는 이메일이다냥~~',
+                text: '회원가입 중 오류가 발생했다냥. 다시 시도하라냥.',
                 icon: 'error',
                 confirmButtonText: '확인'
             });
@@ -142,7 +151,7 @@ const SignUp = () => {
                         <h5>닉네임</h5>
                         <Input
                             onChange={e => setNickname(e.target.value)}
-                            placeholder='닉네임을 입력하세요'
+                            placeholder='닉네임을 입력하라냥'
                             $m_height='15vw'
                             $m_width='85vw'
                             $m_fontSize='20px'
@@ -155,7 +164,7 @@ const SignUp = () => {
                         <h5>이메일</h5>
                         <Input
                             onChange={e => setEmail(e.target.value)}
-                            placeholder='이메일을 입력하세요'
+                            placeholder='이메일을 입력하라냥'
                             $m_height='15vw'
                             $m_width='85vw'
                             $m_fontSize='20px'
@@ -163,7 +172,7 @@ const SignUp = () => {
                             $w_width='320px'
                             $w_fontSize='20px'
                             type='email'
-                            readonly={verifyComplete} // 인증 완료 시 readonly 적용
+                            readonly={verifyComplete} 
                         />
                         {!verifyComplete && (
                             <Button
@@ -183,7 +192,7 @@ const SignUp = () => {
                             </div>
                             <Input
                                 onChange={e => setVerificationCode(e.target.value)}
-                                placeholder='인증번호를 입력해주세요.'
+                                placeholder='인증번호를 입력해달라냥.'
                                 $m_height='15vw'
                                 $m_width='85vw'
                                 $m_fontSize='20px'
@@ -213,7 +222,7 @@ const SignUp = () => {
                         </div>
                         <Input
                             onChange={e => setPassword(e.target.value)}
-                            placeholder='비밀번호를 입력하세요'
+                            placeholder='비밀번호를 입력하라냥'
                             $m_height='15vw'
                             $m_width='85vw'
                             $m_fontSize='20px'
@@ -230,7 +239,7 @@ const SignUp = () => {
                         </div>
                         <Input
                             onChange={e => setRepassword(e.target.value)}
-                            placeholder='비밀번호를 재입력하세요'
+                            placeholder='비밀번호를 재입력하라냥'
                             $m_height='15vw'
                             $m_width='85vw'
                             $m_fontSize='20px'
@@ -262,4 +271,5 @@ const SignUp = () => {
         </div>
     );
 }
+
 export default SignUp;
