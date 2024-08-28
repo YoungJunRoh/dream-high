@@ -57,29 +57,29 @@ const SignUp = () => {
 
     // 이메일 인증 확인 API 요청 코드
     const matchCodeAsync = async () => {
-            const response = await postVerifyEmail(email, verificationCode);
-            if (response && response.status === 200) {
-                setVerifyComplete(true); // 이메일 인증이 완료되면 이메일 수정 및 클릭 불가
-                setShowVerification(false);
-                Swal.fire({
-                    text: '이메일 인증이 완료되었다냥~',
-                    icon: 'success',
-                    confirmButtonText: '확인'
-                });
-            } else if (response.status === 400) {
-                Swal.fire({
-                    text: '인증번호 틀렸다냥~',
-                    icon: 'error',
-                    confirmButtonText: '확인'
-                });
-            } else {
-                Swal.fire({
-                    text: '관리자에게 문의 바란다냥~',
-                    icon: 'warning',
-                    confirmButtonText: '확인'
-                });
-            }
-            
+        const response = await postVerifyEmail(email, verificationCode);
+        if (response && response.status === 200) {
+            setVerifyComplete(true); // 이메일 인증이 완료되면 이메일 수정 및 클릭 불가
+            setShowVerification(false);
+            Swal.fire({
+                text: '이메일 인증이 완료되었다냥~',
+                icon: 'success',
+                confirmButtonText: '확인'
+            });
+        } else if (response.status === 400) {
+            Swal.fire({
+                text: '인증번호 틀렸다냥~',
+                icon: 'error',
+                confirmButtonText: '확인'
+            });
+        } else {
+            Swal.fire({
+                text: '관리자에게 문의 바란다냥~',
+                icon: 'warning',
+                confirmButtonText: '확인'
+            });
+        }
+
     };
 
     // 회원가입 완료 처리 코드
@@ -107,31 +107,26 @@ const SignUp = () => {
         }
 
         // 회원가입 API 요청 처리
-            const response = await postMember(email, password, nickname, verificationCode);
-            if (response?.status === 201) {
-                Swal.fire({
-                    text: '회원가입이 완료되었다냥~!',
-                    html: `<img src="${clapcat}" alt="Clap Cat" style="width: 300px; height: auto; margin-bottom: 10px;" />
-            `,
-                    confirmButtonText: '확인'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        navigate('/login-home');
-                    }
-                });
-            } else if (response?.status === 409) {
-                Swal.fire({
-                    text: '이미 존재하는 이메일이다냥~~',
-                    icon: 'error',
-                    confirmButtonText: '확인'
-                });
-            }
+        const response = await postMember(email, password, nickname, verificationCode);
+        if (response?.status === 201) {
             Swal.fire({
-                text: '회원가입 중 오류가 발생했다냥. 다시 시도하라냥.',
+                text: '회원가입이 완료되었다냥~!',
+                html: `<img src="${clapcat}" alt="Clap Cat" style="width: 300px; height: auto; margin-bottom: 10px;" />
+            `,
+                confirmButtonText: '확인'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate('/login-home');
+                }
+            });
+        } else if (response?.status === 409) {
+            Swal.fire({
+                text: '이미 존재하는 이메일이다냥~~',
                 icon: 'error',
                 confirmButtonText: '확인'
             });
-        } else if (response?.status >= 500) {
+        }
+        else if (response?.status >= 500) {
             Swal.fire({
                 text: '회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.',
                 icon: 'error',
@@ -172,7 +167,7 @@ const SignUp = () => {
                             $w_width='320px'
                             $w_fontSize='20px'
                             type='email'
-                            readonly={verifyComplete} 
+                            readonly={verifyComplete}
                         />
                         {!verifyComplete && (
                             <Button
