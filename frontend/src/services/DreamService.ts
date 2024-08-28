@@ -1,5 +1,5 @@
 import { postData, getData, patchData, deleteData } from "./index.ts";
-import { GetsApiResponse, PostApiResponse, GetApiResponse, CommentsResponse } from '../interfaces/dream.ts';
+import { GetsApiResponse, PostApiResponse, GetApiResponse, CommentsResponse, RewardPictureResponse } from '../interfaces/dream.ts';
 import { AxiosRequestConfig, AxiosResponse } from "axios";
 
 const BASED_URL = process.env.REACT_APP_BASED_URL;
@@ -11,10 +11,16 @@ export const postDream = async (prompt: string, accessToken?: AxiosRequestConfig
 };
 export const postStamp = async (dreamId: number, accessToken: AxiosRequestConfig ) => {
     const url = POST_DREAM_URL + '/' + dreamId + '/sharing';
-    const response = await postData<AxiosResponse>(url, {}, accessToken);
-    return response; // result에서 DreamData 반환
-}
+    const response = await postData<RewardPictureResponse>(url, {}, accessToken);
+    console.log("" + response);
 
+    return response; // result에서 DreamData 반환
+};
+export const stampReward = async (dreamId: number, accessToken: AxiosRequestConfig ) => {
+    const url = POST_DREAM_URL + '/' + dreamId + '/sharing';
+    const response = await postData<RewardPictureResponse>(url, {}, accessToken);
+    return response; // result에서 DreamData 반환
+};
 export const postLike = async (dreamId: number, accessToken: AxiosRequestConfig) => {
     const url = POST_DREAM_URL + '/' + dreamId + '/likes';
     const response = await postData<AxiosResponse>(url, {}, accessToken);
