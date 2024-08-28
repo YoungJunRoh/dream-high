@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/global.css';
-import ResultBigBox from '../components/BigBox.tsx';
 import ResultSmallBox from '../components/SmallBox.tsx';
+import CheckModal from '../components/CheckModal.tsx';
 import Button from '../components/Button.tsx';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -12,6 +12,8 @@ import { updateName } from '../services/MemberService.ts';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { postLogout, deleteMember } from '../services/MemberService.ts';
 import { useMember } from '../hooks/MemberManager.tsx';
+
+
 
 const ModificationContainer = styled.div`
     width: 100%;
@@ -87,6 +89,8 @@ const MemberModification = () => {
     const { setAuthorization, setRefresh, setLogin, setName, setProfileUrl } = useMember();
     const navigation = useNavigate();
     const navigation2 = useNavigate();
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [isAgreed, setIsAgreed] = useState<boolean>(false);
     const [nickName, setNickName] = useState<string>(state.name);
     const [response, setResponse] = useState<AxiosResponse | null>(null);
     const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,6 +98,18 @@ const MemberModification = () => {
         console.log(nickName);
     }
 
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+    
+    const handleAgree = () => setIsAgreed(true);
+    type ErrorResponseProps = {
+        code: number;
+    }
     const changeNameHandlerAsync = async () => {
         if (memberStatus === '활동중') {
             memberStatus = 'MEMBER_ACTIVE';
@@ -182,10 +198,10 @@ const MemberModification = () => {
                     >
                     </Button>
                 </InputArea_center>
-                <h5 className='h5'>이용약관 확인하라옹</h5>
+                <h5 >이용약관 확인하라옹</h5>
                 <InputArea_center>
                     <div className='cat-paw-button'>
-                        <button>
+                        <button onClick={handleOpenModal}>
                             <div className="paw"></div>
                             <div className="paw"></div>
                             <div className="paw"></div>
@@ -211,6 +227,9 @@ const MemberModification = () => {
                     </DeleteMember>
                 </InputArea_center>
             </ContentArea_col>
+            {isModalOpen && (
+                <CheckModal onClose={handleCloseModal} onAgree={handleAgree} />
+            )}
         </ModificationContainer>
     );
 }
