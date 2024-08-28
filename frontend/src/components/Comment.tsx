@@ -10,6 +10,7 @@ import '../styles/global.css';
 
 type CommentProp = {
     dreamId: number
+    update(pram: any): void;
 }
 
 const PageInfoContainer = styled.div`
@@ -25,7 +26,7 @@ const PageNumberArea = styled.h3`
     margin-right: 20px;
 `;
 
-const Comment: React.FC<CommentProp> = ({ dreamId }) => {
+const Comment: React.FC<CommentProp> = ({ dreamId, update }) => {
     const { authorization } = useMember();
     const accessToken: AxiosRequestConfig = {
         headers: {
@@ -73,9 +74,10 @@ const Comment: React.FC<CommentProp> = ({ dreamId }) => {
         setUploadDelete(false);
         getCommentsAsync();
     }, [upload, uploadEdit, uploadDelete]);
-
+    
     const uploadEvent = (content: string) => {
         setUpload(content);
+        update(true);
     }
 
     return (

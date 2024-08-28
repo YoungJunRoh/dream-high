@@ -37,7 +37,7 @@ const BoardDetails = () => {
         }
         getDreamAsync();
         setUpdateComment(false);
-    }, [updateComment, ]);
+    }, [updateComment, likeResponse]);
 
 
     const postRoleHandler = async () => {
