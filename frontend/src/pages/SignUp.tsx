@@ -12,19 +12,16 @@ import Timer from '../components/Timer.tsx';
 import Swal from 'sweetalert2';
 import { postMember, postEmail, postVerifyEmail } from '../services/MemberService.ts';
 import Input from '../components/Input.tsx';
-import { emailValidation, nameValidation, passwordValidation } from '../utils/Validation.tsx';
-import clapcat from '../assets/clapcat.gif';
-
 
 const SignUp = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [isAgreed, setIsAgreed] = useState<boolean>(false);
-    const [nickname, setNickname] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const [repassword, setRepassword] = useState<string>('');
-    const [verificationCode, setVerificationCode] = useState<string>('');
-    const [verifyComplete, setVerifyComplete] = useState<boolean>(false);
+    const [nickname, setNickname] = useState<string>(''); 
+    const [email, setEmail] = useState<string>(''); 
+    const [password, setPassword] = useState<string>(''); 
+    const [repassword, setRepassword] = useState<string>(''); 
+    const [verificationCode, setVerificationCode] = useState<string>(''); 
+    const [verifyComplete, setVerifyComplete] = useState<boolean>(false); 
     const [showVerification, setShowVerification] = useState<boolean>(false);
     const [isTimer, setIsTimer] = useState<boolean>(false);
     const [resendEmail, setResendEmail] = useState<boolean>(false);
@@ -39,20 +36,20 @@ const SignUp = () => {
     };
 
     const handleAgree = () => setIsAgreed(true);
-    type ErrorResponseProps = {
-        code: number;
-    }
+
     // 이메일 인증 API 요청 코드
     const sendEmailAsync = async () => {
-        const response = await postEmail(email);
-        if (response.status === 409) {
+        try {
+            await postEmail(email);
+            setIsTimer(true);
+            setShowVerification(true);
+        } catch {
             Swal.fire({
-                text: '이미 존재하는 이메일이다냥~',
+                text: '이메일 전송에 실패했습니다. 다시 시도해 주세요.',
                 icon: 'error',
+                confirmButtonText: '확인'
             });
         }
-        setIsTimer(true);
-        setShowVerification(true);
     };
 
     // 이메일 인증 확인 API 요청 코드
@@ -99,11 +96,11 @@ const SignUp = () => {
         // 이용약관 동의 여부 확인
         if (!isAgreed) {
             Swal.fire({
-                text: '이용약관에 동의하라냥~',
+                text: '인증 코드 확인 중 오류가 발생했습니다. 다시 시도해 주세요.',
                 icon: 'error',
                 confirmButtonText: '확인'
             });
-            return;
+          return;
         }
 
         // 회원가입 API 요청 처리
@@ -146,7 +143,7 @@ const SignUp = () => {
                         <h5>닉네임</h5>
                         <Input
                             onChange={e => setNickname(e.target.value)}
-                            placeholder='닉네임을 입력하라냥'
+                            placeholder='닉네임을 입력하세요'
                             $m_height='15vw'
                             $m_width='85vw'
                             $m_fontSize='20px'
@@ -159,7 +156,7 @@ const SignUp = () => {
                         <h5>이메일</h5>
                         <Input
                             onChange={e => setEmail(e.target.value)}
-                            placeholder='이메일을 입력하라냥'
+                            placeholder='이메일을 입력하세요'
                             $m_height='15vw'
                             $m_width='85vw'
                             $m_fontSize='20px'
@@ -187,7 +184,7 @@ const SignUp = () => {
                             </div>
                             <Input
                                 onChange={e => setVerificationCode(e.target.value)}
-                                placeholder='인증번호를 입력해달라냥.'
+                                placeholder='인증번호를 입력해주세요.'
                                 $m_height='15vw'
                                 $m_width='85vw'
                                 $m_fontSize='20px'
@@ -217,7 +214,7 @@ const SignUp = () => {
                         </div>
                         <Input
                             onChange={e => setPassword(e.target.value)}
-                            placeholder='비밀번호를 입력하라냥'
+                            placeholder='비밀번호를 입력하세요'
                             $m_height='15vw'
                             $m_width='85vw'
                             $m_fontSize='20px'
@@ -234,7 +231,7 @@ const SignUp = () => {
                         </div>
                         <Input
                             onChange={e => setRepassword(e.target.value)}
-                            placeholder='비밀번호를 재입력하라냥'
+                            placeholder='비밀번호를 재입력하세요'
                             $m_height='15vw'
                             $m_width='85vw'
                             $m_fontSize='20px'
@@ -257,7 +254,7 @@ const SignUp = () => {
                 </div>
             </ResultBigBox>
             <div id='signup-confirm'>
-                <Button name='가입하러가자냥🐾' mode='login' onClick={() => handleComplete(nickname, password, email)} />
+                <Button name='가입하러가자냥🐾' mode='login' onClick={handleComplete} />
             </div>
             {isModalOpen && (
                 <TermsModal onClose={handleCloseModal} onAgree={handleAgree} />
