@@ -177,6 +177,7 @@ const BoardDetails = () => {
                 interpertaionContent={interpertaionContent}
                 boardId={dreamId}
                 username={name}
+                dreamId={dreamId}
             />
             <PostInfo
                 likeOnClick={likeHandler}

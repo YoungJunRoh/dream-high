@@ -18,6 +18,7 @@ interface DreamDatas {
     interpertaionContent: string;
     boardId: number;
     username: string | null;
+    dreamId: number;
 }
 
 const BoardContent: React.FC<DreamDatas> = ({
@@ -27,7 +28,8 @@ const BoardContent: React.FC<DreamDatas> = ({
     dreamContent,
     interpertaionContent,
     boardId,
-    username
+    username,
+    dreamId
 }) => {
     const captureRef = useRef<HTMLDivElement>(null); // 캡처할 요소에 대한 참조
 
@@ -54,7 +56,6 @@ const BoardContent: React.FC<DreamDatas> = ({
         }
     };
 
-
     return (
         <div className='background-morning' ref={captureRef}> {/* 캡처할 요소 */}
             <div className='result-cat'>
@@ -68,6 +69,7 @@ const BoardContent: React.FC<DreamDatas> = ({
                     <p className='font-bold'>공유하기</p>
                     <div id="result-sharing-area">
                         <Share
+                            dreamId={dreamId}
                             boardId={boardId}
                             username={username}
                             content={dreamContent}

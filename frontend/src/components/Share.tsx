@@ -1,20 +1,40 @@
-import React from "react";
+import React, { useState } from 'react';
 import '../styles/result.css';
 import { useMember } from "../hooks/MemberManager";
 import Swal from 'sweetalert2'; 
 import happycat from '../assets/happycat.gif';
-
+import { postStamp } from '../services/DreamService.ts';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { RewardPictureResponse } from '../interfaces/dream.ts';
 
 type ShareProps = {
     boardId: number;
     username: string | null;
     content: string;
     onClick?(parm?: any): void;
+    dreamId: number;
 };
 
-const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
+const Share: React.FC<ShareProps> = ({ boardId, username, content, dreamId }) => {
     const shareUrl = `http://dream-high.s3-website.ap-northeast-2.amazonaws.com/board/${boardId}`;
-    const { login } = useMember();
+    const { authorization, login } = useMember();
+    const [stamp, setStamp] = useState<AxiosResponse | null>(null);
+    const [responsePicture, setResponsePicture] = useState<RewardPictureResponse | null>(null);
+    // 안에 타입지정 
+  
+    const accessToken: AxiosRequestConfig = {
+        headers: {
+            Authorization: authorization,
+        },
+    };
+    const postAsync = async () => {
+        const response = await postStamp(dreamId, accessToken);
+        setResponsePicture(response.data);
+        console.log(response.status);
+        console.log(responsePicture?.data.rewardUrl);
+        console.log(responsePicture);
+    }
+    
 
     const showLoginAlert = () => {
         Swal.fire({
@@ -34,9 +54,10 @@ const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
 
     const handleShareKakaoClick = () => {
         if (!login) {
-            showLoginAlert();
-            return;
+           showLoginAlert(); 
+           return;
         }
+        
 
         if (window.Kakao) {
             const kakao = window.Kakao;
@@ -62,7 +83,7 @@ const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
                     },
                 ],
             });
-        }
+        }postAsync();
     };
 
     const handleShareTwitterClick = () => {
@@ -73,13 +94,14 @@ const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
 
         const twitterIntent = `https://twitter.com/intent/tweet?text=${encodeURIComponent(username + '님의 해몽 결과를 확인하세요!')}&url=${encodeURIComponent(shareUrl)}`;
         window.open(twitterIntent, '_blank');
+        postAsync();
     };
 
     const handleShareInstagramClick = () => {
         if (!login) {
             showLoginAlert();
             return;
-        }
+        }postAsync();
 
         Swal.fire({
             icon: 'error',
@@ -101,7 +123,7 @@ const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
         if (!login) {
             showLoginAlert();
             return;
-        }
+        }postAsync();
 
         Swal.fire({
             icon: 'error',
@@ -118,6 +140,7 @@ const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
                 console.error('클립보드에 복사 실패:', err);
             });
     };
+   
 
     return (
         <div className="share-buttons">

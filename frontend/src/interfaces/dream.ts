@@ -37,6 +37,16 @@ interface Comments {
     createdAt: string;
 }
 
+export interface RewardPicture{
+    memberRewardPictureId: number;
+    rewardPictureId: number;
+    rewardUrl: string;
+}
+
+export interface RewardPictureResponse{
+    data: RewardPicture;
+}
+
 export interface CommentsResponse {
     data: Comments[];
     pageInfo: PageInfo;

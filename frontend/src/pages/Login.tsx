@@ -6,13 +6,10 @@ import Button from '../components/Button.tsx';
 import { LoginResponse, memberApiResponse } from '../interfaces/member.ts'
 import { getMember, postLogin } from '../services/MemberService.ts';
 import { useMember } from '../hooks/MemberManager.tsx';
-import { MemberContextType } from '../hooks/MemberManager.tsx';
-import { MemberManager } from '../hooks/MemberManager.tsx';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'; // Swal 추가
 import Footer from '../components/Footer.tsx';
 import Input from '../components/Input.tsx';
-
 import styled from 'styled-components';
 import googleIcon from '../assets/img-google.svg';
 

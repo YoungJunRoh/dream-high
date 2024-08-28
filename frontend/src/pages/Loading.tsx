@@ -94,14 +94,12 @@ const Loading = () => {
         const summary = interpretationResponse.summary;
         const dreamContent = responseContent.data.content;
         const interpertaionContent = interpretationResponse.content;
+        const dreamId = responseContent.data.dreamId;
 
         navigate('/interpretation-result', {
-            state: { advice, interpertaionKeyword, summary, dreamContent, interpertaionContent }
+            state: { advice, interpertaionKeyword, summary, dreamContent, interpertaionContent, dreamId }
         });
     }
-    
-    
-    
 
     return (
         <div id='background'>
