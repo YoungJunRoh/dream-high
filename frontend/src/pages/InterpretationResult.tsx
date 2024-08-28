@@ -12,6 +12,24 @@ import { useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import Share from '../components/Share.tsx';
 import Swal from 'sweetalert2';
+import styled from 'styled-components';
+import rulru from '../assets/rulru-result.png';
+
+const ResultCat = styled.div`
+    background-image: url(${rulru});
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-repeat: no-repeat;
+    width: 100vw;
+    height: 250vw;
+    margin-top: 6px;
+    /* 화면의 1/4 차지하도록 설정 */
+    background-position: center;
+    /* 중앙에 위치하도록 설정 */
+    background-size: contain;
+    /* 이미지의 비율을 유지하며 크기를 조절 */
+`;
 
 interface LocationState {
     advice: string;
@@ -60,38 +78,40 @@ const InterpretationResult = () => {
     };
 
     const goToTarotPage = () => {
-        navigate('/tarot');
+        navigate('/preparing');
     };
 
     return (
-        <div className='background-morning' ref={captureRef}>
-            <div className='result-cat'>
-                <ChatBalloon message={advice} />
-            </div>
-            <div id='marginbox'>
-                <ResultBox message={summary} mode='board' />
-            </div>
-            <div className='bottom-button'>
-                <div id='result-sharing'>
-                    <p className='font-bold'>공유하기</p>
-                    <div id="result-sharing-area">
-                        <Share boardId={boardId} username={username} content={dreamContent} />
-                    </div>
-                    <div className='result-imgdown'>
-                        <Button name="이미지로 저장하기" mode="save-image" onClick={handleCapture} />
+        <React.Fragment>
+            <div className='background-morning' ref={captureRef}>
+                <ResultCat>
+                    <ChatBalloon message={advice} />
+                </ResultCat>
+                <div id='marginbox'>
+                    <ResultBox message={summary} mode='board' />
+                </div>
+                <div className='bottom-button'>
+                    <div id='result-sharing'>
+                        <p className='font-bold'>공유하기</p>
+                        <div id="result-sharing-area">
+                            <Share boardId={boardId} username={username} content={dreamContent} />
+                        </div>
+                        <div className='result-imgdown'>
+                            <Button name="이미지로 저장하기" mode="save-image" onClick={handleCapture} />
+                        </div>
                     </div>
                 </div>
+                <ResultSmallBox name='자세한 꿈해몽이다 냥냥🐾' mode='resultbox' />
+                <ResultBigBox mode='resultbox'>{interpertaionContent}</ResultBigBox>
+                <Button
+                    name='타로도 보러갈래냥?🐾'
+                    mode='gotarot'
+                    draggable={true}
+                    onClick={goToTarotPage}
+                />
             </div>
-            <ResultSmallBox name='자세한 꿈해몽이다 냥냥🐾' mode='resultbox' />
-            <ResultBigBox mode='resultbox'>{interpertaionContent}</ResultBigBox>
-            <Button
-                name='타로도 보러갈래냥?🐾'
-                mode='gotarot'
-                draggable={true}
-                onClick={goToTarotPage}
-            />
             <Footer />
-        </div>
+        </React.Fragment>
     );
 }
 

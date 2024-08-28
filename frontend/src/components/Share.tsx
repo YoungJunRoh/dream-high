@@ -1,7 +1,8 @@
 import React from "react";
 import '../styles/result.css';
 import { useMember } from "../hooks/MemberManager";
-import Swal from 'sweetalert2'; // SweetAlert2 임포트
+import Swal from 'sweetalert2'; 
+import thumbnail from '../assets/thumbnail.png';
 
 type ShareProps = {
     boardId: number;
@@ -24,7 +25,6 @@ const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
             cancelButtonText: '취소',
         }).then((result) => {
             if (result.isConfirmed) {
-                // 로그인 페이지로 리다이렉트하는 로직을 여기에 추가할 수 있습니다.
                 window.location.href = '/login-home'; // 로그인 페이지로 이동
             }
         });
@@ -42,16 +42,23 @@ const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
             kakao.Share.sendDefault({
                 objectType: 'feed',
                 content: {
-                    title: username + '님의 해몽 결과다냥',
+                    title: `${username}님의 해몽 결과다냥`,
                     description: content.substring(0, 30) + '...',
-                    imageUrl:
-                        'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.utoimage.com%2F%3Fm%3Dgoods.free%26mode%3Dview%26idx%3D22250682&psig=AOvVaw0NHQpVEQpAxakywtyyChcW&ust=1724386608224000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNCH5-veh4gDFQAAAAAdAAAAABAE' ??
-                        '-디폴트 썸네일-',
+                    imageUrl: thumbnail,
                     link: {
                         mobileWebUrl: shareUrl,
                         webUrl: shareUrl,
                     },
                 },
+                buttons: [
+                    {
+                        title: '자세히 보기',
+                        link: {
+                            mobileWebUrl: shareUrl,
+                            webUrl: shareUrl,
+                        },
+                    },
+                ],
             });
         }
     };
@@ -72,30 +79,16 @@ const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
             return;
         }
 
-        const instagramUsername = 'target_username';  // 공유할 상대방의 인스타그램 사용자 이름
-        const instagramUrl = `https://www.instagram.com/direct/inbox/`;
-        const deepLink = `instagram://user?username=${instagramUsername}`;
-
-    
         Swal.fire({
-                icon: 'error',
-                title: 'Instagram이 냥이를 거부한다냥😿',
-                text: '너무 나쁜 집사다냥!🐾',
-                confirmButtonText: '알겠다냥!'
-        }).then(() => {
-                
+            icon: 'error',
+            title: 'Instagram이 냥이를 거부한다냥😿',
+            text: '너무 나쁜 집사다냥!🐾',
+            confirmButtonText: '알겠다냥!'
         });
-        
 
         navigator.clipboard.writeText(shareUrl)
             .then(() => {
                 alert('링크가 클립보드에 복사되었습니다!');
-
-                if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) {
-                    window.location.href = deepLink;
-                } else {
-                    window.location.href = instagramUrl;
-                }
             })
             .catch(err => {
                 console.error('클립보드에 복사 실패:', err);
@@ -107,15 +100,14 @@ const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
             showLoginAlert();
             return;
         }
+
         Swal.fire({
-                icon: 'error',
-                title: 'ClipBoard가 냥이를 거부한다냥😿',
-                text: '너무 나쁜 집사다냥!🐾',
-                confirmButtonText: '알겠다냥!'
-        }).then(() => {
-                
+            icon: 'error',
+            title: 'ClipBoard가 냥이를 거부한다냥😿',
+            text: '너무 나쁜 집사다냥!🐾',
+            confirmButtonText: '알겠다냥!'
         });
-            
+
         navigator.clipboard.writeText(shareUrl)
             .then(() => {
                 alert('공유 링크가 클립보드에 복사되었습니다!');
