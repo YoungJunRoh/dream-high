@@ -58,7 +58,7 @@ const Loading = () => {
     const navigate = useNavigate();
 
     const [responseContent, setResponseContent] = useState<ApiResponse | null>(null);
-    const { authorization } = useMember();
+    const { authorization, name } = useMember();
 
     // AxiosRequestConfig 타입 선언.
     const accessToken: AxiosRequestConfig = {
@@ -97,7 +97,7 @@ const Loading = () => {
         const dreamId = responseContent.data.dreamId;
 
         navigate('/interpretation-result', {
-            state: { advice, interpertaionKeyword, summary, dreamContent, interpertaionContent, dreamId }
+            state: { advice, interpertaionKeyword, summary, dreamContent, interpertaionContent, dreamId, name }
         });
     }
 

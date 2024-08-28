@@ -12,6 +12,7 @@ import { useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import Share from '../components/Share.tsx';
 import Swal from 'sweetalert2';
+import { StateFromReducersMapObject } from 'redux';
 
 interface LocationState {
     advice: string;
@@ -20,6 +21,7 @@ interface LocationState {
     dreamContent: string;
     interpertaionContent: string;
     dreamId: number;
+    name: string;
 }
 
 const InterpretationResult = () => {
@@ -27,15 +29,13 @@ const InterpretationResult = () => {
     const navigate = useNavigate();
     const state = location.state as LocationState | null;
 
-    const boardId: number = 1;
-    const username: string = '아무개';
-
     const interpertaionKeyword = state?.interpertaionKeyword as string;
     const advice = state?.advice as string;
     const summary = state?.summary as string;
     const dreamContent = state?.dreamContent as string;
     const interpertaionContent = state?.interpertaionContent as string;
     const dreamId = state?.dreamId as number;
+    const username = state?.name as string;
 
     const captureRef = useRef<HTMLDivElement>(null);
 
@@ -78,7 +78,7 @@ const InterpretationResult = () => {
                     <div id='result-sharing'>
                         <p className='font-bold'>공유하기</p>
                         <div id="result-sharing-area">
-                            <Share boardId={boardId} username={username} content={dreamContent} dreamId={dreamId}/>
+                            <Share boardId={dreamId} username={username} content={dreamContent} dreamId={dreamId}/>
                         </div>
                         <div className='result-imgdown'>
                             <Button name="이미지로 저장하기" mode="save-image" onClick={handleCapture} />
