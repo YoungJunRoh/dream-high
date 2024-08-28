@@ -50,7 +50,7 @@ const App = () => {
                 <Route path='/member-modification' element={<MemberModification />} />
                 <Route path='/board' element={<Board />} />
                 <Route path='/board/:id' element={<BoardDetail />} />
-                <Route path='/tarot' element={<TarotPage />} /> 
+                <Route path='/preparing' element={<TarotPage />} /> 
                 {/* <Route path="/tarot-result" element={<TarotResult />} /> */}
               </Routes>
             </HeaderManager>

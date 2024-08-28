@@ -1,8 +1,8 @@
-import Swal from "sweetalert2"
+import Swal from "sweetalert2";
 
 const regexValid = (input: string, mode: string): boolean => {
     if (mode === 'password') {
-        const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
+        const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
         return regex.test(input);
     } else if (mode === 'name') {
         const regex = /^[a-zA-Z가-힣]+$/;
@@ -12,10 +12,16 @@ const regexValid = (input: string, mode: string): boolean => {
         return regex.test(input);
     }
     return false;
-}
+};
 
 export const emailValidation = (email: string): boolean => {
-    if (regexValid(email, 'email')) {
+    if (!email) {
+        Swal.fire({
+            text: '이메일을 입력하라냥',
+            icon: 'error'
+        });
+        return false;
+    } else if (!regexValid(email, 'email')) {
         Swal.fire({
             text: '이메일 형식을 맞추라냥',
             icon: 'error'
@@ -23,43 +29,51 @@ export const emailValidation = (email: string): boolean => {
         return false;
     }
     return true;
-}
+};
 
 export const nameValidation = (name: string): boolean => {
-    if (name.length > 10) {
+    if (!name) {
         Swal.fire({
-            text: '비밀번호는 8자 이상이다냥~',
+            text: '이름을 입력하라냥~',
             icon: 'error'
         });
         return false;
-    } else if (regexValid(name, 'name')) {
+    } else if (name.length > 10) {
         Swal.fire({
-            text: '비밀번호에 숫자, 영어, 특수문자가 하나씩은 꼭 포함되어야 한다냥~',
+            text: '이름은 10자 이하다냥~',
+            icon: 'error'
+        });
+        return false;
+    } else if (!regexValid(name, 'name')) {
+        Swal.fire({
+            text: '이름은 한글과 영어만 된다냥~',
             icon: 'error'
         });
         return false;
     }
     return true;
-}
+};
 
 export const passwordValidation = (password: string): boolean => {
-    if (password.length < 8) {
+    if (!password) {
+        Swal.fire({
+            text: '비밀번호를 입력하라냥~',
+            icon: 'error'
+        });
+        return false;
+    } else if (password.length < 8) {
         Swal.fire({
             text: '비밀번호는 8자 이상이다냥~',
             icon: 'error'
         });
         return false;
-    }
-
-    if (password.length > 16) {
+    } else if (password.length > 16) {
         Swal.fire({
-            text: '비밀번호는 15자 이내여야 한다냥~',
+            text: '비밀번호는 16자 이내여야 한다냥~',
             icon: 'error'
         });
         return false;
-    }
-
-    if (!regexValid(password, 'password')) {
+    } else if (!regexValid(password, 'password')) {
         Swal.fire({
             text: '비밀번호에는 영어와 숫자, 특수문자가 포함되어야 한다냥~',
             icon: 'error'
@@ -67,4 +81,4 @@ export const passwordValidation = (password: string): boolean => {
         return false;
     }
     return true;
-}
+};

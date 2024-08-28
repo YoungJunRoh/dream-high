@@ -11,11 +11,18 @@ interface StampProps {
 }
 
 const StampContainer = styled.div`
+    display: flex;
     flex-direction: column;
 `;
 
 const StampLine = styled.div`
+    display: flex;
     flex-direction: row;
+`;
+
+const Blank = styled.div`
+    width: 60px;
+    height: 75px;
 `;
 
 const Stamp: React.FC<StampProps> = ({ count }) => {
@@ -27,7 +34,7 @@ const Stamp: React.FC<StampProps> = ({ count }) => {
 
     let currentCount = count;
 
-    if (count < 5) {
+    if (currentCount > 5) {
         currentCount %= 5;
     }
 
@@ -55,11 +62,19 @@ const Stamp: React.FC<StampProps> = ({ count }) => {
         <StampContainer>
             <StampLine>
                 <img src={stamp1} />
+                <Blank />
                 <img src={stamp2} />
+                <Blank />
                 <img src={stamp3} />
-                <img src={stamp4} />
-                <img src={stamp5} />
+                <Blank />
             </StampLine>
+            <StampLine>
+                <Blank />
+                <img src={stamp4} />
+                <Blank />
+                <img src={stamp5} />
+                <Blank />
+                </StampLine>
         </StampContainer>
     );
 }

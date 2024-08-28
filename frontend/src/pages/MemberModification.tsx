@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/global.css';
-import ResultBigBox from '../components/BigBox.tsx';
 import ResultSmallBox from '../components/SmallBox.tsx';
+import CheckModal from '../components/CheckModal.tsx';
 import Button from '../components/Button.tsx';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -11,6 +11,9 @@ import Input from '../components/Input.tsx';
 import { updateName } from '../services/MemberService.ts';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { postLogout, deleteMember } from '../services/MemberService.ts';
+import { useMember } from '../hooks/MemberManager.tsx';
+
+
 
 const ModificationContainer = styled.div`
     width: 100%;
@@ -83,15 +86,30 @@ const MemberModification = () => {
     const memberId = state.memberId;
     let memberStatus = state.memberStatus;
 
+    const { setAuthorization, setRefresh, setLogin, setName, setProfileUrl } = useMember();
     const navigation = useNavigate();
     const navigation2 = useNavigate();
-    const [name, setName] = useState<string>(state.name);
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [isAgreed, setIsAgreed] = useState<boolean>(false);
+    const [nickName, setNickName] = useState<string>(state.name);
     const [response, setResponse] = useState<AxiosResponse | null>(null);
     const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setName(e.target.value);
-        console.log(name);
+        setNickName(e.target.value);
+        console.log(nickName);
     }
 
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+    
+    const handleAgree = () => setIsAgreed(true);
+    type ErrorResponseProps = {
+        code: number;
+    }
     const changeNameHandlerAsync = async () => {
         if (memberStatus === '활동중') {
             memberStatus = 'MEMBER_ACTIVE';
@@ -101,7 +119,7 @@ const MemberModification = () => {
             memberStatus = 'MEMBER_QUIT';
         }
 
-        const response = await updateName(memberId, name, memberStatus, accessToken);
+        const response = await updateName(memberId, nickName, memberStatus, accessToken);
         if (response.status === 200) {
             Swal.fire({
                 text: '닉네임 변경이 완료되었다냥~'
@@ -112,7 +130,7 @@ const MemberModification = () => {
     }
 
     const changePasswordHandler = () => {
-        navigation('/login-passwordreset', { state: { memberId, accessToken } })
+        navigation('/login-passwordreset', { state: { memberId, accessToken, email } })
     }
 
     const goMypage = () => {
@@ -132,9 +150,14 @@ const MemberModification = () => {
             cancelButtonText: '어..미안..',
         }).then(async (result) => {
             if (!result.isConfirmed) {
-                gohome('/');
+                setAuthorization(null);
+                setRefresh(null);
+                setLogin(null);
+                setName(null);
+                setProfileUrl(null);
                 await deleteMember(memberId, accessToken);
                 await postLogout(accessToken);
+                gohome('/');
             }
         });
     };
@@ -151,7 +174,7 @@ const MemberModification = () => {
                         $w_height='50px'
                         $w_width='100%'
                         $w_fontSize='18px'
-                        value={name}
+                        value={nickName}
                         onChange={inputChangeHandler}
                     >
                     </Input >
@@ -175,10 +198,10 @@ const MemberModification = () => {
                     >
                     </Button>
                 </InputArea_center>
-                <h5 className='h5'>이용약관 확인하라옹</h5>
+                <h5 >이용약관 확인하라옹</h5>
                 <InputArea_center>
                     <div className='cat-paw-button'>
-                        <button>
+                        <button onClick={handleOpenModal}>
                             <div className="paw"></div>
                             <div className="paw"></div>
                             <div className="paw"></div>
@@ -204,6 +227,9 @@ const MemberModification = () => {
                     </DeleteMember>
                 </InputArea_center>
             </ContentArea_col>
+            {isModalOpen && (
+                <CheckModal onClose={handleCloseModal} onAgree={handleAgree} />
+            )}
         </ModificationContainer>
     );
 }

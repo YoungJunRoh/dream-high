@@ -1,25 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/login.css';
 import ResultBigBox from '../components/BigBox.tsx';
 import ResultSmallBox from '../components/SmallBox.tsx';
 import Button from '../components/Button.tsx';
-import { LoginResponse } from '../interfaces/member.ts'
-import { postLogin } from '../services/MemberService.ts';
+import { LoginResponse, memberApiResponse } from '../interfaces/member.ts'
+import { getMember, postLogin } from '../services/MemberService.ts';
 import { useMember } from '../hooks/MemberManager.tsx';
+import { MemberContextType } from '../hooks/MemberManager.tsx';
+import { MemberManager } from '../hooks/MemberManager.tsx';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'; // Swal 추가
 import Footer from '../components/Footer.tsx';
 import Input from '../components/Input.tsx';
 import happycat from '../assets/happycat.gif';
+import Loading from './Loading.tsx';
 
 const Login = () => {
-    const { setAuthorization, setRefresh, setLogin } = useMember();
+    const { setAuthorization, setRefresh, setLogin, setName, setProfileUrl} = useMember();
+    
     const navigate = useNavigate();
-
     const [response, setResponse] = useState<LoginResponse | null>(null);
     const [email, setEmail] = useState<string>();
     const [password, setPassword] = useState<string>();
 
+   
     // 이메일 추출
     const emailHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setEmail(e.target.value);
@@ -49,18 +53,32 @@ const Login = () => {
 
     // 로그인 처리
     const loginHandler = async () => {
-        const response = await postLogin(email as string, password as string);
-        setResponse(response.data);
-        console.log("Logging in with:", { email, password });
+        if (email !== undefined && password != undefined) {
+            const response = await postLogin(email as string, password as string);
+            if (response.status === 401) {
+                Swal.fire({
+                    text: '이메일 또는 비밀번호가 잘못되었다냥 ㅇㅅㅇ',
+                    icon: 'error',
+                    confirmButtonText: '확인'
+                });
+                return;
+            } else if (response.status === 500) {
+                Swal.fire({
+                    text: '로그인 중 문제가 발생했서 다시 시도해라냥 ㅇㅅㅇ',
+                    icon: 'error',
+                    confirmButtonText: '확인'
+                });
+                return;
+            } else {
+                setResponse(response.data);
+                 // 로그인 성공 시 토큰 저장 및 페이지 이동
+                setAuthorization(response.headers.authorization);
+                setRefresh(response.headers.refresh);
+                setLogin(true);
+                navigate('/');
+            }
+        } else if (email === undefined) {
 
-        // 로그인 성공 시 토큰 저장 및 페이지 이동
-        setAuthorization(response.headers.authorization);
-        setRefresh(response.headers.refresh);
-        setLogin(true);
-        navigate('/');
-
-        // 예외 처리
-        if (response.status === 401) {
             Swal.fire({
                 text: '이메일 또는 비밀번호가 잘못되었다냥 ㅇㅅㅇ',
                 html: `<img src="${happycat}" alt="Happy Cat" style="width: 300px; height: auto; margin-bottom: 10px;" />
@@ -68,7 +86,8 @@ const Login = () => {
             `,
                 confirmButtonText: '확인'
             });
-        } else if(response.status === 500){
+            return;
+        } else if (password === undefined) {
             Swal.fire({
                 text: '로그인 중 문제가 발생했서 다시 시도해라냥 ㅇㅅㅇ',
                 html: `<img src="${happycat}" alt="Happy Cat" style="width: 300px; height: auto; margin-bottom: 10px;" />
@@ -76,8 +95,8 @@ const Login = () => {
             `,
                 confirmButtonText: '확인'
             });
+            return;
         }
-
     };
 
     return (
