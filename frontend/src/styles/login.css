@@ -72,7 +72,7 @@ h5 {
     align-items: flex-start;
     justify-content: flex-start;
     text-align: left;
-    height: 700px;
+    height: 100%;
     margin-top: 20px;
     font-size: 10px;
     opacity: 0.7;
@@ -88,7 +88,7 @@ h5 {
     .loginbigbox {
         width: 100vw;
         padding: 10px;
-        height: 210vw;
+        height: 100%;
         margin-top: 20px;
     }
 

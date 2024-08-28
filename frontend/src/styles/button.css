@@ -290,7 +290,7 @@
   box-shadow: 0 0 0 4px #fff, 4px 4px 0 0 #333;
   /* 클릭 시 살짝 눌리는 효과 */
   transform: translate(4px, 4px);
-  margin-top: -70px;
+  margin-bottom: 10px;
   z-index: 2;
   position: relative;
   display: flex;
@@ -409,7 +409,7 @@
     outline: none;
     border-radius: 20px;
     /* 둥근 모서리 */
-    width: 53.1vw;
+    width: max-content;
     height: 12vw;
     position: absolute;
     left: 50px;
