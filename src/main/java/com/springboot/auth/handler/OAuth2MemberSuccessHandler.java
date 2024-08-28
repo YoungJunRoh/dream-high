@@ -97,9 +97,8 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("http")
-                .host("localhost")
-//                .port(80)
-                .path("/receive-token.html")
+                .host("dream-high.s3-website.ap-northeast-2.amazonaws.com")
+                .path("/")
                 .queryParams(queryParams)
                 .build()
                 .toUri();

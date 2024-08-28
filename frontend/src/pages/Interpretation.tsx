@@ -9,6 +9,7 @@ import useKeyboardAvoider from '../hooks/useKeyboardAvoider.tsx';
 import TextArea from '../components/TextArea.tsx';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'; // SweetAlert2 가져오기
+
 const Interpretation = () => {
     useKeyboardAvoider();
     const [prompt, setPrompt] = useState<string>('');
@@ -20,8 +21,8 @@ const Interpretation = () => {
     const buttonClickHandler = () => {
         const charCount = prompt.length; // 문자 수 계산
 
-      // 정규 표현식으로 한글 음절(자음+모음) 확인
-      const hasKoreanSyllable = /[가-힣]/.test(prompt);
+        // 정규 표현식으로 한글 음절(자음+모음) 확인
+        const hasKoreanSyllable = /[가-힣]/.test(prompt);
 
         // 조건 확인
         if (charCount < 10) {
@@ -50,6 +51,7 @@ const Interpretation = () => {
             navigate('/loading', { state: { prompt } }); // 조건을 만족하면 페이지 이동
         }
     };
+
     return (
         <div className='background-night'>
             <div className='interpretation-background-cat'>

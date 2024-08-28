@@ -81,6 +81,7 @@ const TextArea: React.FC<InputProps> = ({
     deleteButton,
     deleteButtonOption,
     readonly,
+    value
 }) => {
     const deleteRef = useRef<HTMLInputElement>(null);
     useKeyboardAvoider();
@@ -101,6 +102,7 @@ const TextArea: React.FC<InputProps> = ({
                 onKeyDown={onKeyDown}
                 type={type}
                 readonly={readonly}
+                value={value}
             >
                 {children}
             </InputForm>

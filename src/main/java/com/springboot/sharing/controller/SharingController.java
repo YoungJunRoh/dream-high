@@ -58,7 +58,7 @@ public class SharingController {
 
         Sharing createSharing = sharingService.logSharing(sharing, authentication.getName());
 
-        if(createSharing.getMember().getStamp().getCount() % 5 == 0){
+        if(createSharing.getMember().getStamp().getCount() % 5 == 0 && createSharing.getMember().getStamp().getCount() != 0){
             int size = createSharing.getMember().getMemberRewardPictures().size();
             MemberRewardPictureDto.Response response = memberMapper.memberRewardPictureToMemberRewardPictureDto(createSharing.getMember().getMemberRewardPictures().get(size-1));
             return new ResponseEntity(response,HttpStatus.OK);
