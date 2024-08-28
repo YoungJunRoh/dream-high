@@ -3,11 +3,13 @@ package com.springboot.auth.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.auth.dto.LoginDto;
 import com.springboot.auth.jwt.JwtTokenizer;
+import com.springboot.exception.BusinessLogicException;
 import com.springboot.member.entity.Member;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -52,7 +54,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.setHeader("Authorization", "Bearer " + accessToken);
         response.setHeader("Refresh", refreshToken);
         this.getSuccessHandler().onAuthenticationSuccess(request,response,authentication);
-
+        if(member.getMemberStatus() == Member.MemberStatus.MEMBER_QUIT){
+            throw new AuthenticationException("탈퇴한 회원입니다"){};
+        }
     }
 
 

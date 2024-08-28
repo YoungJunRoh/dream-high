@@ -1,21 +1,9 @@
 import React, { useState, useRef } from 'react';
 
-const TermsModal: React.FC<{ onClose: () => void; onAgree: () => void; }> = ({ onClose, onAgree }) => {
+const CheckModal: React.FC<{ onClose: () => void; onAgree: () => void; }> = ({ onClose, onAgree }) => {
     const [isAgreed, setIsAgreed] = useState(false);
     const contentRef = useRef<HTMLDivElement>(null);
 
-    const handleScroll = () => {
-        const element = contentRef.current;
-        if (element) {
-            const { scrollTop, scrollHeight, clientHeight } = element;
-            // 스크롤이 끝까지 도달했는지 확인
-            if (scrollTop + clientHeight >= scrollHeight - 1) {
-                setIsAgreed(true);
-            }else {
-                setIsAgreed(false); // 스크롤이 끝에 도달하지 않으면 다시 false로 설정
-            }
-        }
-    };
 
     const handleAgree = () => {
         if (isAgreed) {
@@ -30,12 +18,11 @@ const TermsModal: React.FC<{ onClose: () => void; onAgree: () => void; }> = ({ o
                 <h2>오늘드림 이용약관</h2>
                 <div
                     className="terms-content"
-                    onScroll={handleScroll}
                     ref={contentRef}
                     style={{ height: '200px', overflowY: 'scroll', padding: '10px', border: '1px solid #ccc' }}
                 >
                     <p>
-                        이용약관
+                    이용약관
                         <h4>제1조 (목적)</h4>
 
                         이 약관은 [서비스명] (이하 "서비스")를 제공하는 [회사명] (이하 "회사")과 이용자 간의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.
@@ -82,13 +69,10 @@ const TermsModal: React.FC<{ onClose: () => void; onAgree: () => void; }> = ({ o
                         <h4>제10조 (기타)</h4>
                     </p>
                 </div>
-                <button onClick={handleAgree} disabled={!isAgreed}>
-                    동의합니다
-                </button>
-                <button onClick={onClose}>닫기</button>
+                <button onClick={onClose}> 다읽었다냥🐾</button>
             </div>
         </div>
     );
 };
 
-export default TermsModal;
+export default CheckModal;

@@ -2,7 +2,8 @@ import React from "react";
 import '../styles/result.css';
 import { useMember } from "../hooks/MemberManager";
 import Swal from 'sweetalert2'; 
-import thumbnail from '../assets/thumbnail.png';
+import happycat from '../assets/happycat.gif';
+
 
 type ShareProps = {
     boardId: number;
@@ -18,8 +19,9 @@ const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
     const showLoginAlert = () => {
         Swal.fire({
             title: '로그인하라냥!',
-            text: '로그인해야 공유할 수 있다냥.',
-            icon: 'warning',
+            html: `<img src="${happycat}" alt="Happy Cat" style="width: 300px; height: auto; margin-bottom: 10px;" />
+                <p>로그인해야 공유할 수 있다냥.</p>
+            `,
             confirmButtonText: '로그인하러 가기',
             showCancelButton: true,
             cancelButtonText: '취소',
@@ -44,7 +46,7 @@ const Share: React.FC<ShareProps> = ({ boardId, username, content }) => {
                 content: {
                     title: `${username}님의 해몽 결과다냥`,
                     description: content.substring(0, 30) + '...',
-                    imageUrl: thumbnail,
+                    imageUrl: 'https://dream-high.s3.ap-northeast-2.amazonaws.com/thumbnail.jpeg',
                     link: {
                         mobileWebUrl: shareUrl,
                         webUrl: shareUrl,

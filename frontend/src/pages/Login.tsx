@@ -12,8 +12,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'; // Swal 추가
 import Footer from '../components/Footer.tsx';
 import Input from '../components/Input.tsx';
+import happycat from '../assets/happycat.gif';
 import Loading from './Loading.tsx';
-
 
 const Login = () => {
     const { setAuthorization, setRefresh, setLogin, setName, setProfileUrl} = useMember();
@@ -80,15 +80,19 @@ const Login = () => {
         } else if (email === undefined) {
 
             Swal.fire({
-                text: '이메일을 입력하라냥~',
-                icon: 'error',
+                text: '이메일 또는 비밀번호가 잘못되었다냥 ㅇㅅㅇ',
+                html: `<img src="${happycat}" alt="Happy Cat" style="width: 300px; height: auto; margin-bottom: 10px;" />
+                <p>로그인해야 공유할 수 있다냥.</p>
+            `,
                 confirmButtonText: '확인'
             });
             return;
         } else if (password === undefined) {
             Swal.fire({
-                text: '비밀번호를 입력하라냥~~',
-                icon: 'error',
+                text: '로그인 중 문제가 발생했서 다시 시도해라냥 ㅇㅅㅇ',
+                html: `<img src="${happycat}" alt="Happy Cat" style="width: 300px; height: auto; margin-bottom: 10px;" />
+                <p>로그인해야 공유할 수 있다냥.</p>
+            `,
                 confirmButtonText: '확인'
             });
             return;

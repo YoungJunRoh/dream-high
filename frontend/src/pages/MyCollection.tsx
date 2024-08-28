@@ -9,8 +9,8 @@ import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { patchProfile } from '../services/MemberService.ts';
 
 const ImageItem = styled.img`
-    flex: 0 0 21%; /* 기본적으로 4개 이미지를 한 줄에 배치 (5% 여유 포함) */
-    margin: 5px; /* 이미지 간 여백 */
+    flex: 0 0 21%; 
+    margin: 5px; 
     max-width: 43%; /* 부모 컨테이너의 너비에 맞추기 */
     max-height: 50%; /* 최대 높이 설정 */
     object-fit: cover; /* 이미지 비율 유지하며 크기 조절 */
