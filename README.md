@@ -1,5 +1,5 @@
 # 🌙 오늘Dream
-
+![img-todaydream-logo](https://github.com/user-attachments/assets/8ec605bf-7150-4a06-8901-9296f7cd4c82)
 **🐾너의 꿈을 우리에게 맡겨보라냥!🐾**
 
 > 오늘드림은 사용자가 꾼 모든 꿈을 귀엽고 긍정적으로 해석해주는 특별한 웹사이트이다냥😸  
