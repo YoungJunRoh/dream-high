@@ -105,7 +105,7 @@
 
 ## 📜 서비스 구현영상
 
-[제목 없는 데이터베이스](https://www.notion.so/78baad5aef8d4c1f8808adf5945136d1?pvs=21)
+(https://www.notion.so/78baad5aef8d4c1f8808adf5945136d1?pvs=21)
 
 ## 🤙 컨벤션
 
