@@ -225,14 +225,14 @@ export const MenuTab = () => {
                   <span
                     id='menu-profile-name'
                     className='font-extrabold'
-                  >로그인 하라냥🐱</span>
-                  <div className='menu-line-bold'></div>
+                    >로그인 하라냥🐱</span>
+                    <div className='menu-line-bold'></div>
                   <Link
                     to='/login-home'
                     onClick={closeModalHandler}
                     style={{ textDecoration: 'none' }}
                   >
-                    <div className='menu-content font-bold'>로그인 하기</div>
+                  <div className='menu-content font-bold'>로그인 하기</div>
                   </Link>
                   <Link
                     to='/login-home'
