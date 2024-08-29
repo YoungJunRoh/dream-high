@@ -18,8 +18,9 @@ import javax.mail.internet.MimeMessage;
 import java.time.Duration;
 import java.util.Random;
 
-@Transactional
+
 @Service
+@Transactional
 public class EmailService {
 
     @Autowired
