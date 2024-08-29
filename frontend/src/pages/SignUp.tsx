@@ -122,6 +122,7 @@ const SignUp = () => {
 
         // 회원가입 API 요청 처리
         const response = await postMember(email, password, nickname, verificationCode);
+        console.log(email, password, nickname, verificationCode);
         if (response?.status === 201) {
             Swal.fire({
                 title: '회원가입이 완료되었다냥~!',

@@ -10,24 +10,35 @@ import { getDreams } from '../services/DreamService.ts';
 import Footer from '../components/Footer.tsx';
 
 const Board = () => {
+    const [page, setPage] = useState<number>(1);
+    const [size, setSize] = useState<number>(10);
+    const [keyword, setKeyword] = useState<string | null>(null);
     const { setHeaderMode } = useHeaderMode();
+    const [responseDreams, setResponseDreams] = useState<GetsApiResponse | null>(null);
+
     useEffect(() => {
         setHeaderMode('board');
     }, [])
 
-    const [responseDreams, setResponseDreams] = useState<GetsApiResponse | null>(null);
     // 안에 타입지정 
 
-    const getDreamsAsync = async () => {
+    const getDreamsAsync = async (page: number, size: number, keyword?: string) => {
         // 비동기는 다 asynic붙여줘야함
-        const response = await getDreams(1, 10);
+        const response = await getDreams(page, size, keyword);
         setResponseDreams(response.data);
-
     }
 
     useEffect(() => {
-        getDreamsAsync();
+        getDreamsAsync(page, size);
     }, [])
+
+    const searchBtnClickHandler = (page: number, size: number, keyword: string) => {
+        getDreamsAsync(page, size, keyword as string);
+    }
+
+    const searchOnChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setKeyword(e.target.value)
+    }
 
     const datas: any[] = responseDreams?.data || [];
     const boards = datas.map((data) => (<BoardList contentData={data}></BoardList>))
@@ -37,11 +48,15 @@ const Board = () => {
             <div className='background-night'>
                 <div id='board-main'>
                     <div id='board-searchzone'>
-                        <SearchBar />
+                        <SearchBar
+                            value={keyword as string}
+                            onChange={searchOnChangeHandler}
+                        />
                         <div id='board-searchbtn'>
                             <Button
                                 mode='search'
                                 name='검색'
+                                onClick={() => searchBtnClickHandler(page, size, keyword as string)}
                             >
                             </Button>
                         </div>
