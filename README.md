@@ -19,7 +19,7 @@
 | --- | --- | --- | --- |
 | <img alt="아이유" src="https://github.com/user-attachments/assets/0291168a-4ba3-4480-b47a-a984d190a4c0" height="100" width="100"> | <img alt="수지" src="https://github.com/user-attachments/assets/09b15f39-fef0-42b9-9005-1cf1205cec13" height="100" width="100"> | <img alt="김수" src="https://github.com/user-attachments/assets/73a4a062-ec40-4ce5-8115-8e8b623f0e9c" height="100" width="100"> | <img alt="옥택연" src="https://github.com/user-attachments/assets/8952b2c0-accf-45df-a68a-38f74cbf4760" height="100" width="100"> |
 |  **@[YoungJunRoh](https://github.com/YoungJunRoh)** | **@[dbwjdrbs](https://github.com/dbwjdrbs)** | **@[pyyeon](https://github.com/pyyeon)** | **@[seoyeon1221](https://github.com/seoyeon1221)** |
-| BE(팀장) | **FE/BE** | BE/FE | FE |
+| BE(팀장) | FE/BE | BE/FE | FE |
 
 ## 🔧 기술 스택
 
